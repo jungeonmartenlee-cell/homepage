@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+<title>이단·사이비 바로알기 — DISCERN</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+
+/* ── RESET ── */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e8;font-family:'Noto Sans KR',sans-serif;font-weight:300;cursor:none;}
+
+/* ── CURSOR ── */
+#cur{position:fixed;z-index:9999;width:6px;height:6px;background:#fff;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference;}
+#cur2{position:fixed;z-index:9998;width:36px;height:36px;border:1px solid rgba(255,255,255,.25);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:transform .12s ease-out;}
+
+/* ── HEADER ── */
+#header{
+  position:fixed;top:0;left:0;right:0;
+  height:50px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 50px;
+  z-index:100;
+}
+
+/* Logo — Plus X style X mark */
+.logo{
+  display:flex;align-items:center;text-decoration:none;
+  flex-shrink:0;
+}
+.logo-x{
+  width:40px;height:40px;position:relative;margin-right:16px;
+}
+.logo-x span{
+  display:block;position:absolute;width:50%;height:100%;top:0;
+}
+.logo-x span::before,
+.logo-x span::after{
+  content:'';display:block;position:absolute;
+  width:141%;height:2px;background:#fff;
+  top:50%;left:50%;transform-origin:center;
+}
+.logo-x span:nth-child(1){transform:rotate(45deg);}
+.logo-x span:nth-child(1)::before{transform:translate(-50%,-50%) rotate(0deg);width:100%;}
+.logo-x span:nth-child(1)::after{transform:translate(-50%,-50%) rotate(0deg);width:100%;display:none;}
+.logo-x span:nth-child(2)::before{transform:translate(-50%,-50%) rotate(45deg);}
+.logo-x span:nth-child(2)::after{transform:translate(-50%,-50%) rotate(-45deg);}
+.logo-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-weight:600;letter-spacing:.18em;
+  color:#fff;text-transform:uppercase;
+}
+
+/* Marquee */
+.marquee-wrap{flex:1;overflow:hidden;margin:0 40px;}
+.marquee-track{
+  display:flex;white-space:nowrap;
+  animation:mq 28s linear infinite;
+}
+.marquee-track p{
+  font-size:11px;letter-spacing:.22em;color:#444;
+  text-transform:uppercase;padding:0 32px;
+}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Menu button */
+.menu-btn{
+  background:none;border:none;color:#666;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.menu-btn:hover{color:#fff;}
+.menu-lines{display:flex;flex-direction:column;gap:5px;}
+.menu-lines span{display:block;height:1px;background:currentColor;transition:width .3s;}
+.menu-lines span:nth-child(1){width:22px;}
+.menu-lines span:nth-child(2){width:14px;}
+.menu-btn:hover .menu-lines span{width:22px;}
+
+/* ── MAIN SLIDER HEADER (left big title — fixed, always visible) ── */
+#main-slider-header{
+  position:fixed;
+  left:50px;
+  top:160px;
+  z-index:50;
+  font-size:24px;
+  font-weight:700;
+}
+#main-slider-header a{
+  display:inline-block;
+  text-decoration:none;
+  color:inherit;
+  transition:transform .7s cubic-bezier(.215,.61,.355,1);
+}
+#main-slider-header .block-text{
+  line-height:1.05;
+}
+#main-slider-header .block-text__line{
+  overflow:hidden;
+  display:block;
+}
+#main-slider-header .mask-text{
+  display:inline-block;
+  overflow:hidden;
+  max-height:1.16em;
+}
+#main-slider-header .mask-text span{
+  display:inline-block;
+  animation:slideInDown .7s cubic-bezier(.19,1,.22,1) both, fadeIn .4s ease both;
+}
+#main-slider-header .word{
+  display:inline-block;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,6.5vw,96px);
+  font-weight:400;
+  letter-spacing:.01em;
+  line-height:1;
+  color:#e8e8e8;
+  position:relative;
+}
+#main-slider-header .word::before{
+  content:'';position:absolute;
+  bottom:0;left:0;height:.12em;
+  background:#fff;opacity:.5;
+  width:0;
+  transition:width .2s cubic-bezier(.47,0,.745,.715),opacity .2s;
+}
+#main-slider-header a:hover .word::before{
+  width:100%;opacity:1;
+  transition:width .5s cubic-bezier(.215,.61,.355,1),opacity .1s;
+}
+@keyframes slideInDown{
+  from{transform:translateY(100%);opacity:0;}
+  to{transform:translateY(0);opacity:1;}
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* ── SLIDER ── */
+#slider{
+  position:fixed;inset:0;
+  margin-top:50px;
+}
+.slide{
+  position:absolute;inset:0;
+  opacity:0;pointer-events:none;
+  transition:opacity .8s cubic-bezier(.4,0,.2,1);
+}
+.slide.active{opacity:1;pointer-events:all;}
+
+
+/* ── MULTI VIDEO LOOP ── */
+.slide-bg{position:absolute;inset:0;background:#0a0a0a;overflow:hidden;}
+.video-layer{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.2s ease;
+}
+.video-layer.active{opacity:1;}
+
+
+/* dim overlay — Plus X style radial gradient */
+.slide-dim{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center, transparent 0%, transparent 29%, rgba(0,0,0,.12) 78%, rgba(0,0,0,.22) 100%);
+  z-index:1;
+}
+/* bottom fade for readability */
+.slide-dim::after{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:40%;
+  background:linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%);
+}
+
+/* slide caption (bottom left) */
+.slide-caption{
+  position:absolute;bottom:80px;left:50px;
+  z-index:2;
+  display:flex;align-items:center;gap:14px;
+}
+.slide-caption-tag{
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+.slide-caption-tag::before{
+  content:'';display:inline-block;
+  width:24px;height:1px;background:rgba(255,255,255,.3);
+  vertical-align:middle;margin-right:12px;
+}
+
+/* ── RIGHT CONTROL — Plus X style ── */
+#control{
+  position:fixed;
+  right:50px;bottom:50px;
+  z-index:50;
+  display:flex;flex-direction:column;align-items:center;
+}
+.ctrl-number{
+  font-size:12px;font-weight:700;
+  position:absolute;
+  right:calc(100% + 12px);
+  top:-4px;
+  white-space:nowrap;
+}
+.ctrl-now{
+  display:flex;overflow:hidden;
+  font-size:12px;font-weight:700;
+}
+.ctrl-now span{display:block;}
+.ctrl-total{
+  font-size:12px;font-weight:700;
+}
+.ctrl-total::before{
+  content:'';display:block;
+  width:1px;height:28px;
+  background:#fff;opacity:.3;
+  margin:10px auto;
+}
+.ctrl-arrow{
+  display:block;width:40px;height:40px;
+  background:none;border:none;
+  position:relative;margin-top:-2px;
+}
+.ctrl-arrow svg{
+  width:100%;height:100%;
+  stroke:#fff;stroke-width:1.5;fill:none;
+  opacity:.6;transition:opacity .25s;
+}
+.ctrl-arrow:hover svg{opacity:1;}
+
+/* ── SCROLLBAR — Plus X style (right edge) ── */
+#scrollbar{
+  position:fixed;right:0;top:50px;bottom:0;
+  width:4px;z-index:40;
+  background:rgba(255,255,255,.06);
+}
+#scrollbar-thumb{
+  width:100%;
+  background:rgba(255,255,255,.2);
+  border-radius:2px;
+  transition:height .5s,transform .5s;
+}
+
+/* ── MENU OVERLAY ── */
+#menu{
+  position:fixed;inset:0;
+  background:#121212;
+  z-index:500;
+  display:grid;grid-template-columns:1fr 320px;
+  opacity:0;pointer-events:none;
+  transition:opacity .4s cubic-bezier(.4,0,.2,1);
+}
+#menu.open{opacity:1;pointer-events:all;}
+
+.menu-left{
+  padding:100px 80px 60px;
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+.menu-nav{list-style:none;}
+.menu-nav li{
+  overflow:hidden;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.menu-nav li:first-child{border-top:1px solid rgba(255,255,255,.08);}
+.menu-nav a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 0;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,3.8vw,56px);
+  font-weight:300;letter-spacing:-.01em;
+  color:#555;text-decoration:none;
+  transition:color .25s;
+  transform:translateY(60px);opacity:0;
+}
+.menu-nav a:hover{color:#e8e8e8;}
+#menu.open .menu-nav li:nth-child(1) a{animation:menuUp .5s .06s cubic-bezier(.16,1,.3,1) forwards;}
+#menu.open .menu-nav li:nth-child(2) a{animation:menuUp .5s .12s cubic-bezier(.16,1,.3,1) forwards;}
+#menu.open .menu-nav li:nth-child(3) a{animation:menuUp .5s .18s cubic-bezier(.16,1,.3,1) forwards;}
+#menu.open .menu-nav li:nth-child(4) a{animation:menuUp .5s .24s cubic-bezier(.16,1,.3,1) forwards;}
+#menu.open .menu-nav li:nth-child(5) a{animation:menuUp .5s .30s cubic-bezier(.16,1,.3,1) forwards;}
+#menu.open .menu-nav li:nth-child(6) a{animation:menuUp .5s .36s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes menuUp{to{transform:translateY(0);opacity:1;}}
+
+.menu-num{
+  font-size:10px;letter-spacing:.18em;color:#444;
+  font-family:'Noto Sans KR',sans-serif;
+  align-self:flex-end;margin-bottom:10px;
+}
+.menu-right{
+  padding:100px 48px 60px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.menu-sub{list-style:none;}
+.menu-sub li{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07);}
+.menu-sub a{
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:#444;text-decoration:none;transition:color .2s;display:block;
+}
+.menu-sub a:hover{color:#e8e8e8;}
+.menu-sub-desc{font-size:10px;color:#333;letter-spacing:.06em;margin-top:4px;line-height:1.6;}
+.menu-close{
+  position:absolute;top:18px;right:50px;
+  background:none;border:none;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:#444;display:flex;align-items:center;gap:8px;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.menu-close:hover{color:#e8e8e8;}
+.menu-foot{font-size:10px;color:#333;letter-spacing:.07em;line-height:2;}
+
+/* ── PAGES (inner content) ── */
+#pages{
+  position:fixed;inset:0;margin-top:50px;
+  background:#121212;z-index:300;
+  overflow-y:auto;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s;
+}
+#pages.open{opacity:1;pointer-events:all;}
+.p-header{
+  padding:72px 80px 48px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:flex-end;justify-content:space-between;
+  position:sticky;top:0;background:#121212;z-index:10;
+}
+.p-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(34px,5vw,70px);font-weight:300;letter-spacing:-.02em;
+}
+.p-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#444;text-align:right;line-height:2;}
+.p-back{
+  position:fixed;top:64px;left:50px;z-index:320;
+  background:none;border:none;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:#444;display:flex;align-items:center;gap:8px;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.p-back:hover{color:#e8e8e8;}
+
+/* ── PLUS X EXPERIENCE ITEM HOVER ── */
+/* item__frame: shrinks on hover (scale .9) */
+/* item__visual: zooms in (scale 1.2) — opposite direction */
+/* hover-box: fades in (different color layer) */
+/* badge: slides up */
+.exp-grid{
+  display:flex;flex-direction:row;flex-wrap:wrap;
+  padding:60px 50px 80px;
+  gap:0;
+}
+.exp-item{
+  width:200px;height:323px;
+  margin:5px;
+  overflow:hidden;
+  position:relative;
+  opacity:.55;
+  transition:opacity .25s ease;
+  flex-shrink:0;
+}
+.exp-item:hover{opacity:1;}
+
+.exp-item .item-link{
+  display:block;height:100%;width:100%;
+  position:relative;text-decoration:none;
+}
+/* frame — shrinks on hover */
+.exp-item .item-frame{
+  display:block;height:100%;width:100%;
+  overflow:hidden;
+  position:relative;
+  transition:transform .25s cubic-bezier(.215,.61,.355,1);
+}
+.exp-item:hover .item-frame{transform:scale(.9);}
+
+/* visual — zooms opposite */
+.exp-item .item-visual{
+  display:block;height:100%;width:100%;
+  position:relative;
+  transition:transform .25s cubic-bezier(.215,.61,.355,1);
+}
+.exp-item:hover .item-visual{transform:scale(1.2);}
+
+/* image-box — base image */
+.exp-item .image-box{
+  position:absolute;inset:0;
+  overflow:hidden;
+  transition:opacity .2s ease;
+  z-index:10;
+}
+.exp-item .image-box img,
+.exp-item .image-box video{
+  display:block;width:100%;height:100%;object-fit:cover;
+}
+/* hover-box — overlay (different bg color / second image) */
+.exp-item .hover-box{
+  position:absolute;inset:0;
+  overflow:hidden;
+  opacity:0;
+  transition:opacity .2s ease;
+  z-index:12;
+}
+.exp-item:hover .hover-box{opacity:1;}
+.exp-item .hover-box img,
+.exp-item .hover-box video{
+  display:block;width:100%;height:100%;object-fit:cover;
+}
+/* video-box — video on hover */
+.exp-item .video-box{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity .4s ease;
+  z-index:15;
+}
+.exp-item:hover .video-box{opacity:1;}
+.exp-item .video-box video{
+  display:block;width:100%;height:100%;object-fit:cover;
+}
+/* dimd — dim overlay */
+.exp-item .item-dimd{
+  position:absolute;inset:-1%;
+  width:102%;height:102%;
+  z-index:20;
+  background:rgba(0,0,0,.0);
+  transition:background .25s;
+}
+.exp-item:hover .item-dimd{background:rgba(0,0,0,.12);}
+
+/* badge — slides up on hover */
+.exp-badge{
+  position:absolute;top:0;left:0;right:0;
+  z-index:25;padding:14px 16px;
+}
+.exp-badge-num{
+  display:inline-block;
+  font-size:11px;font-weight:700;
+  letter-spacing:.1em;
+  color:#fff;
+  background:rgba(0,0,0,.55);
+  padding:4px 10px;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .2s ease, transform .3s cubic-bezier(.215,.61,.355,1);
+}
+.exp-item:hover .exp-badge-num{opacity:1;transform:translateY(0);}
+
+/* info — bottom text, slides up */
+.exp-info{
+  position:absolute;bottom:0;left:0;right:0;
+  z-index:25;
+  padding:16px;
+  background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 100%);
+  transform:translateY(8px);
+  opacity:0;
+  transition:opacity .25s ease,transform .3s cubic-bezier(.215,.61,.355,1);
+}
+.exp-item:hover .exp-info{opacity:1;transform:translateY(0);}
+.exp-info-title{
+  font-size:11px;font-weight:700;color:#fff;
+  letter-spacing:.02em;line-height:1.4;
+  margin-bottom:4px;
+}
+.exp-info-sub{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);
+}
+.exp-info-tags{
+  display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;
+}
+.exp-info-tag{
+  font-size:8px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.3);
+  padding:2px 7px;
+}
+  padding:52px 56px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  border-right:1px solid rgba(255,255,255,.08);
+  position:relative;overflow:hidden;transition:background .3s;
+}
+.gcard:hover{background:rgba(255,255,255,.02);}
+.gcard::after{
+  content:'';position:absolute;left:0;top:0;
+  width:2px;height:0;background:#e8e8e8;
+  transition:height .4s cubic-bezier(.16,1,.3,1);
+}
+.gcard:hover::after{height:100%;}
+.gc-ico{width:34px;height:34px;margin-bottom:24px;color:#444;}
+.gc-num{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.gc-ttl{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;margin-bottom:12px;}
+.gc-body{font-size:12px;line-height:1.95;color:#666;}
+.gc-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;}
+.gc-tag{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#444;border:1px solid rgba(255,255,255,.08);padding:4px 9px;}
+.gc-big{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:rgba(255,255,255,.05);line-height:1;margin-bottom:8px;}
+
+/* list rows */
+.lrow{display:flex;gap:24px;padding:22px 56px;border-bottom:1px solid rgba(255,255,255,.08);align-items:flex-start;transition:background .25s;}
+.lrow:hover{background:rgba(255,255,255,.018);}
+.lr-n{font-size:10px;letter-spacing:.12em;color:#444;flex-shrink:0;margin-top:3px;min-width:22px;}
+.lr-ico{flex-shrink:0;color:#444;margin-top:1px;}
+.lr-ico svg,.lr-ico-svg{width:18px;height:18px;}
+.lr-topic{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#444;margin-bottom:5px;}
+.lr-body{font-size:12.5px;line-height:1.85;color:#666;}
+
+/* prevention */
+.sec-lbl{padding:48px 56px 18px;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:#444;border-top:1px solid rgba(255,255,255,.08);}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;}
+.pcard{display:flex;gap:18px;padding:30px 44px;border-bottom:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.08);transition:background .25s;}
+.pcard:hover{background:rgba(255,255,255,.018);}
+.pc-n{font-family:'Cormorant Garamond',serif;font-size:11px;color:#444;flex-shrink:0;margin-top:2px;}
+.pc-ico{flex-shrink:0;color:#444;}
+.pc-ico svg{width:17px;height:17px;}
+.pc-txt{font-size:12px;line-height:1.85;color:#666;}
+
+/* progress bar */
+#prog{position:fixed;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.04);z-index:200;}
+#prog-bar{height:100%;background:rgba(255,255,255,.35);transition:width .5s cubic-bezier(.4,0,.2,1);}
+
+/* ── EXPERIENCE SECTION (slide s2) — Plus X style ── */
+
+/* LEFT giant category filter — inside .slide, follows parent opacity/pointer-events */
+#exp-category{
+  position:absolute;
+  left:50px;top:50%;
+  transform:translateY(-50%);
+  z-index:3;
+  display:flex;flex-direction:column;
+  gap:0;
+}
+.exp-cat{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,11vw,160px);
+  font-weight:400;
+  line-height:.78em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.18);
+  cursor:pointer;
+  transition:color .25s,-webkit-text-stroke .25s;
+  user-select:none;
+  letter-spacing:.02em;
+}
+.exp-cat .cat-mask{overflow:hidden;}
+.exp-cat .cat-mask span{display:block;transition:transform .35s cubic-bezier(.215,.61,.355,1);}
+.exp-cat:hover .cat-mask span{transform:scaleX(.93);}
+.exp-cat.selected{
+  color:#fff;
+  -webkit-text-stroke:1px transparent;
+}
+
+/* GRID wrapper */
+#exp-grid{
+  position:absolute;
+  left:240px;right:80px;
+  top:50px;bottom:60px;
+  overflow:hidden;
+  z-index:3;
+  cursor:grab;
+}
+#exp-list{
+  display:flex;flex-direction:row;
+  height:100%;
+  padding-top:60px;
+  gap:10px;
+  transition:transform .6s cubic-bezier(.215,.61,.355,1);
+  will-change:transform;
+}
+
+/* Each card — Plus X style */
+.exp-item{
+  width:200px;
+  height:min(323px,55vh);
+  flex-shrink:0;
+  position:relative;
+  opacity:.55;
+  transition:opacity .3s ease,transform .3s;
+}
+.exp-item:hover{opacity:1;}
+.exp-item.hidden{
+  opacity:0;pointer-events:none;
+  width:0;margin:0;padding:0;
+  transition:opacity .3s,width .4s cubic-bezier(.215,.61,.355,1);
+}
+
+.item-link{display:block;height:100%;width:100%;text-decoration:none;}
+
+.item-frame{
+  display:block;height:80%;width:100%;
+  overflow:hidden;position:relative;
+  transition:transform .35s cubic-bezier(.215,.61,.355,1);
+}
+.exp-item:hover .item-frame{transform:scale(.93);}
+
+.item-visual{
+  display:block;height:100%;width:100%;
+  position:relative;
+  transition:transform .35s cubic-bezier(.215,.61,.355,1);
+}
+.exp-item:hover .item-visual{transform:scale(1.1);}
+
+.image-box,.hover-box{
+  position:absolute;inset:0;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.hover-box{opacity:0;transition:opacity .25s ease;z-index:2;}
+.exp-item:hover .hover-box{opacity:1;}
+
+.item-dimd{
+  position:absolute;inset:0;z-index:5;
+  background:rgba(0,0,0,0);
+  transition:background .25s;
+}
+.exp-item:hover .item-dimd{background:rgba(0,0,0,.08);}
+
+/* badge top */
+.exp-badge{
+  position:absolute;top:0;left:0;right:0;
+  padding:10px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:10;
+  transform:translateY(-100%);
+  transition:transform .3s cubic-bezier(.215,.61,.355,1);
+}
+.exp-item:hover .exp-badge{transform:translateY(0);}
+.badge-num{font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.6);}
+.badge-type{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);}
+
+/* info bottom */
+.exp-info{
+  padding:10px 4px 0;
+}
+.exp-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-weight:400;
+  color:#e8e8e8;letter-spacing:-.01em;
+  margin-bottom:3px;
+}
+.exp-sub{
+  font-size:9px;letter-spacing:.14em;
+  color:#444;text-transform:uppercase;
+}
+
+/* SVG animated shapes inside cards */
+.item-bg-shape{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  opacity:.6;
+}
+.item-bg-shape svg{width:70%;height:70%;}
+
+/* shape animations */
+@keyframes shapeRotate{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+@keyframes shapeFloat{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-12px) scale(1.04);}
+}
+@keyframes shapePulse{
+  0%,100%{transform:scale(1);opacity:.5;}
+  50%{transform:scale(1.15);opacity:.9;}
+}
+@keyframes shapeOrbit{
+  0%{transform:rotate(0deg) translateX(30px) rotate(0deg);}
+  100%{transform:rotate(360deg) translateX(30px) rotate(-360deg);}
+}
+@keyframes shapeDraw{
+  0%{stroke-dashoffset:400;}
+  100%{stroke-dashoffset:0;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- HEADER -->
+<div id="header">
+  <a class="logo" href="#" onclick="closePage();return false;">
+    <div class="logo-x">
+      <span></span>
+      <span></span>
+    </div>
+    <span class="logo-name">Discern</span>
+  </a>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <p>Discerning Truth from Heresy · General Assembly of Korea · Since 1907 · Scripture Alone · 6 Designated Heresy Groups · GAPCK Official Guide ·&nbsp;</p>
+      <p>Discerning Truth from Heresy · General Assembly of Korea · Since 1907 · Scripture Alone · 6 Designated Heresy Groups · GAPCK Official Guide ·&nbsp;</p>
+    </div>
+  </div>
+  <button class="menu-btn" onclick="toggleMenu()">
+    <div class="menu-lines"><span></span><span></span></div>
+    Menu
+  </button>
+</div>
+
+<!-- MAIN SLIDER HEADER — fixed big left title -->
+<div id="main-slider-header">
+  <a href="#" id="header-link" onclick="return false;">
+    <div class="block-text" id="block-text">
+      <!-- JS로 채워짐 -->
+    </div>
+  </a>
+</div>
+
+<!-- SLIDER -->
+<div id="slider">
+
+  <div class="slide active" id="s0">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/interior-of-modern-minimalistic-chapel-or-church-1080p-2026-01-28-03-55-08-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/abstract-silver-dark-gradient-seamless-loop-backgr-2026-01-28-05-18-51-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/Dark-Sea-Waves-Seamless-Loop.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-caption-tag">General Assembly of Korea · Official Guide</span>
+    </div>
+  </div>
+
+  <div class="slide" id="s1">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/helping-hand-2025-12-17-09-09-10-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/people-crowd-silhouettes-background-2026-01-28-02-50-17-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/people-hypnotized-by-their-mobiles-walk-in-the-dar-2026-01-28-03-15-21-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-caption-tag">Counseling &amp; Support · Get Help Now</span>
+    </div>
+  </div>
+
+  <div class="slide" id="s2">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/enigmatic-figure-shrouded-in-hooded-shadows-2026-01-22-04-08-56-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/hacker-in-hoodie-merged-with-matrix-code-while-typ-2026-01-22-02-56-04-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/warning-cyber-glitch-backgrounds-hacking-effect-an-2026-01-28-05-38-39-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-caption-tag">Definition &amp; Terms · Bylaw Article 3</span>
+    </div>
+  </div>
+
+  <div class="slide" id="s3">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/close-up-of-the-holy-bible-with-a-dark-background-1080p-2025-12-17-10-54-05-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/dynamic-process-of-newspaper-printing-in-large-typ-2025-12-17-15-03-06-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/images-inked-onto-newspaper-copies-on-a-conveyor-b-2025-12-17-15-03-09-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-caption-tag">Standards of Judgment · Bylaw Article 4</span>
+    </div>
+  </div>
+
+  <div class="slide" id="s4">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/life-flies-by-as-fast-as-i-scroll-through-short-vi-2026-01-20-18-09-28-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/old-mechanical-typewriter-typing-the-night-was-dar-2026-01-22-13-42-06-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-caption-tag">Major Heresy Groups · Official Ruling</span>
+    </div>
+  </div>
+
+  <div class="slide" id="s5">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/bright-white-spotlight-professional-lighting-equip-2026-01-22-04-55-16-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/glitch-art-motion-background-with-pixel-distortion-2026-01-22-20-43-41-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/abstract-glowing-vortex-pulsing-with-vibrant-energ-2025-12-18-01-52-14-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-caption-tag">Prevention &amp; Response · 20 Guidelines</span>
+    </div>
+  </div>
+
+
+  <!-- s6 — interactive heresy grid (Plus X eXperience style) -->
+  <div class="slide" id="s6">
+    <div class="slide-bg" style="background:#0d0d0d;">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/abstract-shimmering-blue-network-dynamically-pulsa-2025-12-18-01-52-14-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/geometric-figure-glowing-zebra-pattern-cube-mist-2025-12-17-18-34-53-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="auto">
+        <source src="videos/digital-danger-and-digital-darkness-abstract-backg-2026-01-28-03-42-46-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim" style="background:rgba(0,0,0,.55);"></div>
+
+    <div id="exp-category">
+      <div class="exp-cat selected" data-filter="all" onclick="filterExp('all',this)">
+        <div class="cat-mask"><span>ALL</span></div>
+      </div>
+      <div class="exp-cat" data-filter="heresy" onclick="filterExp('heresy',this)">
+        <div class="cat-mask"><span>이단</span></div>
+      </div>
+      <div class="exp-cat" data-filter="pseudo" onclick="filterExp('pseudo',this)">
+        <div class="cat-mask"><span>사이비</span></div>
+      </div>
+    </div>
+
+    <div id="exp-grid">
+      <div id="exp-list">
+
+        <div class="exp-item" data-type="heresy">
+          <a class="item-link" href="#" onclick="openPage('list');return false;">
+            <div class="item-frame"><div class="item-visual">
+              <div class="image-box" style="background:#1a0a0a;">
+                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeRotate 8s linear infinite;opacity:.5;" fill="none" stroke="rgba(255,80,80,.7)" stroke-width="1">
+                  <line x1="50" y1="10" x2="50" y2="90"/><line x1="10" y1="50" x2="90" y2="50"/>
+                  <line x1="22" y1="22" x2="78" y2="78"/><line x1="78" y1="22" x2="22" y2="78"/>
+                  <circle cx="50" cy="50" r="38"/><circle cx="50" cy="50" r="20"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:#2a0505;">
+                <svg viewBox="0 0 100 100" style="width:75%;height:75%;animation:shapePulse 2s ease-in-out infinite;opacity:.8;" fill="none" stroke="rgba(255,100,100,.9)" stroke-width=".8">
+                  <polygon points="50,10 90,85 10,85"/><polygon points="50,28 74,74 26,74"/>
+                  <circle cx="50" cy="62" r="9" style="animation:shapeRotate 4s linear infinite;transform-origin:50px 50px;"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div></div>
+            <div class="exp-badge"><span class="badge-num">01</span><span class="badge-type">이단</span></div>
+            <div class="exp-info"><div class="exp-name">신천지</div><div class="exp-sub">이만희</div></div>
+          </a>
+        </div>
+
+        <div class="exp-item" data-type="heresy">
+          <a class="item-link" href="#" onclick="openPage('list');return false;">
+            <div class="item-frame"><div class="item-visual">
+              <div class="image-box" style="background:#0a0a1a;">
+                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeFloat 4s ease-in-out infinite;opacity:.5;" fill="none" stroke="rgba(80,80,255,.7)" stroke-width="1">
+                  <circle cx="50" cy="50" r="40"/><circle cx="50" cy="50" r="28"/><circle cx="50" cy="50" r="15"/>
+                  <circle cx="50" cy="10" r="5" style="animation:shapeOrbit 5s linear infinite;transform-origin:50px 50px;"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:#050520;">
+                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;" fill="none" stroke="rgba(100,100,255,.9)" stroke-width=".8">
+                  <circle cx="50" cy="50" r="42" style="animation:shapeRotate 12s linear infinite;stroke-dasharray:8 4;"/>
+                  <circle cx="50" cy="50" r="28" style="animation:shapeRotate 8s linear infinite reverse;"/>
+                  <circle cx="50" cy="50" r="14" style="animation:shapePulse 3s ease-in-out infinite;"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div></div>
+            <div class="exp-badge"><span class="badge-num">02</span><span class="badge-type">이단</span></div>
+            <div class="exp-info"><div class="exp-name">하나님의교회</div><div class="exp-sub">안상홍 / 장길자</div></div>
+          </a>
+        </div>
+
+        <div class="exp-item" data-type="heresy">
+          <a class="item-link" href="#" onclick="openPage('list');return false;">
+            <div class="item-frame"><div class="item-visual">
+              <div class="image-box" style="background:#100a00;">
+                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeRotate 10s linear infinite;opacity:.5;" fill="none" stroke="rgba(255,160,40,.7)" stroke-width="1">
+                  <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"/>
+                  <circle cx="50" cy="50" r="20" style="animation:shapePulse 3s ease-in-out infinite;"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:#1a0f00;">
+                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;animation:shapeRotate 6s linear infinite;" fill="none" stroke="rgba(255,180,60,.9)" stroke-width=".8">
+                  <line x1="50" y1="5" x2="50" y2="25"/><line x1="50" y1="75" x2="50" y2="95"/>
+                  <line x1="5" y1="50" x2="25" y2="50"/><line x1="75" y1="50" x2="95" y2="50"/>
+                  <line x1="18" y1="18" x2="32" y2="32"/><line x1="68" y1="68" x2="82" y2="82"/>
+                  <line x1="82" y1="18" x2="68" y2="32"/><line x1="32" y1="68" x2="18" y2="82"/>
+                  <circle cx="50" cy="50" r="22"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div></div>
+            <div class="exp-badge"><span class="badge-num">03</span><span class="badge-type">이단</span></div>
+            <div class="exp-info"><div class="exp-name">만민중앙교회</div><div class="exp-sub">이재록</div></div>
+          </a>
+        </div>
+
+        <div class="exp-item" data-type="pseudo">
+          <a class="item-link" href="#" onclick="openPage('list');return false;">
+            <div class="item-frame"><div class="item-visual">
+              <div class="image-box" style="background:#0d0d0d;">
+                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeFloat 5s ease-in-out infinite;opacity:.5;" fill="none" stroke="rgba(200,200,200,.6)" stroke-width="1">
+                  <polygon points="50,8 92,80 8,80"/>
+                  <polygon points="50,28 76,72 24,72" style="animation:shapeRotate 7s linear infinite;transform-origin:50px 53px;"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:#150515;">
+                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;" fill="none" stroke="rgba(200,100,255,.9)" stroke-width=".8">
+                  <circle cx="50" cy="50" r="42" style="animation:shapeRotate 15s linear infinite;stroke-dasharray:5 3;"/>
+                  <circle cx="50" cy="50" r="30" style="animation:shapeRotate 10s linear infinite reverse;stroke-dasharray:3 5;"/>
+                  <circle cx="50" cy="50" r="18" style="animation:shapeRotate 6s linear infinite;stroke-dasharray:8 2;"/>
+                  <circle cx="50" cy="50" r="6" style="animation:shapePulse 2s ease-in-out infinite;"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div></div>
+            <div class="exp-badge"><span class="badge-num">04</span><span class="badge-type">사이비</span></div>
+            <div class="exp-info"><div class="exp-name">JMS</div><div class="exp-sub">정명석</div></div>
+          </a>
+        </div>
+
+        <div class="exp-item" data-type="heresy">
+          <a class="item-link" href="#" onclick="openPage('list');return false;">
+            <div class="item-frame"><div class="item-visual">
+              <div class="image-box" style="background:#050f05;">
+                <svg viewBox="0 0 100 100" style="width:65%;height:65%;opacity:.5;" fill="none" stroke="rgba(80,200,80,.7)" stroke-width="1">
+                  <path d="M5,30 Q20,10 35,30 Q50,50 65,30 Q80,10 95,30" style="animation:shapeFloat 3s ease-in-out infinite;"/>
+                  <path d="M5,50 Q20,30 35,50 Q50,70 65,50 Q80,30 95,50" style="animation:shapeFloat 3s ease-in-out infinite .5s;"/>
+                  <path d="M5,70 Q20,50 35,70 Q50,90 65,70 Q80,50 95,70" style="animation:shapeFloat 3s ease-in-out infinite 1s;"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:#0a1a0a;">
+                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;animation:shapeRotate 20s linear infinite;" fill="none" stroke="rgba(100,220,100,.8)" stroke-width=".8">
+                  <line x1="20" y1="10" x2="20" y2="90"/><line x1="40" y1="10" x2="40" y2="90"/>
+                  <line x1="60" y1="10" x2="60" y2="90"/><line x1="80" y1="10" x2="80" y2="90"/>
+                  <line x1="10" y1="20" x2="90" y2="20"/><line x1="10" y1="40" x2="90" y2="40"/>
+                  <line x1="10" y1="60" x2="90" y2="60"/><line x1="10" y1="80" x2="90" y2="80"/>
+                  <circle cx="50" cy="50" r="30" style="animation:shapePulse 4s ease-in-out infinite;"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div></div>
+            <div class="exp-badge"><span class="badge-num">05</span><span class="badge-type">이단</span></div>
+            <div class="exp-info"><div class="exp-name">구원파</div><div class="exp-sub">권신찬 / 이요한 / 박옥수</div></div>
+          </a>
+        </div>
+
+        <div class="exp-item" data-type="pseudo">
+          <a class="item-link" href="#" onclick="openPage('list');return false;">
+            <div class="item-frame"><div class="item-visual">
+              <div class="image-box" style="background:#0f0800;">
+                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeRotate 9s linear infinite;opacity:.5;" fill="none" stroke="rgba(255,140,0,.7)" stroke-width="1">
+                  <polygon points="50,8 92,50 50,92 8,50"/>
+                  <polygon points="50,24 76,50 50,76 24,50" style="animation:shapeRotate 6s linear infinite reverse;transform-origin:50px 50px;"/>
+                  <circle cx="50" cy="50" r="10" style="animation:shapePulse 2.5s ease-in-out infinite;"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:#1a0d00;">
+                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;" fill="none" stroke="rgba(255,160,40,.8)" stroke-width=".8">
+                  <ellipse cx="50" cy="50" rx="42" ry="15" style="animation:shapeRotate 4s linear infinite;"/>
+                  <ellipse cx="50" cy="50" rx="42" ry="15" transform="rotate(60,50,50)" style="animation:shapeRotate 4s linear infinite;"/>
+                  <ellipse cx="50" cy="50" rx="42" ry="15" transform="rotate(120,50,50)" style="animation:shapeRotate 4s linear infinite;"/>
+                  <circle cx="50" cy="50" r="8" style="fill:rgba(255,160,40,.3);animation:shapePulse 2s ease-in-out infinite;"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div></div>
+            <div class="exp-badge"><span class="badge-num">06</span><span class="badge-type">사이비</span></div>
+            <div class="exp-info"><div class="exp-name">통일교</div><div class="exp-sub">문선명</div></div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-caption" style="left:260px;">
+      <span class="slide-caption-tag">Heresy Groups · Drag to Explore</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONTROL — right bottom, Plus X style -->
+<div id="control">
+  <div class="ctrl-number">
+    <div class="ctrl-now"><span id="ctrl-now">1</span></div>
+    <div class="ctrl-total">
+      <span id="ctrl-total">7</span>
+    </div>
+  </div>
+  <button class="ctrl-arrow" id="btn-up" onclick="prev()">
+    <svg viewBox="0 0 40 40"><polyline points="10,25 20,15 30,25"/></svg>
+  </button>
+  <button class="ctrl-arrow" id="btn-dn" onclick="next()">
+    <svg viewBox="0 0 40 40"><polyline points="10,15 20,25 30,15"/></svg>
+  </button>
+</div>
+
+<!-- SCROLLBAR -->
+<div id="scrollbar"><div id="scrollbar-thumb"></div></div>
+
+<!-- PROGRESS -->
+<div id="prog"><div id="prog-bar"></div></div>
+
+<!-- MENU -->
+<div id="menu">
+  <button class="menu-close" onclick="toggleMenu()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="menu-left">
+    <ul class="menu-nav">
+      <li><a href="#" onclick="closePage();toggleMenu();return false;"><span>Home</span><span class="menu-num">01</span></a></li>
+      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><span>Get Help</span><span class="menu-num">02</span></a></li>
+      <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><span>Definition</span><span class="menu-num">03</span></a></li>
+      <li><a href="#" onclick="openPage('crit');toggleMenu();return false;"><span>Criteria</span><span class="menu-num">04</span></a></li>
+      <li><a href="#" onclick="openPage('list');toggleMenu();return false;"><span>Heresy Groups</span><span class="menu-num">05</span></a></li>
+      <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><span>Prevention</span><span class="menu-num">06</span></a></li>
+      <li><a href="#" onclick="go(6);toggleMenu();return false;"><span>Heresy Grid</span><span class="menu-num">07</span></a></li>
+    </ul>
+  </div>
+  <div class="menu-right">
+    <div></div>
+    <ul class="menu-sub">
+      <li><a href="#">Counseling</a><div class="menu-sub-desc">이단 피해 상담 및 탈퇴 지원</div></li>
+      <li><a href="#">Seminar</a><div class="menu-sub-desc">교회 방문 특강 신청</div></li>
+      <li><a href="#">References</a><div class="menu-sub-desc">총회 연구보고서 및 가이드북</div></li>
+    </ul>
+    <div class="menu-foot">대한예수교장로회총회<br>이단사이비대책위원회<br>이단사이비문제상담소<br><br>ⓒ 대한예수교장로회총회.<br>All rights reserved.</div>
+  </div>
+</div>
+
+<!-- PAGES -->
+<div id="pages">
+  <button class="p-back" onclick="closePage()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back
+  </button>
+
+  <!-- HELP -->
+  <div id="p-help" style="display:none">
+    <div class="p-header"><h2 class="p-title">도움 받을 수 있는 곳</h2><p class="p-sub">전문 상담 기관</p></div>
+    <div style="padding:32px 56px 40px;border-bottom:1px solid rgba(255,255,255,.08);">
+      <p style="font-size:13px;color:#666;line-height:2;">혼자 고민하지 마세요. 전문 기관에서 도움을 받을 수 있습니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+      <div class="gcard">
+        <svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 4v16"/></svg>
+        <div class="gc-num">연구 · 상담 · 01</div><div class="gc-ttl">현대종교</div>
+        <p class="gc-body">이단·사이비 전문 연구 및 상담 기관. 각 이단 단체에 대한 상세 자료 제공</p>
+        <a href="https://hdjongkyo.co.kr" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.14em;color:#444;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:6px;">hdjongkyo.co.kr →</a>
+      </div>
+      <div class="gcard">
+        <svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        <div class="gc-num">전문 매체 · 02</div><div class="gc-ttl">기독교포털뉴스</div>
+        <p class="gc-body">이단·사이비 관련 최신 뉴스 및 분별 자료를 제공하는 기독교 전문 매체</p>
+        <a href="https://kportalnews.co.kr" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.14em;color:#444;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:6px;">kportalnews.co.kr →</a>
+      </div>
+      <div class="gcard">
+        <svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="gc-num">상담소 협회 · 03</div><div class="gc-ttl">한국기독교이단상담소협회</div>
+        <p class="gc-body">전국 각 교단이 연합하여 운영하는 이단 전문 상담 기관</p>
+        <a href="https://jesus114.net" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.14em;color:#444;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:6px;">jesus114.net →</a>
+      </div>
+      <div class="gcard" style="margin-bottom:80px;">
+        <svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <div class="gc-num">전문 상담소 · 04</div><div class="gc-ttl">신천지 전문 구리상담소</div>
+        <p class="gc-body">신천지 이탈 및 회복을 전문으로 돕는 상담 기관</p>
+        <a href="https://antiscj.or.kr" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.14em;color:#444;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:6px;">antiscj.or.kr →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEF -->
+  <div id="p-def" style="display:none">
+    <div class="p-header"><h2 class="p-title">정의 및 용어</h2><p class="p-sub">운영세칙 제3조 기준</p></div>
+    <div class="g2">
+      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div class="gc-num">Heresy · 01</div><div class="gc-ttl">이단 異端</div><p class="gc-body">성경 및 공교회의 주요 교리에 위배되는 사상이나 그런 사상을 추종하는 집단을 말한다.</p></div>
+      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg><div class="gc-num">Pseudo · 02</div><div class="gc-ttl">사이비 似而非</div><p class="gc-body">사회적·반윤리적 행위를 조장하는 사상 및 그런 사상을 추종하는 유사 기독교를 말한다.</p></div>
+      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><div class="gc-num">Tendency · 03</div><div class="gc-ttl">이단성 異端性</div><p class="gc-body">이단이나 사이비로 규정하기에는 정도가 약하나, 그러한 요소가 있어서 일정한 제재가 필요한 경우를 말한다.</p></div>
+      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><div class="gc-num">Ban · 04</div><div class="gc-ttl">참여금지</div><p class="gc-body">집회나 교육 프로그램이 성경적·목회적으로 문제점과 부작용이 현저한 경우에 참여를 금지하도록 하는 것을 말한다.</p></div>
+      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><div class="gc-num">Monitor · 05</div><div class="gc-ttl">참여자제 및 예의주시</div><p class="gc-body">문제점과 부작용이 예상되어 일정한 제재가 필요한 경우, 참여를 자제토록 하고 총회가 지속적으로 감시한다.</p></div>
+      <div class="gcard" style="margin-bottom:80px;"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg><div class="gc-num">Media · 06</div><div class="gc-ttl">이단사이비 옹호언론</div><p class="gc-body">이단이나 사이비로 규정된 개인이나 집단의 수장을 옹호·홍보하거나 관련 광고를 게재하는 언론을 말한다.</p></div>
+    </div>
+  </div>
+
+  <!-- CRIT -->
+  <div id="p-crit" style="display:none">
+    <div class="p-header"><h2 class="p-title">판단 기준</h2><p class="p-sub">오직 성경 — 운영세칙 제4조</p></div>
+    <div style="padding:24px 56px 20px;background:rgba(255,255,255,.018);"><p style="font-size:11.5px;color:#666;line-height:2;">이단 또는 사이비로 규정할 때 그 기준은 <strong style="color:#e8e8e8;font-weight:400;">오직 성경</strong>이다. ①사도신경 ②신조 ③웨스트민스터 소요리문답 및 신앙고백 ④기타 개혁교회의 교리와 신학 전통을 기준으로 한다.</p></div>
+    <div class="lrow"><div class="lr-n">01</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg></div><div><div class="lr-topic">계시론 · Revelation</div><div class="lr-body">성경에서 벗어난 계시를 강조하거나, 성경과 동등한 권위를 가진 다른 경전이 있다고 주장하거나, 성경의 권위를 부정하거나 왜곡 해석하는 경우</div></div></div>
+    <div class="lrow"><div class="lr-n">02</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="lr-topic">삼위일체론 · Trinity</div><div class="lr-body">삼위일체를 부정하거나 현저히 잘못 가르치는 경우 — 종속론, 양태론, 삼신론 등</div></div></div>
+    <div class="lrow"><div class="lr-n">03</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="lr-topic">그리스도론 · Christology</div><div class="lr-body">예수 그리스도의 참 하나님과 참 사람임을 부정하거나, 성육신·동정녀 탄생·대속적 죽음·부활·승천·재림·심판주임을 부정하는 경우</div></div></div>
+    <div class="lrow"><div class="lr-n">04</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div><div><div class="lr-topic">성령론 · Pneumatology</div><div class="lr-body">성령의 신성 또는 인격성을 부정하는 경우</div></div></div>
+    <div class="lrow"><div class="lr-n">05</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="lr-topic">구원론 · Soteriology</div><div class="lr-body">이신칭의를 부정하거나, 예수 그리스도 외 구원자를 인정하는 종교다원주의를 옹호하는 경우</div></div></div>
+    <div class="lrow"><div class="lr-n">06</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="lr-topic">종말론 · Eschatology</div><div class="lr-body">신자의 부활·심판·천국·지옥 등을 부정하거나, 지나친 시한부 종말을 주장하는 경우</div></div></div>
+    <div class="lrow"><div class="lr-n">07</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="lr-topic">교회론 · Ecclesiology</div><div class="lr-body">공교회를 비방하거나, 자기 집단에만 구원이 있다고 주장하는 경우</div></div></div>
+    <div class="lrow"><div class="lr-n">08</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="lr-topic">인간론 · Anthropology</div><div class="lr-body">인간을 신격화하거나, 교주를 메시야 또는 성령으로 칭하는 경우</div></div></div>
+    <div class="lrow" style="margin-bottom:80px;"><div class="lr-n">09</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div><div class="lr-topic">창조론 · Creationism</div><div class="lr-body">하나님의 창조주임을 부정하거나, 진화론을 주장하거나, 퀴어 사상을 옹호하는 경우</div></div></div>
+  </div>
+
+  <!-- LIST — Plus X experience grid style -->
+  <div id="p-list" style="display:none">
+    <div class="p-header"><h2 class="p-title">주요 이단 집단</h2><p class="p-sub">총회 공식 이단 규정 집단<br>6 Designated Heresy Groups</p></div>
+
+    <div class="exp-grid">
+
+      <!-- 01 신천지 -->
+      <div class="exp-item">
+        <a class="item-link" href="#">
+          <div class="item-frame">
+            <div class="item-visual">
+              <!-- base: dark gradient bg with SVG pattern -->
+              <div class="image-box" style="background:linear-gradient(135deg,#1a0a0a 0%,#2d0808 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
+                  <circle cx="100" cy="161" r="120" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <circle cx="100" cy="161" r="80" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <circle cx="100" cy="161" r="40" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <line x1="100" y1="41" x2="100" y2="281" stroke="#fff" stroke-width=".5"/>
+                  <line x1="-20" y1="161" x2="220" y2="161" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <!-- hover: different tint -->
+              <div class="hover-box" style="background:linear-gradient(135deg,#0a1a0a 0%,#082d08 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
+                  <rect x="20" y="60" width="160" height="203" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <rect x="50" y="90" width="100" height="143" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <line x1="20" y1="60" x2="180" y2="263" stroke="#fff" stroke-width=".5"/>
+                  <line x1="180" y1="60" x2="20" y2="263" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div>
+          </div>
+          <div class="exp-badge"><span class="exp-badge-num">01</span></div>
+          <div class="exp-info">
+            <div class="exp-info-title">신천지 예수교<br>증거장막성전</div>
+            <div class="exp-info-sub">교주 이만희</div>
+            <div class="exp-info-tags">
+              <span class="exp-info-tag">성경 왜곡</span>
+              <span class="exp-info-tag">구원 독점</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 02 하나님의교회 -->
+      <div class="exp-item">
+        <a class="item-link" href="#">
+          <div class="item-frame">
+            <div class="item-visual">
+              <div class="image-box" style="background:linear-gradient(135deg,#0a0a1a 0%,#08082d 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
+                  <polygon points="100,30 190,280 10,280" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <polygon points="100,70 165,260 35,260" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <polygon points="100,110 140,240 60,240" fill="none" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:linear-gradient(135deg,#1a1a0a 0%,#2d2d08 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
+                  <circle cx="100" cy="161" r="100" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <circle cx="60" cy="161" r="60" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <circle cx="140" cy="161" r="60" fill="none" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div>
+          </div>
+          <div class="exp-badge"><span class="exp-badge-num">02</span></div>
+          <div class="exp-info">
+            <div class="exp-info-title">하나님의교회<br>세계복음선교협회</div>
+            <div class="exp-info-sub">안상홍 / 장길자 신격화</div>
+            <div class="exp-info-tags">
+              <span class="exp-info-tag">아버지 하나님</span>
+              <span class="exp-info-tag">어머니 하나님</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 03 만민중앙교회 -->
+      <div class="exp-item">
+        <a class="item-link" href="#">
+          <div class="item-frame">
+            <div class="item-visual">
+              <div class="image-box" style="background:linear-gradient(135deg,#150a1a 0%,#200828 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
+                  <path d="M100,20 L180,80 L180,200 C180,260 145,290 100,300 C55,290 20,260 20,200 L20,80 Z" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <path d="M100,55 L160,105 L160,200 C160,245 132,268 100,276 C68,268 40,245 40,200 L40,105 Z" fill="none" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:linear-gradient(135deg,#0a150a 0%,#082008 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
+                  <line x1="30" y1="30" x2="170" y2="293" stroke="#fff" stroke-width=".5"/>
+                  <line x1="170" y1="30" x2="30" y2="293" stroke="#fff" stroke-width=".5"/>
+                  <line x1="100" y1="30" x2="100" y2="293" stroke="#fff" stroke-width=".5"/>
+                  <line x1="30" y1="161" x2="170" y2="161" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div>
+          </div>
+          <div class="exp-badge"><span class="exp-badge-num">03</span></div>
+          <div class="exp-info">
+            <div class="exp-info-title">만민중앙교회</div>
+            <div class="exp-info-sub">교주 이재록</div>
+            <div class="exp-info-tags">
+              <span class="exp-info-tag">직통계시</span>
+              <span class="exp-info-tag">신격화</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 04 JMS -->
+      <div class="exp-item">
+        <a class="item-link" href="#">
+          <div class="item-frame">
+            <div class="item-visual">
+              <div class="image-box" style="background:linear-gradient(135deg,#1a0f0a 0%,#2d1808 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
+                  <rect x="30" y="60" width="140" height="203" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <rect x="60" y="90" width="80" height="143" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <rect x="85" y="115" width="30" height="93" fill="none" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:linear-gradient(135deg,#0a1a1a 0%,#082d2d 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
+                  <circle cx="100" cy="130" r="90" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <circle cx="100" cy="130" r="50" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <line x1="100" y1="40" x2="100" y2="220" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div>
+          </div>
+          <div class="exp-badge"><span class="exp-badge-num">04</span></div>
+          <div class="exp-info">
+            <div class="exp-info-title">국제크리스천연합<br>(JMS)</div>
+            <div class="exp-info-sub">교주 정명석</div>
+            <div class="exp-info-tags">
+              <span class="exp-info-tag">삼위일체 부정</span>
+              <span class="exp-info-tag">성범죄</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 05 구원파 -->
+      <div class="exp-item">
+        <a class="item-link" href="#">
+          <div class="item-frame">
+            <div class="item-visual">
+              <div class="image-box" style="background:linear-gradient(135deg,#0f1a0a 0%,#182d08 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
+                  <line x1="20" y1="80" x2="180" y2="80" stroke="#fff" stroke-width=".5"/>
+                  <line x1="20" y1="140" x2="180" y2="140" stroke="#fff" stroke-width=".5"/>
+                  <line x1="20" y1="200" x2="180" y2="200" stroke="#fff" stroke-width=".5"/>
+                  <line x1="20" y1="260" x2="180" y2="260" stroke="#fff" stroke-width=".5"/>
+                  <line x1="60" y1="40" x2="60" y2="300" stroke="#fff" stroke-width=".5"/>
+                  <line x1="100" y1="40" x2="100" y2="300" stroke="#fff" stroke-width=".5"/>
+                  <line x1="140" y1="40" x2="140" y2="300" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:linear-gradient(135deg,#1a0a0f 0%,#2d0818 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
+                  <polygon points="100,40 185,270 15,270" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <line x1="100" y1="40" x2="100" y2="270" stroke="#fff" stroke-width=".5"/>
+                  <line x1="15" y1="270" x2="185" y2="270" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div>
+          </div>
+          <div class="exp-badge"><span class="exp-badge-num">05</span></div>
+          <div class="exp-info">
+            <div class="exp-info-title">구원파</div>
+            <div class="exp-info-sub">권신찬 / 이요한 / 박옥수</div>
+            <div class="exp-info-tags">
+              <span class="exp-info-tag">왜곡된 구원론</span>
+              <span class="exp-info-tag">회개 부정</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 06 통일교 -->
+      <div class="exp-item">
+        <a class="item-link" href="#">
+          <div class="item-frame">
+            <div class="item-visual">
+              <div class="image-box" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
+                  <circle cx="100" cy="161" r="120" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <line x1="100" y1="41" x2="100" y2="281" stroke="#fff" stroke-width=".5"/>
+                  <line x1="-20" y1="161" x2="220" y2="161" stroke="#fff" stroke-width=".5"/>
+                  <line x1="15" y1="76" x2="185" y2="246" stroke="#fff" stroke-width=".5"/>
+                  <line x1="185" y1="76" x2="15" y2="246" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="hover-box" style="background:linear-gradient(135deg,#1a1208 0%,#2d2008 100%);">
+                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
+                  <rect x="20" y="40" width="160" height="243" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <rect x="50" y="80" width="100" height="163" fill="none" stroke="#fff" stroke-width=".5"/>
+                  <rect x="80" y="120" width="40" height="83" fill="none" stroke="#fff" stroke-width=".5"/>
+                </svg>
+              </div>
+              <div class="item-dimd"></div>
+            </div>
+          </div>
+          <div class="exp-badge"><span class="exp-badge-num">06</span></div>
+          <div class="exp-info">
+            <div class="exp-info-title">통일교<br>(세계평화통일가정연합)</div>
+            <div class="exp-info-sub">교주 문선명</div>
+            <div class="exp-info-tags">
+              <span class="exp-info-tag">예수 실패자</span>
+              <span class="exp-info-tag">탕감복귀설</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREV -->
+  <div id="p-prev" style="display:none">
+    <div class="p-header"><h2 class="p-title">대처 방안</h2><p class="p-sub">이단·사이비 예방 실천 수칙</p></div>
+    <div class="sec-lbl">① 10가지 실천 사항 — 신앙인으로서 갖추어야 할 기본 자세</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pc-n">01</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="pc-txt">기독교 신앙의 기본자세를 확립한다</div></div>
+      <div class="pcard"><div class="pc-n">02</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><div class="pc-txt">기독교 신앙의 기본 내용을 분명히 알아 둔다</div></div>
+      <div class="pcard"><div class="pc-n">03</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="pc-txt">구원의 확신을 분명히 가진다</div></div>
+      <div class="pcard"><div class="pc-n">04</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="pc-txt">성경의 중요한 내용을 정확히 배우려고 노력한다</div></div>
+      <div class="pcard"><div class="pc-n">05</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><div class="pc-txt">교회 중심, 목회자 중심의 신앙생활에 힘쓴다</div></div>
+      <div class="pcard"><div class="pc-n">06</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="pc-txt">무조건 믿는 것보다 다소 비판적인 시각도 가져본다</div></div>
+      <div class="pcard"><div class="pc-n">07</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="pc-txt">이단·사이비에 대한 기초 상식을 알아 둔다</div></div>
+      <div class="pcard"><div class="pc-n">08</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="pc-txt">건강한 교회와 화목한 가정을 이뤄 미혹의 틈을 주지 않는다</div></div>
+      <div class="pcard"><div class="pc-n">09</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div><div class="pc-txt">정기적인 이단 사이비 특강을 통해 경각심을 일깨운다</div></div>
+      <div class="pcard"><div class="pc-n">10</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="pc-txt">교회 내에 이단 사이비 대책 전문 상담 사역을 활성화하여 상시 대응한다</div></div>
+    </div>
+    <div class="sec-lbl">② 10가지 실천 수칙 — 실생활에서 지켜야 할 행동 지침</div>
+    <div class="pgrid" style="margin-bottom:80px;">
+      <div class="pcard"><div class="pc-n">01</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="pc-txt">설문 조사 시 이름, 전화번호, 주소 등을 기재하지 않는다</div></div>
+      <div class="pcard"><div class="pc-n">02</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="pc-txt">반드시 소속 교단 및 기관을 확인한다</div></div>
+      <div class="pcard"><div class="pc-n">03</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></div><div class="pc-txt">지나치게 친밀하게 접근하는 사람을 반드시 주의하고 확인한다</div></div>
+      <div class="pcard"><div class="pc-n">04</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="pc-txt">교인에게 궁금증을 유발하는 성경 질문을 미리 주지시킨다</div></div>
+      <div class="pcard"><div class="pc-n">05</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="pc-txt">도형 심리, 인문학 강좌, 대학 동아리 등 다양한 접근 통로에 대해 환기시킨다</div></div>
+      <div class="pcard"><div class="pc-n">06</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="pc-txt">이단 관계자와 접촉한 사실이 확인되면 즉시 목회자에게 알린다</div></div>
+      <div class="pcard"><div class="pc-n">07</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="pc-txt">검증된 이단 전문가를 통해서 이단 상담을 받는다</div></div>
+      <div class="pcard"><div class="pc-n">08</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="pc-txt">1년 1회 이상 이단 세미나를 개최한다</div></div>
+      <div class="pcard"><div class="pc-n">09</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><div class="pc-txt">교회에서 이단 전문상담사를 교육하여 교인을 보호한다</div></div>
+      <div class="pcard"><div class="pc-n">10</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="pc-txt">교인이 이단의 실체에 대해 경각심을 지니도록 계도한다</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CURSOR ──
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function loop(){
+  rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+  cur2.style.left=rx+'px';cur2.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+
+// ── SLIDES ──
+const SLIDES=[
+  {lines:['Discerning','Truth','from Heresy'],  page:'def'},
+  {lines:['Get','Help','Now'],                   page:'help'},
+  {lines:['Heresy','vs','Pseudo'],               page:'def'},
+  {lines:['Scripture','Alone','Judges'],         page:'crit'},
+  {lines:['Know','Your','Enemy'],                page:'list'},
+  {lines:['Prevention','Is The','Best Shield'],  page:'prev'},
+];
+
+// ── TITLE RENDER ──
+function renderTitle(idx){
+  const bt=document.getElementById('block-text');
+  const t=SLIDES[idx];
+  bt.innerHTML=t.lines.map((w,i)=>
+    `<div class="block-text__line"><span class="word"><span class="mask-text"><span style="animation-delay:${i*80}ms">${w}</span></span></span></div>`
+  ).join('');
+  const lnk=document.getElementById('header-link');
+  if(lnk)lnk.onclick=e=>{e.preventDefault();openPage(t.page);};
+}
+renderTitle(0);
+
+
+// ── MULTI VIDEO LOOP PER SLIDE ──
+const VIDEO_INTERVAL = 5000; // 각 영상 재생 시간 (ms)
+let videoTimers = {};
+
+// slideIndex: 슬라이드별 현재 영상 인덱스 기억
+const slideVideoIndex = {};
+
+function startVideoLoop(slideEl) {
+  const sid = slideEl.id;
+  const videos = Array.from(slideEl.querySelectorAll('.video-layer'));
+  if (videos.length === 0) return;
+
+  // 이미 루프 중이면 현재 영상만 재생 재시작 (초기화 안 함)
+  if (videoTimers[sid]) {
+    const cur = slideVideoIndex[sid] || 0;
+    safePlay(videos[cur]);
+    return;
+  }
+
+  // 첫 진입: 저장된 인덱스부터 시작
+  if (slideVideoIndex[sid] === undefined) slideVideoIndex[sid] = 0;
+  let cur = slideVideoIndex[sid];
+
+  videos.forEach((v, i) => {
+    v.classList.toggle('active', i === cur);
+    v.muted = true;
+    if (i === cur) {
+      v.currentTime = 0;
+      safePlay(v);
+    }
+  });
+
+  if (videos.length <= 1) return;
+
+  videoTimers[sid] = setInterval(() => {
+    videos[cur].classList.remove('active');
+    videos[cur].pause();
+    cur = (cur + 1) % videos.length;
+    slideVideoIndex[sid] = cur;
+    videos[cur].currentTime = 0;
+    videos[cur].classList.add('active');
+    safePlay(videos[cur]);
+  }, VIDEO_INTERVAL);
+}
+
+function stopVideoLoop(sid) {
+  if (videoTimers[sid]) {
+    clearInterval(videoTimers[sid]);
+    delete videoTimers[sid];
+  }
+}
+
+// ── VIDEO SAFE PLAY ──
+function safePlay(v){
+  if(!v)return;
+  v.muted=true;
+  const p=v.play();
+  if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{});});
+}
+
+// ── SLIDER ──
+const slides=document.querySelectorAll('.slide');
+const TOTAL=slides.length;
+let cs=0,lock=false,autoTimer;
+
+function updateScrollbar(){
+  const sb=document.getElementById('scrollbar-thumb');
+  const sw=document.getElementById('scrollbar');
+  if(!sb||!sw)return;
+  const h=sw.clientHeight,th=h/TOTAL;
+  sb.style.height=th+'px';
+  sb.style.transform=`translateY(${th*cs}px)`;
+}
+
+function go(n){
+  if(lock)return;lock=true;
+  // pause prev video
+  const pv=slides[cs].querySelector('video');
+  if(pv){pv.pause();}
+  slides[cs].classList.remove('active');
+
+  cs=(n+TOTAL)%TOTAL;
+  slides[cs].classList.add('active');
+
+  // 새 슬라이드 루프 시작 (기존 루프 있으면 재play만, 없으면 새로 시작)
+  const activeVids = slides[cs].querySelectorAll('.video-layer');
+  activeVids.forEach(v => { v.muted = true; });
+  startVideoLoop(slides[cs]);
+
+  // reset exp grid if leaving s6
+  if(cs!==TOTAL-1){
+    expOffset=0;expCurrent=0;
+    const el=document.getElementById('exp-list');
+    if(el){el.style.transition='none';el.style.transform='translateX(0)';}
+  }
+
+  // update UI
+  document.getElementById('ctrl-now').textContent=cs+1;
+  document.getElementById('prog-bar').style.width=((cs+1)/TOTAL*100)+'%';
+  updateScrollbar();
+
+  // fade title
+  const mh=document.getElementById('main-slider-header');
+  if(mh){
+    mh.style.opacity='0';
+    setTimeout(()=>{renderTitle(cs);mh.style.opacity='1';},180);
+  }
+
+  setTimeout(()=>lock=false,700);
+  resetAuto();
+}
+
+function next(){go(cs+1);}
+function prev(){go(cs-1);}
+
+function resetAuto(){
+  clearInterval(autoTimer);
+  autoTimer=setInterval(()=>{if(!pageOpen&&!menuOpen)next();},4000);
+}
+resetAuto();
+
+// ── WHEEL ──
+// 단일 non-passive 리스너로 통합
+let wlast=0;
+window.addEventListener('wheel',function(e){
+  if(pageOpen)return;
+  const now=Date.now();
+  if(now-wlast<700)return;
+
+  // s6(마지막)에서 수평 스크롤 처리
+  if(cs===TOTAL-1){
+    const list=document.getElementById('exp-list');
+    const grid=document.getElementById('exp-grid');
+    if(list&&grid){
+      const maxOff=-(list.scrollWidth-grid.clientWidth+10);
+      const newOff=Math.max(maxOff,Math.min(0,expOffset-e.deltaY*1.5));
+      const atStart=expOffset>=0&&e.deltaY<0;
+      const atEnd=expOffset<=maxOff&&e.deltaY>0;
+      if(!atStart&&!atEnd){
+        e.preventDefault();
+        expOffset=newOff;expCurrent=newOff;
+        list.style.transition='transform .25s ease-out';
+        list.style.transform=`translateX(${expOffset}px)`;
+        return; // 슬라이드 전환 막기
+      }
+    }
+  }
+
+  wlast=now;
+  e.deltaY>0?next():prev();
+},{passive:false});
+
+// ── KEYBOARD ──
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowRight')next();
+  else if(e.key==='ArrowUp'||e.key==='ArrowLeft')prev();
+  else if(e.key==='Escape'){if(pageOpen)closePage();else if(menuOpen)toggleMenu();}
+});
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded',()=>{
+  // 모든 비디오 muted + playsinline 강제
+  document.querySelectorAll('video').forEach(v=>{
+    v.muted=true;
+    v.setAttribute('playsinline','');
+    v.setAttribute('webkit-playsinline','');
+  });
+  // 모든 슬라이드 비디오 muted + playsinline 강제
+  document.querySelectorAll('video').forEach(v => {
+    v.muted = true;
+    v.setAttribute('playsinline', '');
+    v.setAttribute('webkit-playsinline', '');
+  });
+  // 첫 슬라이드 루프 시작
+  startVideoLoop(slides[0]);
+  // 나머지 슬라이드도 preload 트리거
+  slides.forEach((s, i) => {
+    if (i === 0) return;
+    s.querySelectorAll('video').forEach(v => { v.load(); });
+  });
+  updateScrollbar();
+  document.getElementById('prog-bar').style.width=(1/TOTAL*100)+'%';
+});
+
+// iOS: 첫 터치 시 재생 재시도
+document.addEventListener('touchstart',()=>{
+  const v=slides[cs].querySelector('video');
+  if(v&&v.paused)safePlay(v);
+},{once:true,passive:true});
+
+// ── EXPERIENCE SECTION (s6) ──
+let expOffset=0,expCurrent=0,expDragging=false,expStartX=0;
+
+function filterExp(type,el){
+  document.querySelectorAll('.exp-cat').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.querySelectorAll('.exp-item').forEach(item=>{
+    item.classList.toggle('hidden',type!=='all'&&item.dataset.type!==type);
+  });
+  expOffset=0;expCurrent=0;
+  const list=document.getElementById('exp-list');
+  if(list){list.style.transition='transform .4s ease';list.style.transform='translateX(0)';}
+}
+
+const expGrid=document.getElementById('exp-grid');
+if(expGrid){
+  expGrid.addEventListener('mousedown',e=>{
+    if(cs!==TOTAL-1)return;
+    expDragging=true;
+    expStartX=e.clientX-expOffset;
+    expGrid.style.cursor='grabbing';
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!expDragging)return;
+    const list=document.getElementById('exp-list');
+    const maxOff=-(list.scrollWidth-expGrid.clientWidth+10);
+    expCurrent=Math.max(maxOff,Math.min(0,e.clientX-expStartX));
+    list.style.transition='none';
+    list.style.transform=`translateX(${expCurrent}px)`;
+  });
+  document.addEventListener('mouseup',()=>{
+    if(!expDragging)return;
+    expDragging=false;
+    expOffset=expCurrent;
+    expGrid.style.cursor='';
+    const list=document.getElementById('exp-list');
+    if(list)list.style.transition='transform .4s ease';
+  });
+  expGrid.addEventListener('touchstart',e=>{
+    if(cs!==TOTAL-1)return;
+    expDragging=true;
+    expStartX=e.touches[0].clientX-expOffset;
+  },{passive:true});
+  expGrid.addEventListener('touchmove',e=>{
+    if(!expDragging)return;
+    const list=document.getElementById('exp-list');
+    if(!list)return;
+    const maxOff=-(list.scrollWidth-expGrid.clientWidth+10);
+    expCurrent=Math.max(maxOff,Math.min(0,e.touches[0].clientX-expStartX));
+    list.style.transition='none';
+    list.style.transform=`translateX(${expCurrent}px)`;
+  },{passive:true});
+  expGrid.addEventListener('touchend',()=>{
+    if(!expDragging)return;
+    expDragging=false;
+    expOffset=expCurrent;
+    const list=document.getElementById('exp-list');
+    if(list)list.style.transition='transform .4s ease';
+  });
+}
+
+// ── MENU ──
+let menuOpen=false;
+function toggleMenu(){
+  menuOpen=!menuOpen;
+  document.getElementById('menu').classList.toggle('open',menuOpen);
+  if(menuOpen)clearInterval(autoTimer);else if(!pageOpen)resetAuto();
+}
+
+// ── PAGES ──
+let pageOpen=false;
+function openPage(id){
+  const el=document.getElementById('pages');
+  document.querySelectorAll('#pages>div[id^="p-"]').forEach(d=>d.style.display='none');
+  const pg=document.getElementById('p-'+id);
+  if(pg)pg.style.display='block';
+  el.classList.add('open');el.scrollTop=0;
+  pageOpen=true;clearInterval(autoTimer);
+}
+function closePage(){
+  document.getElementById('pages').classList.remove('open');
+  pageOpen=false;resetAuto();
+}
+document.getElementById('pages').addEventListener('scroll',function(){
+  document.getElementById('prog-bar').style.width=
+    (this.scrollTop/(this.scrollHeight-this.clientHeight)*100)+'%';
+});
+</script>
+</body>
+</html>
