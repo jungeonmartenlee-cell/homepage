@@ -1417,10 +1417,9 @@ function renderTitle(idx){
 renderTitle(0);
 
 
-// ── MULTI VIDEO LOOP PER SLIDE ──
-const VIDEO_INTERVAL = 7000; // 각 영상 재생 시간 (ms)
+// ── VIDEO POOL ──
+const VIDEO_INTERVAL = 7000;
 
-// ── ALL VIDEOS POOL ──
 const ALL_VIDEOS = [
   'Dark-Sea-Waves-Seamless-Loop.mp4',
   'a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4',
@@ -1463,110 +1462,65 @@ function shuffleArray(arr) {
 
 function initVideoPool() {
   const shuffled = shuffleArray(ALL_VIDEOS);
-  const perSlide = Math.floor(shuffled.length / slides.length); // 4
+  const perSlide = Math.floor(shuffled.length / slides.length);
   slides.forEach((slide, idx) => {
     const bg = slide.querySelector('.slide-bg');
     bg.querySelectorAll('video').forEach(v => v.remove());
-    const start = idx * perSlide;
-    const chunk = shuffled.slice(start, start + perSlide);
+    const chunk = shuffled.slice(idx * perSlide, (idx + 1) * perSlide);
     chunk.forEach((filename, i) => {
       const v = document.createElement('video');
       v.className = 'video-layer' + (i === 0 ? ' active' : '');
-      v.autoplay = true;
       v.muted = true;
       v.loop = true;
       v.setAttribute('playsinline', '');
       v.setAttribute('webkit-playsinline', '');
-      v.setAttribute('preload', i === 0 ? 'auto' : 'none');
-      const src = document.createElement('source');
-      src.src = 'videos/' + filename;
-      src.type = 'video/mp4';
-      v.appendChild(src);
-      bg.insertBefore(v, bg.firstChild);
+      v.setAttribute('preload', 'auto');
+      v.src = 'videos/' + filename;
+      bg.appendChild(v);
     });
   });
 }
-let videoTimers = {};
 
-// slideIndex: 슬라이드별 현재 영상 인덱스 기억
 const slideVideoIndex = {};
+const videoTimers = {};
 
 function startVideoLoop(slideEl) {
   const sid = slideEl.id;
   const videos = Array.from(slideEl.querySelectorAll('.video-layer'));
   if (videos.length === 0) return;
-
-  if (videoTimers[sid]) {
-    const cur = slideVideoIndex[sid] || 0;
-    safePlay(videos[cur]);
-    return;
-  }
+  if (videoTimers[sid]) { videos[slideVideoIndex[sid]||0].play().catch(()=>{}); return; }
 
   if (slideVideoIndex[sid] === undefined) slideVideoIndex[sid] = 0;
+  let cur = slideVideoIndex[sid];
 
-  // 비활성 영상 미리 로드
-  videos.forEach((v, i) => {
-    if (i !== slideVideoIndex[sid]) {
-      v.setAttribute('preload','metadata');
-      v.load();
-    }
-  });
-
-  function playAt(idx) {
-    if (!videoTimers[sid] && idx !== 0) return; // 루프 중단됨
-    const cur = idx;
+  function show(idx) {
+    cur = idx;
     slideVideoIndex[sid] = cur;
-
     videos.forEach((v, i) => {
-      v.classList.toggle('active', i === cur);
       v.muted = true;
-    });
-
-    const v = videos[cur];
-
-    function onPlaying() {
-      // 실제 재생 시작 후 7초 뒤에 다음 영상
-      videoTimers[sid] = setTimeout(() => {
-        v.classList.remove('active');
-        v.pause();
-        playAt((cur + 1) % videos.length);
-      }, VIDEO_INTERVAL);
-    }
-
-    if (v.readyState >= 3) {
-      v.play().catch(() => {});
-      onPlaying();
-    } else {
-      v.load();
-      v.addEventListener('canplay', () => {
+      if (i === cur) {
+        v.classList.add('active');
         v.play().catch(() => {});
-        onPlaying();
-      }, { once: true });
-    }
+      } else {
+        v.classList.remove('active');
+      }
+    });
   }
 
-  videoTimers[sid] = true; // 루프 시작 표시
-  playAt(slideVideoIndex[sid]);
+  show(cur);
+  if (videos.length > 1) {
+    videoTimers[sid] = setInterval(() => show((cur + 1) % videos.length), VIDEO_INTERVAL);
+  }
 }
 
 function stopVideoLoop(sid) {
-  if (videoTimers[sid]) {
-    clearTimeout(videoTimers[sid]);
-    delete videoTimers[sid];
-  }
+  if (videoTimers[sid]) { clearInterval(videoTimers[sid]); delete videoTimers[sid]; }
 }
 
-// ── VIDEO SAFE PLAY ──
-function safePlay(v){
-  if(!v)return;
-  v.muted=true;
-  if(v.readyState===0){
-    v.load();
-    v.addEventListener('canplay',()=>{ v.play().catch(()=>{}); },{once:true});
-  } else {
-    const p=v.play();
-    if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{});});
-  }
+function safePlay(v) {
+  if (!v) return;
+  v.muted = true;
+  v.play().catch(() => {});
 }
 
 // ── SLIDER ──
