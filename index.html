@@ -1418,7 +1418,74 @@ renderTitle(0);
 
 
 // ── MULTI VIDEO LOOP PER SLIDE ──
-const VIDEO_INTERVAL = 5000; // 각 영상 재생 시간 (ms)
+const VIDEO_INTERVAL = 7000; // 각 영상 재생 시간 (ms)
+
+// ── ALL VIDEOS POOL ──
+const ALL_VIDEOS = [
+  'Dark-Sea-Waves-Seamless-Loop.mp4',
+  'a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4',
+  'abstract-glowing-vortex-pulsing-with-vibrant-energ-2025-12-18-01-52-14-utc.mp4',
+  'abstract-shimmering-blue-network-dynamically-pulsa-2025-12-18-01-52-14-utc.mp4',
+  'abstract-silver-dark-gradient-seamless-loop-backgr-2026-01-28-05-18-51-utc.mp4',
+  'background-of-book-with-ancient-writings-mystical-2025-12-17-06-11-16-utc.mp4',
+  'bright-white-spotlight-professional-lighting-equip-2026-01-22-04-55-16-utc.mp4',
+  'close-up-of-neon-fluids-mixing-in-abstract-motion-2026-01-22-05-43-47-utc.mp4',
+  'close-up-of-the-holy-bible-with-a-dark-background-1080p-2025-12-17-10-54-05-utc.mp4',
+  'digital-danger-and-digital-darkness-abstract-backg-2026-01-28-03-42-46-utc.mp4',
+  'dynamic-process-of-newspaper-printing-in-large-typ-2025-12-17-15-03-06-utc.mp4',
+  'enigmatic-figure-shrouded-in-hooded-shadows-2026-01-22-04-08-56-utc.mp4',
+  'geometric-figure-glowing-zebra-pattern-cube-mist-2025-12-17-18-34-53-utc.mp4',
+  'glitch-art-motion-background-with-pixel-distortion-2026-01-22-20-43-41-utc.mp4',
+  'glitch-noise-static-television-vfx-video-backgrou-2025-12-17-04-48-50-utc.mp4',
+  'hacker-in-hoodie-merged-with-matrix-code-while-typ-2026-01-22-02-56-04-utc.mp4',
+  'helping-hand-2025-12-17-09-09-10-utc.mp4',
+  'images-inked-onto-newspaper-copies-on-a-conveyor-b-2025-12-17-15-03-09-utc.mp4',
+  'interior-of-modern-minimalistic-chapel-or-church-1080p-2026-01-28-03-55-08-utc.mp4',
+  'life-flies-by-as-fast-as-i-scroll-through-short-vi-2026-01-20-18-09-28-utc.mp4',
+  'macro-background-of-saved-medieval-book-with-ancie-2025-12-17-23-34-48-utc.mp4',
+  'making-newspapers-on-printing-press-2025-12-17-15-03-02-utc.mp4',
+  'old-mechanical-typewriter-typing-the-night-was-dar-2026-01-22-13-42-06-utc.mp4',
+  'people-crowd-silhouettes-background-2026-01-28-02-50-17-utc.mp4',
+  'people-hypnotized-by-their-mobiles-walk-in-the-dar-2026-01-28-03-15-21-utc.mp4',
+  'printing-machine-print-paper-in-typography-2025-12-17-11-07-28-utc.mp4',
+  'the-mesmerizing-interplay-of-white-and-black-paint-2026-01-22-10-28-07-utc.mp4',
+  'warning-cyber-glitch-backgrounds-hacking-effect-an-2026-01-28-05-38-39-utc.mp4'
+];
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function initVideoPool() {
+  const shuffled = shuffleArray(ALL_VIDEOS);
+  const perSlide = Math.floor(shuffled.length / slides.length); // 4
+  slides.forEach((slide, idx) => {
+    const bg = slide.querySelector('.slide-bg');
+    bg.querySelectorAll('video').forEach(v => v.remove());
+    const start = idx * perSlide;
+    const chunk = shuffled.slice(start, start + perSlide);
+    chunk.forEach((filename, i) => {
+      const v = document.createElement('video');
+      v.className = 'video-layer' + (i === 0 ? ' active' : '');
+      v.autoplay = true;
+      v.muted = true;
+      v.loop = true;
+      v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
+      v.setAttribute('preload', i === 0 ? 'auto' : 'none');
+      const src = document.createElement('source');
+      src.src = 'videos/' + filename;
+      src.type = 'video/mp4';
+      v.appendChild(src);
+      bg.insertBefore(v, bg.firstChild);
+    });
+  });
+}
 let videoTimers = {};
 
 // slideIndex: 슬라이드별 현재 영상 인덱스 기억
@@ -1578,21 +1645,11 @@ document.addEventListener('keydown',e=>{
 
 // ── INIT ──
 document.addEventListener('DOMContentLoaded',()=>{
-  // 모든 비디오 muted + playsinline 강제
-  document.querySelectorAll('video').forEach(v=>{
-    v.muted=true;
-    v.setAttribute('playsinline','');
-    v.setAttribute('webkit-playsinline','');
-  });
-  // 모든 슬라이드 비디오 muted + playsinline 강제
-  document.querySelectorAll('video').forEach(v => {
-    v.muted = true;
-    v.setAttribute('playsinline', '');
-    v.setAttribute('webkit-playsinline', '');
-  });
+  // 세션별 무작위로 영상 배분
+  initVideoPool();
   // 첫 슬라이드 루프 시작
   startVideoLoop(slides[0]);
-  // 나머지 슬라이드도 preload 트리거
+  // 나머지 슬라이드 preload 트리거
   slides.forEach((s, i) => {
     if (i === 0) return;
     s.querySelectorAll('video').forEach(v => { v.load(); });
