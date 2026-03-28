@@ -1496,44 +1496,62 @@ function startVideoLoop(slideEl) {
   const videos = Array.from(slideEl.querySelectorAll('.video-layer'));
   if (videos.length === 0) return;
 
-  // 이미 루프 중이면 현재 영상만 재생 재시작 (초기화 안 함)
   if (videoTimers[sid]) {
     const cur = slideVideoIndex[sid] || 0;
     safePlay(videos[cur]);
     return;
   }
 
-  // 첫 진입: 저장된 인덱스부터 시작
   if (slideVideoIndex[sid] === undefined) slideVideoIndex[sid] = 0;
-  let cur = slideVideoIndex[sid];
 
+  // 비활성 영상 미리 로드
   videos.forEach((v, i) => {
-    v.classList.toggle('active', i === cur);
-    v.muted = true;
-    if (i === cur) {
-      safePlay(v);
-    } else {
+    if (i !== slideVideoIndex[sid]) {
       v.setAttribute('preload','metadata');
       v.load();
     }
   });
 
-  if (videos.length <= 1) return;
-
-  videoTimers[sid] = setInterval(() => {
-    videos[cur].classList.remove('active');
-    videos[cur].pause();
-    cur = (cur + 1) % videos.length;
+  function playAt(idx) {
+    if (!videoTimers[sid] && idx !== 0) return; // 루프 중단됨
+    const cur = idx;
     slideVideoIndex[sid] = cur;
-    const nv = videos[cur];
-    nv.classList.add('active');
-    safePlay(nv);
-  }, VIDEO_INTERVAL);
+
+    videos.forEach((v, i) => {
+      v.classList.toggle('active', i === cur);
+      v.muted = true;
+    });
+
+    const v = videos[cur];
+
+    function onPlaying() {
+      // 실제 재생 시작 후 7초 뒤에 다음 영상
+      videoTimers[sid] = setTimeout(() => {
+        v.classList.remove('active');
+        v.pause();
+        playAt((cur + 1) % videos.length);
+      }, VIDEO_INTERVAL);
+    }
+
+    if (v.readyState >= 3) {
+      v.play().catch(() => {});
+      onPlaying();
+    } else {
+      v.load();
+      v.addEventListener('canplay', () => {
+        v.play().catch(() => {});
+        onPlaying();
+      }, { once: true });
+    }
+  }
+
+  videoTimers[sid] = true; // 루프 시작 표시
+  playAt(slideVideoIndex[sid]);
 }
 
 function stopVideoLoop(sid) {
   if (videoTimers[sid]) {
-    clearInterval(videoTimers[sid]);
+    clearTimeout(videoTimers[sid]);
     delete videoTimers[sid];
   }
 }
