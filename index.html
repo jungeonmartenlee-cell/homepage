@@ -1420,7 +1420,8 @@ renderTitle(0);
 
 
 // ── VIDEO POOL ──
-const VIDEO_INTERVAL = 10000; // 10초 (7~15초 범위 내)
+const VIDEO_INTERVAL = 10000;  // 영상 전환: 10초
+const SLIDE_INTERVAL = 25000;  // 슬라이드 자동전환: 25초
 
 const ALL_VIDEOS = [
   'Dark-Sea-Waves-Seamless-Loop.mp4',
@@ -1636,7 +1637,7 @@ function prev(){go(cs-1);}
 
 function resetAuto(){
   clearInterval(autoTimer);
-  autoTimer=setInterval(()=>{if(!pageOpen&&!menuOpen)next();},VIDEO_INTERVAL);
+  autoTimer=setInterval(()=>{if(!pageOpen&&!menuOpen)next();},SLIDE_INTERVAL);
 }
 resetAuto();
 
