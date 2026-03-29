@@ -1479,7 +1479,6 @@ function initVideoPool() {
       v.setAttribute('preload', 'auto');
       v.src = 'videos/' + filename;
       bg.appendChild(v);
-      v.load();
     });
   });
 }
@@ -1503,11 +1502,7 @@ function startVideoLoop(slideEl) {
       v.muted = true;
       if (i === cur) {
         v.classList.add('active');
-        if (v.readyState >= 2) {
-          v.play().catch(() => {});
-        } else {
-          v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
-        }
+        v.play().catch(() => {});
       } else {
         v.classList.remove('active');
       }
