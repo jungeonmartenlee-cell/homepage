@@ -1609,7 +1609,7 @@ function prev(){go(cs-1);}
 
 function resetAuto(){
   clearInterval(autoTimer);
-  autoTimer=setInterval(()=>{if(!pageOpen&&!menuOpen)next();},4000);
+  autoTimer=setInterval(()=>{if(!pageOpen&&!menuOpen)next();},VIDEO_INTERVAL);
 }
 resetAuto();
 
