@@ -143,10 +143,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 }
 .slide{
   position:absolute;inset:0;
-  opacity:0;pointer-events:none;
-  transition:opacity .8s cubic-bezier(.4,0,.2,1);
+  transform:translateY(100%);pointer-events:none;
+  transition:transform .9s cubic-bezier(.77,0,.175,1);
 }
-.slide.active{opacity:1;pointer-events:all;}
+.slide.slide-above{transform:translateY(-100%);}
+.slide.slide-notransition{transition:none!important;}
+.slide.active{transform:translateY(0);pointer-events:all;}
 
 
 /* ── MULTI VIDEO LOOP ── */
@@ -1568,13 +1570,37 @@ function updateScrollbar(){
 
 function go(n){
   if(lock)return;lock=true;
-  // pause prev video
-  const pv=slides[cs].querySelector('video');
-  if(pv){pv.pause();}
-  slides[cs].classList.remove('active');
+  const prevCs=cs;
+  const nextCs=(n+TOTAL)%TOTAL;
+  const goingForward=((nextCs-prevCs+TOTAL)%TOTAL)<=TOTAL/2;
 
-  cs=(n+TOTAL)%TOTAL;
+  // pause prev video
+  const pv=slides[prevCs].querySelector('video');
+  if(pv){pv.pause();}
+
+  if(goingForward){
+    // 현재 슬라이드: 위로 사라짐
+    slides[prevCs].classList.add('slide-above');
+    slides[prevCs].classList.remove('active');
+    // 다음 슬라이드: 아래에서 올라옴 (기본 translateY(100%) → 0)
+    slides[nextCs].classList.remove('slide-above');
+  } else {
+    // 현재 슬라이드: 아래로 사라짐
+    slides[prevCs].classList.remove('slide-above');
+    slides[prevCs].classList.remove('active');
+    // 이전 슬라이드: 위에서 내려옴 (-100% → 0)
+    slides[nextCs].classList.add('slide-notransition');
+    slides[nextCs].classList.add('slide-above');
+    void slides[nextCs].offsetWidth; // reflow
+    slides[nextCs].classList.remove('slide-notransition');
+    slides[nextCs].classList.remove('slide-above');
+  }
+
+  cs=nextCs;
   slides[cs].classList.add('active');
+
+  // 전환 후 클래스 정리
+  setTimeout(()=>{ slides[prevCs].classList.remove('slide-above'); },950);
 
   // 새 슬라이드 루프 시작 (기존 루프 있으면 재play만, 없으면 새로 시작)
   const activeVids = slides[cs].querySelectorAll('.video-layer');
