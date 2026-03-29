@@ -1526,7 +1526,7 @@ function safePlay(v) {
 // ── MOUSE SPEED → VIDEO PLAYBACK RATE ──
 (function(){
   let lastX=0, lastY=0, lastT=performance.now();
-  let targetRate=0.05, currentRate=0.05;
+  let targetRate=1.0, currentRate=1.0;
 
   document.addEventListener('mousemove', e => {
     const now = performance.now();
@@ -1534,13 +1534,13 @@ function safePlay(v) {
     const dx = e.clientX - lastX;
     const dy = e.clientY - lastY;
     const speed = Math.sqrt(dx*dx + dy*dy) / dt; // px/ms
-    targetRate = Math.min(3.0, Math.max(0.05, speed * 2.2));
+    targetRate = Math.min(3.0, Math.max(1.0, 1.0 + speed * 2.0));
     lastX = e.clientX; lastY = e.clientY; lastT = now;
   });
 
   setInterval(() => {
-    // 마우스 멈추면 targetRate 서서히 0.05로 감소
-    targetRate = Math.max(0.05, targetRate * 0.88);
+    // 마우스 멈추면 targetRate 서서히 1.0으로 복귀
+    targetRate = Math.max(1.0, targetRate * 0.92);
     // currentRate를 targetRate 쪽으로 부드럽게 이동
     currentRate += (targetRate - currentRate) * 0.2;
 
