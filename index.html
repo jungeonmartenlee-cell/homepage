@@ -82,19 +82,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #main-slider-header{
   position:fixed;
   left:50px;
-  top:160px;
+  bottom:140px;
   z-index:50;
-  font-size:24px;
-  font-weight:700;
 }
 #main-slider-header a{
   display:inline-block;
   text-decoration:none;
   color:inherit;
-  transition:transform .7s cubic-bezier(.215,.61,.355,1);
+  transition:transform .9s cubic-bezier(.19,1,.22,1);
 }
 #main-slider-header .block-text{
-  line-height:1.05;
+  line-height:.95;
 }
 #main-slider-header .block-text__line{
   overflow:hidden;
@@ -103,32 +101,32 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #main-slider-header .mask-text{
   display:inline-block;
   overflow:hidden;
-  max-height:1.16em;
+  max-height:1.1em;
 }
 #main-slider-header .mask-text span{
   display:inline-block;
-  animation:slideInDown .7s cubic-bezier(.19,1,.22,1) both, fadeIn .4s ease both;
+  animation:slideInDown .9s cubic-bezier(.19,1,.22,1) both, fadeIn .4s ease both;
 }
 #main-slider-header .word{
   display:inline-block;
   font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(52px,6.5vw,96px);
+  font-size:clamp(72px,9.5vw,160px);
   font-weight:400;
-  letter-spacing:.01em;
+  letter-spacing:-.03em;
   line-height:1;
   color:#e8e8e8;
   position:relative;
 }
 #main-slider-header .word::before{
   content:'';position:absolute;
-  bottom:0;left:0;height:.12em;
-  background:#fff;opacity:.5;
+  bottom:.08em;left:0;height:.06em;
+  background:#00ffff;opacity:.7;
   width:0;
-  transition:width .2s cubic-bezier(.47,0,.745,.715),opacity .2s;
+  transition:width .25s cubic-bezier(.47,0,.745,.715),opacity .2s;
 }
 #main-slider-header a:hover .word::before{
   width:100%;opacity:1;
-  transition:width .5s cubic-bezier(.215,.61,.355,1),opacity .1s;
+  transition:width .6s cubic-bezier(.19,1,.22,1),opacity .1s;
 }
 @keyframes slideInDown{
   from{transform:translateY(100%);opacity:0;}
@@ -144,7 +142,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .slide{
   position:absolute;inset:0;
   transform:translateY(100%);pointer-events:none;
-  transition:transform .9s cubic-bezier(.77,0,.175,1);
+  transition:transform 1s cubic-bezier(.19,1,.22,1);
 }
 .slide.slide-above{transform:translateY(-100%);}
 .slide.slide-notransition{transition:none!important;}
@@ -180,16 +178,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .slide-caption{
   position:absolute;bottom:80px;left:50px;
   z-index:2;
-  display:flex;align-items:center;gap:14px;
+  display:flex;align-items:center;gap:20px;
 }
 .slide-caption-tag{
   font-size:10px;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(255,255,255,.45);
+  color:rgba(255,255,255,.5);
 }
 .slide-caption-tag::before{
   content:'';display:inline-block;
-  width:24px;height:1px;background:rgba(255,255,255,.3);
-  vertical-align:middle;margin-right:12px;
+  width:20px;height:1px;background:#00ffff;opacity:.8;
+  vertical-align:middle;margin-right:14px;
+}
+.slide-num{
+  font-size:10px;letter-spacing:.2em;
+  color:#00ffff;opacity:.7;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:13px;
 }
 
 /* ── RIGHT CONTROL — Plus X style ── */
@@ -726,6 +730,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
+      <span class="slide-num">01</span>
       <span class="slide-caption-tag">General Assembly of Korea · Official Guide</span>
     </div>
   </div>
@@ -744,6 +749,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
+      <span class="slide-num">02</span>
       <span class="slide-caption-tag">Counseling &amp; Support · Get Help Now</span>
     </div>
   </div>
@@ -762,6 +768,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
+      <span class="slide-num">03</span>
       <span class="slide-caption-tag">Definition &amp; Terms · Bylaw Article 3</span>
     </div>
   </div>
@@ -780,6 +787,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
+      <span class="slide-num">04</span>
       <span class="slide-caption-tag">Standards of Judgment · Bylaw Article 4</span>
     </div>
   </div>
@@ -798,6 +806,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
+      <span class="slide-num">05</span>
       <span class="slide-caption-tag">Major Heresy Groups · Official Ruling</span>
     </div>
   </div>
@@ -813,6 +822,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
+      <span class="slide-num">06</span>
       <span class="slide-caption-tag">Prevention &amp; Response · 20 Guidelines</span>
     </div>
   </div>
@@ -995,6 +1005,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
 
     <div class="slide-caption" style="left:260px;">
+      <span class="slide-num">07</span>
       <span class="slide-caption-tag">Heresy Groups · Drag to Explore</span>
     </div>
   </div>
