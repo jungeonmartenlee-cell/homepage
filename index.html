@@ -1462,10 +1462,9 @@ function startVideoLoop(slideEl) {
     return;
   }
 
-  // 영상 순서를 세션마다 무작위로 섞기
   const all = Array.from(slideEl.querySelectorAll('.video-layer'));
   if (all.length === 0) return;
-  const videos = shuffleArray(all);
+  const videos = all; // HTML 순서대로 재생
 
   // 첫 번째 영상 활성화
   all.forEach(v => v.classList.remove('active'));
