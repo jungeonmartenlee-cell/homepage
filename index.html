@@ -718,14 +718,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 
   <div class="slide active" id="s0">
     <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
-        <source src="videos/Dark-Sea-Waves-Seamless-Loop.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto" data-duration="15000">
+        <source src="videos/bright-white-spotlight-professional-lighting-equip-2026-01-22-04-55-16-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/abstract-glowing-vortex-pulsing-with-vibrant-energ-2025-12-18-01-52-14-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
       </video>
     </div>
     <div class="slide-dim"></div>
@@ -738,13 +738,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div class="slide" id="s1">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/abstract-shimmering-blue-network-dynamically-pulsa-2025-12-18-01-52-14-utc.mp4" type="video/mp4">
+        <source src="videos/enigmatic-figure-shrouded-in-hooded-shadows-2026-01-22-04-08-56-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/bright-white-spotlight-professional-lighting-equip-2026-01-22-04-55-16-utc.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/close-up-of-neon-fluids-mixing-in-abstract-motion-2026-01-22-05-43-47-utc.mp4" type="video/mp4">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
       </video>
     </div>
     <div class="slide-dim"></div>
@@ -757,6 +754,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div class="slide" id="s2">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/dynamic-process-of-newspaper-printing-in-large-typ-2025-12-17-15-03-06-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
@@ -776,13 +776,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div class="slide" id="s3">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/hacker-in-hoodie-merged-with-matrix-code-while-typ-2026-01-22-02-56-04-utc.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/images-inked-onto-newspaper-copies-on-a-conveyor-b-2025-12-17-15-03-09-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/life-flies-by-as-fast-as-i-scroll-through-short-vi-2026-01-20-18-09-28-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/abstract-glowing-vortex-pulsing-with-vibrant-energ-2025-12-18-01-52-14-utc.mp4" type="video/mp4">
       </video>
     </div>
     <div class="slide-dim"></div>
@@ -795,6 +795,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div class="slide" id="s4">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/hacker-in-hoodie-merged-with-matrix-code-while-typ-2026-01-22-02-56-04-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/macro-background-of-saved-medieval-book-with-ancie-2025-12-17-23-34-48-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
@@ -1472,16 +1475,22 @@ function startVideoLoop(slideEl) {
   if (videos.length === 1) return;
 
   let cur = 0;
-  videoTimers[sid] = setInterval(() => {
-    videos[cur].classList.remove('active');
-    cur = (cur + 1) % videos.length;
-    videos[cur].classList.add('active');
-    playVideo(videos[cur]);
-  }, VIDEO_INTERVAL);
+  function scheduleNext() {
+    // data-duration 속성 있으면 개별 시간 사용, 없으면 VIDEO_INTERVAL
+    const dur = parseInt(videos[cur].dataset.duration) || VIDEO_INTERVAL;
+    videoTimers[sid] = setTimeout(() => {
+      videos[cur].classList.remove('active');
+      cur = (cur + 1) % videos.length;
+      videos[cur].classList.add('active');
+      playVideo(videos[cur]);
+      scheduleNext();
+    }, dur);
+  }
+  scheduleNext();
 }
 
 function stopVideoLoop(sid) {
-  if (videoTimers[sid]) { clearInterval(videoTimers[sid]); delete videoTimers[sid]; }
+  if (videoTimers[sid]) { clearTimeout(videoTimers[sid]); delete videoTimers[sid]; }
 }
 
 function safePlay(v) {
