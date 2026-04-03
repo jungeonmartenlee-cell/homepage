@@ -75,8 +75,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   animation:mq 28s linear infinite;
 }
 .marquee-track p{
-  font-size:11px;letter-spacing:.22em;color:#444;
-  text-transform:uppercase;padding:0 32px;
+  font-size:11px;letter-spacing:.15em;color:#444;
+  padding:0 32px;
 }
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -318,9 +318,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .menu-nav a{
   display:flex;align-items:center;justify-content:space-between;
   padding:24px 0;
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(28px,3.8vw,56px);
-  font-weight:300;letter-spacing:-.01em;
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:clamp(22px,3vw,44px);
+  font-weight:300;letter-spacing:-.03em;
   color:#555;text-decoration:none;
   transition:color .25s;
   transform:translateY(60px);opacity:0;
@@ -800,24 +800,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   pointer-events:none;z-index:10;
 }
 /* light mode */
-#p-help.ph-light{background:#FFFBF0;}
-#p-help.ph-light .ph-topbar{background:linear-gradient(to bottom,#FFFBF0 0%,transparent 100%);color:rgba(120,80,0,.4);}
-#p-help.ph-light .ph-brand{color:rgba(45,30,0,.7);}
-#p-help.ph-light .ph-theme-btn{background:rgba(120,80,0,.06);border-color:rgba(120,80,0,.1);color:rgba(45,30,0,.6);}
-#p-help.ph-light .ph-card{background:rgba(120,80,0,.04);border-color:rgba(120,80,0,.1);}
-#p-help.ph-light .ph-h1{color:#2D1E00;}
-#p-help.ph-light .ph-subtitle{color:#664400;}
-#p-help.ph-light .ph-icon{color:#664400;filter:drop-shadow(0 0 12px rgba(102,68,0,.2));}
-#p-help.ph-light .ph-desc{color:rgba(45,30,0,.6);}
-#p-help.ph-light .ph-rcard{background:rgba(120,80,0,.06);border-color:rgba(120,80,0,.1);}
-#p-help.ph-light .ph-rcard:hover{background:rgba(255,184,48,.15);border-color:rgba(255,184,48,.4);}
-#p-help.ph-light .ph-rcard-n{background:rgba(120,80,0,.04);color:rgba(120,80,0,.4);}
-#p-help.ph-light .ph-rcard:hover .ph-rcard-n{background:#664400;color:#FFFBF0;}
-#p-help.ph-light .ph-rcard-name{color:#2D1E00;}
-#p-help.ph-light .ph-rcard-url{color:rgba(120,80,0,.4);}
-#p-help.ph-light .ph-rcard:hover .ph-rcard-url{color:#2D1E00;}
-#p-help.ph-light .ph-rcard-desc{color:rgba(45,30,0,.6);}
-#p-help.ph-light .ph-rcard-arrow{color:rgba(120,80,0,.4);}
+#p-help.ph-light{background:#F5F7FA;}
+#p-help.ph-light .ph-topbar{background:linear-gradient(to bottom,#F5F7FA 0%,transparent 100%);color:rgba(0,0,0,.35);}
+#p-help.ph-light .ph-brand{color:rgba(0,0,0,.6);}
+#p-help.ph-light .ph-theme-btn{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.08);color:rgba(0,0,0,.6);}
+#p-help.ph-light .ph-card{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.08);}
+#p-help.ph-light .ph-h1{color:#050608;}
+#p-help.ph-light .ph-subtitle{color:rgba(0,0,0,.55);}
+#p-help.ph-light .ph-icon{color:#050608;filter:drop-shadow(0 0 12px rgba(0,0,0,.12));}
+#p-help.ph-light .ph-desc{color:rgba(0,0,0,.55);}
+#p-help.ph-light .ph-rcard{background:rgba(255,255,255,.6);border-color:rgba(0,0,0,.08);}
+#p-help.ph-light .ph-rcard:hover{background:#fff;border-color:rgba(0,0,0,.15);}
+#p-help.ph-light .ph-rcard-n{background:rgba(0,0,0,.04);color:rgba(0,0,0,.35);}
+#p-help.ph-light .ph-rcard:hover .ph-rcard-n{background:#050608;color:#fff;}
+#p-help.ph-light .ph-rcard-name{color:#050608;}
+#p-help.ph-light .ph-rcard-url{color:rgba(0,0,0,.35);}
+#p-help.ph-light .ph-rcard:hover .ph-rcard-url{color:#050608;}
+#p-help.ph-light .ph-rcard-desc{color:rgba(0,0,0,.55);}
+#p-help.ph-light .ph-rcard-arrow{color:rgba(0,0,0,.35);}
 #p-help.ph-light .ph-rcard:hover .ph-rcard-arrow{color:#664400;}
 #p-help.ph-light .ph-footer{color:rgba(120,80,0,.25);}
 /* ── DEF PAGE NEW DESIGN ── */
@@ -918,22 +918,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   pointer-events:none;z-index:10;
 }
 /* light mode */
-#p-def.pd-light{background:#fdfaff;}
-#p-def.pd-light .pd-topbar{background:linear-gradient(to bottom,#fdfaff 0%,transparent 100%);color:rgba(124,58,237,.4);}
-#p-def.pd-light .pd-brand{color:rgba(46,16,101,.7);}
-#p-def.pd-light .pd-theme-btn{background:rgba(107,33,168,.05);border-color:rgba(124,58,237,.15);color:rgba(46,16,101,.7);}
-#p-def.pd-light .pd-card{background:rgba(107,33,168,.05);border-color:rgba(124,58,237,.15);box-shadow:0 24px 80px rgba(0,0,0,.1);}
-#p-def.pd-light .pd-h1{background:linear-gradient(45deg,#2e1065,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-#p-def.pd-light .pd-icon{color:#7c3aed;filter:drop-shadow(0 0 12px #f472b6);}
-#p-def.pd-light .pd-subtitle{color:#5b21b6;}
-#p-def.pd-light .pd-tcard{background:rgba(107,33,168,.08);border-color:rgba(124,58,237,.15);}
-#p-def.pd-light .pd-tcard:hover{background:rgba(107,33,168,.12);border-color:rgba(236,72,153,.3);}
-#p-def.pd-light .pd-tnum{background:rgba(107,33,168,.12);border-color:rgba(124,58,237,.15);color:#a78bfa;}
-#p-def.pd-light .pd-tcard:hover .pd-tnum{background:#7c3aed;color:#fff;}
-#p-def.pd-light .pd-tko{color:#2e1065;}
-#p-def.pd-light .pd-thanja{color:#a78bfa;}
-#p-def.pd-light .pd-tdesc{color:#5b21b6;}
-#p-def.pd-light .pd-footer{color:rgba(124,58,237,.3);}
+#p-def.pd-light{background:#F5F7FA;}
+#p-def.pd-light .pd-topbar{background:linear-gradient(to bottom,#F5F7FA 0%,transparent 100%);color:rgba(0,0,0,.35);}
+#p-def.pd-light .pd-brand{color:rgba(0,0,0,.6);}
+#p-def.pd-light .pd-theme-btn{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.08);color:rgba(0,0,0,.6);}
+#p-def.pd-light .pd-card{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.08);box-shadow:0 24px 80px rgba(0,0,0,.06);}
+#p-def.pd-light .pd-h1{background:none;-webkit-text-fill-color:unset;color:#050608;}
+#p-def.pd-light .pd-icon{color:#050608;filter:drop-shadow(0 0 12px rgba(0,0,0,.12));}
+#p-def.pd-light .pd-subtitle{color:rgba(0,0,0,.55);}
+#p-def.pd-light .pd-tcard{background:rgba(255,255,255,.6);border-color:rgba(0,0,0,.08);}
+#p-def.pd-light .pd-tcard:hover{background:#fff;border-color:rgba(0,0,0,.15);box-shadow:0 20px 40px rgba(0,0,0,.08);}
+#p-def.pd-light .pd-tcard{--cg:rgba(0,0,0,.04);}
+#p-def.pd-light .pd-tnum{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08);color:rgba(0,0,0,.4);}
+#p-def.pd-light .pd-tcard:hover .pd-tnum{background:#050608;color:#fff;}
+#p-def.pd-light .pd-tko{color:#050608;}
+#p-def.pd-light .pd-thanja{color:rgba(0,0,0,.45);}
+#p-def.pd-light .pd-tdesc{color:rgba(0,0,0,.6);}
+#p-def.pd-light .pd-footer{color:rgba(0,0,0,.3);}
+#p-def.pd-light #pd-canvas{opacity:0;}
 /* ── CRIT PAGE NEW DESIGN ── */
 #p-crit{position:relative;min-height:100%;background:#0a0a1a;}
 #pc-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
@@ -1017,23 +1019,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   pointer-events:none;z-index:10;
 }
 /* light */
-#p-crit.pc-light{background:#f8fafc;}
-#p-crit.pc-light .pc-topbar{background:linear-gradient(to bottom,#f8fafc 0%,transparent 100%);color:rgba(109,40,217,.4);}
-#p-crit.pc-light .pc-brand{color:rgba(15,23,42,.7);}
-#p-crit.pc-light .pc-theme-btn{background:rgba(148,163,184,.1);border-color:rgba(109,40,217,.15);color:rgba(15,23,42,.7);}
-#p-crit.pc-light .pc-card{background:linear-gradient(135deg,rgba(241,245,249,.6) 0%,rgba(255,255,255,.3) 100%);border-color:rgba(109,40,217,.15);}
-#p-crit.pc-light .pc-h1{color:#0f172a;}
-#p-crit.pc-light .pc-sub{color:#6d28d9;}
-#p-crit.pc-light .pc-icon{color:#6d28d9;filter:drop-shadow(0 0 12px #bae6fd);}
-#p-crit.pc-light .pc-desc{color:rgba(15,23,42,.7);}
-#p-crit.pc-light .pc-item{background:linear-gradient(135deg,rgba(241,245,249,.8) 0%,rgba(255,255,255,.5) 100%);border-color:rgba(109,40,217,.15);}
-#p-crit.pc-light .pc-item:hover{border-color:rgba(109,40,217,.4);background:linear-gradient(135deg,rgba(241,245,249,.9) 0%,rgba(109,40,217,.08) 100%);}
-#p-crit.pc-light .pc-ko{color:#0f172a;}
-#p-crit.pc-light .pc-en{color:rgba(109,40,217,.7);}
-#p-crit.pc-light .pc-body{color:rgba(15,23,42,.7);}
-#p-crit.pc-light .pc-idx{color:#6d28d9;}
-#p-crit.pc-light .pc-prog-fill{background:linear-gradient(to bottom,#6d28d9,#bae6fd);}
-#p-crit.pc-light .pc-footer{color:rgba(109,40,217,.3);}
+#p-crit.pc-light{background:#F5F7FA;}
+#p-crit.pc-light .pc-topbar{background:linear-gradient(to bottom,#F5F7FA 0%,transparent 100%);color:rgba(0,0,0,.35);}
+#p-crit.pc-light .pc-brand{color:rgba(0,0,0,.6);}
+#p-crit.pc-light .pc-theme-btn{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.08);color:rgba(0,0,0,.6);}
+#p-crit.pc-light .pc-card{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.08);}
+#p-crit.pc-light .pc-h1{color:#050608;}
+#p-crit.pc-light .pc-sub{color:rgba(0,0,0,.5);}
+#p-crit.pc-light .pc-icon{color:#050608;filter:drop-shadow(0 0 12px rgba(0,0,0,.1));}
+#p-crit.pc-light .pc-desc{color:rgba(0,0,0,.6);}
+#p-crit.pc-light .pc-item{background:rgba(255,255,255,.6);border-color:rgba(0,0,0,.08);}
+#p-crit.pc-light .pc-item:hover{border-color:rgba(0,0,0,.15);background:#fff;}
+#p-crit.pc-light .pc-ko{color:#050608;}
+#p-crit.pc-light .pc-en{color:rgba(0,0,0,.45);}
+#p-crit.pc-light .pc-body{color:rgba(0,0,0,.6);}
+#p-crit.pc-light .pc-idx{color:rgba(0,0,0,.25);}
+#p-crit.pc-light .pc-prog-fill{background:linear-gradient(to bottom,#050608,rgba(0,0,0,.3));}
+#p-crit.pc-light .pc-footer{color:rgba(0,0,0,.25);}
 /* ── PL (p-list) ── */
 #p-list{
   position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
@@ -1105,11 +1107,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 /* ── PV (p-prev) NEW DESIGN ── */
 #p-prev{
   position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
-  --pv-bg:#EEF1F8;--pv-s1:rgba(74,111,165,.06);--pv-s2:rgba(74,111,165,.09);--pv-s3:rgba(74,111,165,.17);
-  --pv-txt:#1A2540;--pv-txt2:#4A6080;--pv-tech:#7A96B8;
-  --pv-br:rgba(26,37,64,.1);--pv-br2:rgba(26,37,64,.22);
-  --pv-shcore:#5B8DB8;--pv-shfringe:#2D5F8A;
-  --pv-tabbg:rgba(26,37,64,.05);--pv-tabact:rgba(26,37,64,.11);
+  --pv-bg:#F5F7FA;--pv-s1:rgba(255,255,255,.7);--pv-s2:rgba(0,0,0,.05);--pv-s3:rgba(0,0,0,.09);
+  --pv-txt:#050608;--pv-txt2:rgba(0,0,0,.55);--pv-tech:rgba(0,0,0,.35);
+  --pv-br:rgba(0,0,0,.08);--pv-br2:rgba(0,0,0,.15);
+  --pv-shcore:#050608;--pv-shfringe:rgba(0,0,0,.4);
+  --pv-tabbg:rgba(0,0,0,.04);--pv-tabact:rgba(0,0,0,.09);
   background:var(--pv-bg);color:var(--pv-txt);
   transition:background .6s cubic-bezier(.16,1,.3,1),color .6s cubic-bezier(.16,1,.3,1);
 }
@@ -1126,7 +1128,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .pv-theme-btn{height:34px;padding:0 14px;background:var(--pv-s2);border:1px solid var(--pv-br);border-radius:999px;color:var(--pv-txt);display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.1em;cursor:pointer;transition:all .3s ease;pointer-events:auto;}
 .pv-theme-btn:hover{background:var(--pv-s3);transform:scale(1.02);}
 .pv-main{position:relative;z-index:20;padding:40px 24px 120px;display:flex;justify-content:center;align-items:flex-start;}
-.pv-card{width:100%;max-width:720px;background:var(--pv-s1);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid var(--pv-br);border-radius:40px;padding:56px 48px;display:flex;flex-direction:column;gap:40px;box-shadow:0 24px 80px rgba(45,36,30,.08),inset 0 1px 0 rgba(255,255,255,.4);transition:background .6s cubic-bezier(.16,1,.3,1);}
+.pv-card{width:100%;max-width:720px;background:var(--pv-s1);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid var(--pv-br);border-radius:40px;padding:56px 48px;display:flex;flex-direction:column;gap:40px;box-shadow:0 24px 80px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.6);transition:background .6s cubic-bezier(.16,1,.3,1);}
 .pv-card-hd{text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center;}
 .pv-icon{font-size:56px;color:var(--pv-txt);opacity:.9;filter:drop-shadow(0 0 12px rgba(212,175,55,.2));margin-bottom:8px;}
 .pv-h1{font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.02em;text-transform:uppercase;color:var(--pv-txt);}
@@ -1220,8 +1222,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .vr-crit-title{font-size:14px;color:#d0c0ff;font-weight:400;margin-bottom:7px;}
 .vr-crit-body{font-size:13px;color:#8e8e93;line-height:1.9;}
 
-/* ACTION GUIDELINES — cool slate */
-#p-prev{background:#EEF1F8;}
+/* ACTION GUIDELINES */
+#p-prev{background:#F5F7FA;}
 .vr-tab-bar{display:flex;border-bottom:1px solid rgba(0,0,0,.1);padding:0 56px;}
 .vr-tab-btn{padding:14px 24px;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;background:none;border:none;color:#999;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s;}
 .vr-tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
@@ -1426,6 +1428,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   /* ── BACK 버튼: 모바일에서 숨김 (헤더 X로고가 closePage 역할) ── */
   .p-back{display:none;}
 
+  /* ── 커스텀 커서 모바일 숨김 ── */
+  #cur,#cur2{display:none;}
+
   /* ── 모든 subpage topbar: 단일 행 ── */
   .pr-topbar{padding:14px 20px;}
   .ph-topbar{padding:14px 20px;}
@@ -1480,8 +1485,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </a>
   <div class="marquee-wrap">
     <div class="marquee-track">
-      <p>The Radar · General Assembly of Korea · Since 1907 · Scripture Alone · 6 Designated Heresy Groups · GAPCK Official Guide ·&nbsp;</p>
-      <p>The Radar · General Assembly of Korea · Since 1907 · Scripture Alone · 6 Designated Heresy Groups · GAPCK Official Guide ·&nbsp;</p>
+      <p>더 레이더 · 대한예수교장로회총회 · 1907년 창립 · 오직 성경 · 공식 지정 이단 6개 단체 · 이단사이비대책위원회 공식 안내 ·&nbsp;</p>
+      <p>더 레이더 · 대한예수교장로회총회 · 1907년 창립 · 오직 성경 · 공식 지정 이단 6개 단체 · 이단사이비대책위원회 공식 안내 ·&nbsp;</p>
     </div>
   </div>
   <button class="menu-btn" onclick="toggleMenu()">
@@ -1518,7 +1523,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="slide-dim"></div>
     <div class="slide-caption">
       <span class="slide-num">01</span>
-      <span class="slide-caption-tag">The Cult Radar · Scan Your Channel</span>
+      <span class="slide-caption-tag">이단 탐지기 · 채널을 점검하세요</span>
     </div>
   </div>
 
@@ -1535,7 +1540,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="slide-dim"></div>
     <div class="slide-caption">
       <span class="slide-num">02</span>
-      <span class="slide-caption-tag">Know Your Enemy · Major Heresy Groups</span>
+      <span class="slide-caption-tag">이단을 알라 · 주요 이단 단체</span>
     </div>
   </div>
 
@@ -1552,7 +1557,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="slide-dim"></div>
     <div class="slide-caption">
       <span class="slide-num">03</span>
-      <span class="slide-caption-tag">Counseling &amp; Support · Get Help Now</span>
+      <span class="slide-caption-tag">상담 및 지원 · 지금 도움 받으세요</span>
     </div>
   </div>
 
@@ -1572,14 +1577,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="slide-dim"></div>
     <div class="slide-caption">
       <span class="slide-num">04</span>
-      <span class="slide-caption-tag">Standards of Judgment · Bylaw Article 4</span>
+      <span class="slide-caption-tag">판단 기준 · 오직 성경</span>
     </div>
   </div>
 
   <!-- s4: Prevention (p-prev) -->
   <div class="slide" id="s4">
     <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
         <source src="videos/hacker-in-hoodie-merged-with-matrix-code-while-typ-2026-01-22-02-56-04-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
@@ -1595,14 +1600,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="slide-dim"></div>
     <div class="slide-caption">
       <span class="slide-num">05</span>
-      <span class="slide-caption-tag">Prevention &amp; Response · 20 Guidelines</span>
+      <span class="slide-caption-tag">예방과 대처 · 20가지 실천수칙</span>
     </div>
   </div>
 
   <!-- s5: Definition & Terms (p-def) -->
   <div class="slide" id="s5">
     <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
         <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-14-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
@@ -1618,7 +1623,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="slide-dim"></div>
     <div class="slide-caption">
       <span class="slide-num">06</span>
-      <span class="slide-caption-tag">Definition &amp; Terms · Bylaw Article 3</span>
+      <span class="slide-caption-tag">정의 및 용어 · 교단 결의 제3조</span>
     </div>
   </div>
 
@@ -1654,13 +1659,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </button>
   <div class="menu-left">
     <ul class="menu-nav">
-      <li><a href="#" onclick="closePage();toggleMenu();return false;"><span>Home</span><span class="menu-num">MAIN</span></a></li>
-      <li><a href="#" onclick="openPage('list');toggleMenu();return false;"><span>Know Your Enemy</span><span class="menu-num">01</span></a></li>
-      <li><a href="#" onclick="openPage('radar');toggleMenu();return false;"><span>The Cult Radar</span><span class="menu-num">02</span></a></li>
-      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><span>Get Help</span><span class="menu-num">03</span></a></li>
-      <li><a href="#" onclick="openPage('crit');toggleMenu();return false;"><span>Criteria</span><span class="menu-num">04</span></a></li>
-      <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><span>Prevention</span><span class="menu-num">05</span></a></li>
-      <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><span>Definition</span><span class="menu-num">06</span></a></li>
+      <li><a href="#" onclick="closePage();toggleMenu();return false;"><span>홈</span><span class="menu-num">MAIN</span></a></li>
+      <li><a href="#" onclick="openPage('radar');toggleMenu();return false;"><span>이단 탐지기</span><span class="menu-num">01</span></a></li>
+      <li><a href="#" onclick="openPage('list');toggleMenu();return false;"><span>이단을 알라</span><span class="menu-num">02</span></a></li>
+      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><span>도움 받기</span><span class="menu-num">03</span></a></li>
+      <li><a href="#" onclick="openPage('crit');toggleMenu();return false;"><span>판단 기준</span><span class="menu-num">04</span></a></li>
+      <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><span>실천 수칙</span><span class="menu-num">05</span></a></li>
+      <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><span>용어 정의</span><span class="menu-num">06</span></a></li>
     </ul>
     <div class="menu-foot">대한예수교장로회총회<br>이단사이비대책위원회<br>이단사이비문제상담소<br><br>ⓒ 대한예수교장로회총회.<br>All rights reserved.</div>
   </div>
@@ -1694,7 +1699,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
       <div class="pr-card">
         <!-- 헤더 -->
         <div class="pr-card-hd">
-          <i class="ph-light ph-fingerprint pr-icon"></i>
           <div>
             <div class="pr-h1">01 · THE CULT RADAR</div>
             <div class="pr-subtitle">지금 만난 공동체 및 채널을 점검해보세요</div>
@@ -1755,7 +1759,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="ph-main">
       <div class="ph-card">
         <div class="ph-card-hd">
-          <i class="ph-light ph-hands-praying ph-icon"></i>
           <div>
             <div class="ph-h1">03 · 도움 받을 수 있는 곳</div>
             <div class="ph-subtitle">전문 상담 기관</div>
@@ -1817,7 +1820,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="pd-main">
       <div class="pd-card">
         <div class="pd-card-hd">
-          <i class="ph-light ph-book-open pd-icon"></i>
           <div>
             <div class="pd-h1">06 · 정의 및 용어</div>
             <div class="pd-subtitle">이단 및 관련 용어 정의</div>
@@ -1904,7 +1906,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="pc-main">
       <div class="pc-card">
         <div class="pc-card-hd">
-          <i class="ph-light ph-book-open-text pc-icon"></i>
           <div class="pc-h1">04 · 판단 기준</div>
           <div class="pc-sub">오직 성경</div>
           <p class="pc-desc">이단 또는 사이비로 규정할 때 그 기준은 오직 성경이다. 사도신경, 신조, 웨스트민스터 소요리문답 및 신앙고백, 기타 개혁교회의 교리와 신학 전통을 기준으로 한다</p>
@@ -1946,7 +1947,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="pv-main">
       <div class="pv-card">
         <div class="pv-card-hd">
-          <i class="ph-light ph-shield-check pv-icon"></i>
           <div>
             <div class="pv-h1">05 · ACTION GUIDELINES</div>
             <div class="pv-subtitle">대처방안 및 실천수칙</div>
@@ -3017,6 +3017,12 @@ function go(n){
   activeVids.forEach(v => { v.muted = true; });
   startVideoLoop(slides[cs]);
 
+  // 다음 슬라이드 첫 영상 미리 로드 (블랙아웃 방지)
+  [1,2].forEach(offset=>{
+    const nv=slides[(cs+offset)%TOTAL].querySelector('.video-layer');
+    if(nv&&nv.readyState===0){nv.muted=true;nv.preload='auto';nv.load();}
+  });
+
   // update UI
   document.getElementById('ctrl-now').textContent=cs+1;
   document.getElementById('prog-bar').style.width=((cs+1)/TOTAL*100)+'%';
@@ -3068,6 +3074,18 @@ document.addEventListener('DOMContentLoaded',()=>{
   updateScrollbar();
   document.getElementById('ctrl-total').textContent=TOTAL;
   document.getElementById('prog-bar').style.width=(1/TOTAL*100)+'%';
+
+  // 모든 슬라이드 첫 영상 pre-load — 블랙아웃/정지 방지
+  // s1~s3: 1초 간격 순차 로드 (대역폭 배려)
+  // s4~s5: 즉시 로드 (늦게 로드되면 첫 방문 시 블랙아웃 발생)
+  slides.forEach((sl, i) => {
+    if(i === 0) return;
+    const delay = i <= 3 ? i * 1500 : 0; // s4,s5는 즉시
+    setTimeout(() => {
+      const v = sl.querySelector('.video-layer');
+      if(v && v.readyState === 0){ v.muted=true; v.preload='auto'; v.load(); }
+    }, delay);
+  });
 });
 
 // iOS: 첫 터치 시 재생 재시도
