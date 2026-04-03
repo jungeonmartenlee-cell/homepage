@@ -635,9 +635,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .pr-box i{color:#030407;font-size:14px;opacity:0;transform:scale(.4) rotate(-45deg);transition:all .35s cubic-bezier(.16,1,.3,1);}
 .pr-item.checked .pr-box{background:#fff;border-color:#fff;box-shadow:0 0 14px rgba(255,255,255,.25);}
 .pr-item.checked .pr-box i{opacity:1;transform:scale(1) rotate(0deg);}
-.pr-item-body{display:flex;flex-direction:column;gap:3px;flex:1;}
+.pr-item-body{display:flex;flex-direction:column;gap:4px;flex:1;}
 .pr-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.32);letter-spacing:.1em;font-weight:700;}
-.pr-text{font-size:15px;color:#fff;line-height:1.45;transition:color .25s;}
+.pr-text{font-family:'Noto Sans KR',sans-serif;font-size:15.5px;font-weight:400;color:#fff;line-height:1.65;letter-spacing:-.01em;transition:color .25s;}
 .pr-item.checked .pr-text{color:rgba(255,255,255,.5);}
 /* Result panel */
 .pr-result{
@@ -701,7 +701,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #p-radar.pr-light .pr-item.checked .pr-box{background:#050608;border-color:#050608;box-shadow:0 0 14px rgba(0,0,0,.15);}
 #p-radar.pr-light .pr-item.checked .pr-box i{color:#fff;}
 #p-radar.pr-light .pr-num{color:rgba(0,0,0,.3);}
-#p-radar.pr-light .pr-text{color:#050608;}
+#p-radar.pr-light .pr-text{color:#1a1a1a;}
 #p-radar.pr-light .pr-item.checked .pr-text{color:rgba(0,0,0,.45);}
 #p-radar.pr-light .pr-icon{filter:drop-shadow(0 0 12px rgba(0,0,0,.2));}
 #p-radar.pr-light .pr-result{background:rgba(0,0,0,.04);}
@@ -1148,9 +1148,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .pv-acc-icon{color:var(--pv-txt2);font-size:20px;transition:transform .4s cubic-bezier(.16,1,.3,1);}
 .pv-acc.open .pv-acc-icon{transform:rotate(180deg);color:var(--pv-txt);}
 .pv-acc.open .pv-acc-title{font-weight:600;}
-.pv-acc-body{max-height:0;overflow:hidden;opacity:0;padding:0 28px;transition:max-height .5s cubic-bezier(.16,1,.3,1),padding .5s cubic-bezier(.16,1,.3,1),opacity .4s ease;}
-.pv-acc.open .pv-acc-body{opacity:1;padding-bottom:28px;}
-.pv-acc-inner{color:var(--pv-txt2);font-size:15px;line-height:1.75;border-top:1px solid var(--pv-br);padding-top:20px;}
+.pv-acc-body{max-height:0;overflow:hidden;opacity:0;padding:0 32px;transition:max-height .5s cubic-bezier(.16,1,.3,1),padding .5s cubic-bezier(.16,1,.3,1),opacity .4s ease;}
+.pv-acc.open .pv-acc-body{opacity:1;padding-top:24px;padding-bottom:28px;}
+.pv-acc-inner{color:var(--pv-txt2);font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:400;line-height:1.8;letter-spacing:-.01em;text-align:center;padding:4px 8px;}
 .pv-footer{position:fixed;bottom:32px;left:0;right:0;padding:0 48px;display:flex;justify-content:space-between;z-index:30;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--pv-tech);letter-spacing:.1em;pointer-events:none;}
 /* ── VARIANT REDESIGN — Sub-pages ── */
 .vr-bar{font-size:9px;letter-spacing:.3em;color:rgba(255,255,255,.22);text-transform:uppercase;padding:11px 56px;border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:5;background:#000;}
@@ -1618,7 +1618,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     Back
   </button>
 
-  <!-- 01 · THE CULT RADAR -->
+  <!-- 02 · THE CULT RADAR -->
   <div id="p-radar" class="pr-light" style="display:none">
     <canvas id="pr-canvas"></canvas>
 
@@ -1641,7 +1641,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         <div class="pr-card-hd">
           <i class="ph-light ph-fingerprint pr-icon"></i>
           <div>
-            <div class="pr-h1">01 · THE CULT RADAR</div>
+            <div class="pr-h1">02 · THE CULT RADAR</div>
             <div class="pr-subtitle">지금 만난 공동체 및 채널을 점검해보세요</div>
           </div>
           <p class="pr-desc">해당되는 항목을 체크하세요. 체크 개수에 따라 위험도를 알려드립니다</p>
@@ -1682,7 +1682,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
   </div><!-- /p-radar -->
 
-  <!-- 02 · 도움 받을 수 있는 곳 -->
+  <!-- 03 · 도움 받을 수 있는 곳 -->
   <div id="p-help" class="ph-light" style="display:none">
     <canvas id="ph-canvas"></canvas>
 
@@ -1702,7 +1702,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         <div class="ph-card-hd">
           <i class="ph-light ph-hands-praying ph-icon"></i>
           <div>
-            <div class="ph-h1">02 · 도움 받을 수 있는 곳</div>
+            <div class="ph-h1">03 · 도움 받을 수 있는 곳</div>
             <div class="ph-subtitle">전문 상담 기관</div>
           </div>
           <p class="ph-desc">혼자 고민하지 마세요. 전문 기관에서 도움을 받을 수 있습니다</p>
@@ -1747,7 +1747,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
   </div><!-- /p-help -->
 
-  <!-- 03 · 정의 및 용어 -->
+  <!-- 06 · 정의 및 용어 -->
   <div id="p-def" class="pd-light" style="display:none">
     <canvas id="pd-canvas"></canvas>
 
@@ -1764,7 +1764,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         <div class="pd-card-hd">
           <i class="ph-light ph-book-open pd-icon"></i>
           <div>
-            <div class="pd-h1">03 · 정의 및 용어</div>
+            <div class="pd-h1">06 · 정의 및 용어</div>
             <div class="pd-subtitle">이단 및 관련 용어 정의</div>
           </div>
         </div>
@@ -1878,7 +1878,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
   </div><!-- /p-crit -->
 
-  <!-- 06 · ACTION GUIDELINES (NEW DESIGN) -->
+  <!-- 05 · ACTION GUIDELINES (NEW DESIGN) -->
   <div id="p-prev" style="display:none">
     <div id="pv-webgl"></div>
     <div class="pv-header">
@@ -1893,7 +1893,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         <div class="pv-card-hd">
           <i class="ph-light ph-shield-check pv-icon"></i>
           <div>
-            <div class="pv-h1">06 · ACTION GUIDELINES</div>
+            <div class="pv-h1">05 · ACTION GUIDELINES</div>
             <div class="pv-subtitle">대처방안 및 실천수칙</div>
           </div>
         </div>
