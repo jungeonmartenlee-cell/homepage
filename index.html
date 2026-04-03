@@ -332,13 +332,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #menu.open .menu-nav li:nth-child(4) a{animation:menuUp .5s .24s cubic-bezier(.16,1,.3,1) forwards;}
 #menu.open .menu-nav li:nth-child(5) a{animation:menuUp .5s .30s cubic-bezier(.16,1,.3,1) forwards;}
 #menu.open .menu-nav li:nth-child(6) a{animation:menuUp .5s .36s cubic-bezier(.16,1,.3,1) forwards;}
+#menu.open .menu-nav li:nth-child(7) a{animation:menuUp .5s .42s cubic-bezier(.16,1,.3,1) forwards;}
 @keyframes menuUp{to{transform:translateY(0);opacity:1;}}
 
 .menu-num{
   font-size:10px;letter-spacing:.18em;color:#444;
-  font-family:'Noto Sans KR',sans-serif;
+  font-family:'JetBrains Mono',monospace;
   align-self:flex-end;margin-bottom:10px;
 }
+.menu-item-left{display:flex;align-items:baseline;gap:14px;}
+.menu-eng{font-family:'Space Grotesk',sans-serif;font-size:clamp(9px,1vw,13px);font-weight:400;letter-spacing:.14em;color:rgba(255,255,255,.25);text-transform:uppercase;transition:color .25s;}
+.menu-nav a:hover .menu-eng{color:rgba(255,255,255,.5);}
 .menu-right{
   padding:100px 48px 60px;
   display:flex;flex-direction:column;justify-content:space-between;
@@ -818,8 +822,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #p-help.ph-light .ph-rcard:hover .ph-rcard-url{color:#050608;}
 #p-help.ph-light .ph-rcard-desc{color:rgba(0,0,0,.55);}
 #p-help.ph-light .ph-rcard-arrow{color:rgba(0,0,0,.35);}
-#p-help.ph-light .ph-rcard:hover .ph-rcard-arrow{color:#664400;}
-#p-help.ph-light .ph-footer{color:rgba(120,80,0,.25);}
+#p-help.ph-light .ph-rcard:hover .ph-rcard-arrow{color:rgba(0,0,0,.6);}
+#p-help.ph-light .ph-footer{color:rgba(0,0,0,.25);}
+#p-help.ph-light #ph-canvas{opacity:0;}
 /* ── DEF PAGE NEW DESIGN ── */
 #p-def{position:relative;min-height:100%;background:#0a0514;}
 #pd-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
@@ -1659,13 +1664,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </button>
   <div class="menu-left">
     <ul class="menu-nav">
-      <li><a href="#" onclick="closePage();toggleMenu();return false;"><span>홈</span><span class="menu-num">MAIN</span></a></li>
-      <li><a href="#" onclick="openPage('radar');toggleMenu();return false;"><span>이단 탐지기</span><span class="menu-num">01</span></a></li>
-      <li><a href="#" onclick="openPage('list');toggleMenu();return false;"><span>이단을 알라</span><span class="menu-num">02</span></a></li>
-      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><span>도움 받기</span><span class="menu-num">03</span></a></li>
-      <li><a href="#" onclick="openPage('crit');toggleMenu();return false;"><span>판단 기준</span><span class="menu-num">04</span></a></li>
-      <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><span>실천 수칙</span><span class="menu-num">05</span></a></li>
-      <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><span>용어 정의</span><span class="menu-num">06</span></a></li>
+      <li><a href="#" onclick="closePage();toggleMenu();return false;"><div class="menu-item-left"><span>메인</span><span class="menu-eng">MAIN</span></div><span class="menu-num">HOME</span></a></li>
+      <li><a href="#" onclick="openPage('radar');toggleMenu();return false;"><div class="menu-item-left"><span>이단 탐지기</span><span class="menu-eng">THE CULT RADAR</span></div><span class="menu-num">01</span></a></li>
+      <li><a href="#" onclick="openPage('list');toggleMenu();return false;"><div class="menu-item-left"><span>주요 이단 가이드</span><span class="menu-eng">CULT GUIDE</span></div><span class="menu-num">02</span></a></li>
+      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><div class="menu-item-left"><span>도움 받을 수 있는 곳</span><span class="menu-eng">GET HELP NOW</span></div><span class="menu-num">03</span></a></li>
+      <li><a href="#" onclick="openPage('crit');toggleMenu();return false;"><div class="menu-item-left"><span>판단 기준</span><span class="menu-eng">SCRIPTURE ALONE</span></div><span class="menu-num">04</span></a></li>
+      <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><div class="menu-item-left"><span>실천 수칙</span><span class="menu-eng">ACTION GUIDELINES</span></div><span class="menu-num">05</span></a></li>
+      <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><div class="menu-item-left"><span>정의 및 용어</span><span class="menu-eng">DEFINITIONS</span></div><span class="menu-num">06</span></a></li>
     </ul>
     <div class="menu-foot">대한예수교장로회총회<br>이단사이비대책위원회<br>이단사이비문제상담소<br><br>ⓒ 대한예수교장로회총회.<br>All rights reserved.</div>
   </div>
