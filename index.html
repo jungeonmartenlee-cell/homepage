@@ -1067,7 +1067,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   --glass-reflection:rgba(255,255,255,.8);
 }
 #pl-webgl{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
-.pl-topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:flex-end;padding:16px 48px;pointer-events:none;}
+.pl-topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;pointer-events:none;}
 .pl-theme-btn{
   height:44px;padding:0 20px;
   background:var(--bg-surface-1);
@@ -1447,7 +1447,25 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 <!-- SLIDER -->
 <div id="slider">
 
+  <!-- s0: Know Your Enemy (p-list) -->
   <div class="slide active" id="s0">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/people-hypnotized-by-their-mobiles-walk-in-the-dar-2026-01-28-03-15-21-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/printing-machine-print-paper-in-typography-2025-12-17-11-07-28-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-num">01</span>
+      <span class="slide-caption-tag">Know Your Enemy · Major Heresy Groups</span>
+    </div>
+  </div>
+
+  <!-- s1: The Cult Radar (p-radar) -->
+  <div class="slide" id="s1">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto" data-duration="15000">
         <source src="videos/bright-white-spotlight-professional-lighting-equip-2026-01-22-04-55-16-utc.mp4" type="video/mp4">
@@ -1456,54 +1474,34 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         <source src="videos/abstract-glowing-vortex-pulsing-with-vibrant-energ-2025-12-18-01-52-14-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="slide-dim"></div>
-    <div class="slide-caption">
-      <span class="slide-num">01</span>
-      <span class="slide-caption-tag">General Assembly of Korea · Official Guide</span>
-    </div>
-  </div>
-
-  <div class="slide" id="s1">
-    <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/enigmatic-figure-shrouded-in-hooded-shadows-2026-01-22-04-08-56-utc.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-14-utc.mp4" type="video/mp4">
       </video>
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
       <span class="slide-num">02</span>
-      <span class="slide-caption-tag">Counseling &amp; Support · Get Help Now</span>
+      <span class="slide-caption-tag">The Cult Radar · Scan Your Channel</span>
     </div>
   </div>
 
+  <!-- s2: Get Help Now (p-help) -->
   <div class="slide" id="s2">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/dynamic-process-of-newspaper-printing-in-large-typ-2025-12-17-15-03-06-utc.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/enigmatic-figure-shrouded-in-hooded-shadows-2026-01-22-04-08-56-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/glitch-art-motion-background-with-pixel-distortion-2026-01-22-20-43-41-utc.mp4" type="video/mp4">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-14-utc.mp4" type="video/mp4">
       </video>
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
       <span class="slide-num">03</span>
-      <span class="slide-caption-tag">Definition &amp; Terms · Bylaw Article 3</span>
+      <span class="slide-caption-tag">Counseling &amp; Support · Get Help Now</span>
     </div>
   </div>
 
+  <!-- s3: Standards of Judgment (p-crit) -->
   <div class="slide" id="s3">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
@@ -1523,23 +1521,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
   </div>
 
+  <!-- s4: Prevention (p-prev) -->
   <div class="slide" id="s4">
-    <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/people-hypnotized-by-their-mobiles-walk-in-the-dar-2026-01-28-03-15-21-utc.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/printing-machine-print-paper-in-typography-2025-12-17-11-07-28-utc.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="slide-dim"></div>
-    <div class="slide-caption">
-      <span class="slide-num">05</span>
-      <span class="slide-caption-tag">Major Heresy Groups · Official Ruling</span>
-    </div>
-  </div>
-
-  <div class="slide" id="s5">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/hacker-in-hoodie-merged-with-matrix-code-while-typ-2026-01-22-02-56-04-utc.mp4" type="video/mp4">
@@ -1556,8 +1539,31 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
-      <span class="slide-num">06</span>
+      <span class="slide-num">05</span>
       <span class="slide-caption-tag">Prevention &amp; Response · 20 Guidelines</span>
+    </div>
+  </div>
+
+  <!-- s5: Definition & Terms (p-def) -->
+  <div class="slide" id="s5">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-14-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/dynamic-process-of-newspaper-printing-in-large-typ-2025-12-17-15-03-06-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/enigmatic-figure-shrouded-in-hooded-shadows-2026-01-22-04-08-56-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/glitch-art-motion-background-with-pixel-distortion-2026-01-22-20-43-41-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-num">06</span>
+      <span class="slide-caption-tag">Definition &amp; Terms · Bylaw Article 3</span>
     </div>
   </div>
 
@@ -1594,12 +1600,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div class="menu-left">
     <ul class="menu-nav">
       <li><a href="#" onclick="closePage();toggleMenu();return false;"><span>Home</span><span class="menu-num">MAIN</span></a></li>
-      <li><a href="#" onclick="openPage('radar');toggleMenu();return false;"><span>The Cult Radar</span><span class="menu-num">01</span></a></li>
-      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><span>Get Help</span><span class="menu-num">02</span></a></li>
-      <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><span>Definition</span><span class="menu-num">03</span></a></li>
+      <li><a href="#" onclick="openPage('list');toggleMenu();return false;"><span>Know Your Enemy</span><span class="menu-num">01</span></a></li>
+      <li><a href="#" onclick="openPage('radar');toggleMenu();return false;"><span>The Cult Radar</span><span class="menu-num">02</span></a></li>
+      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><span>Get Help</span><span class="menu-num">03</span></a></li>
       <li><a href="#" onclick="openPage('crit');toggleMenu();return false;"><span>Criteria</span><span class="menu-num">04</span></a></li>
-      <li><a href="#" onclick="openPage('list');toggleMenu();return false;"><span>Heresy Groups</span><span class="menu-num">05</span></a></li>
-      <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><span>Prevention</span><span class="menu-num">06</span></a></li>
+      <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><span>Prevention</span><span class="menu-num">05</span></a></li>
+      <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><span>Definition</span><span class="menu-num">06</span></a></li>
     </ul>
     <div class="menu-foot">대한예수교장로회총회<br>이단사이비대책위원회<br>이단사이비문제상담소<br><br>ⓒ 대한예수교장로회총회.<br>All rights reserved.</div>
   </div>
@@ -1620,7 +1626,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="pr-topbar">
       <div class="pr-brand">
         <i class="ph-fill ph-radar"></i>
-        CULT.RADAR // V01.00
+        CULT.RADAR // V02.00
       </div>
       <button class="pr-theme-btn" id="prThemeBtn" onclick="prToggleTheme()">
         <i class="ph-fill ph-sun" id="prThemeIcon"></i>
@@ -1636,7 +1642,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
           <i class="ph-light ph-fingerprint pr-icon"></i>
           <div>
             <div class="pr-h1">01 · THE CULT RADAR</div>
-            <div class="pr-subtitle">지금 보는 채널을 점검해보세요</div>
+            <div class="pr-subtitle">지금 만난 공동체 및 채널을 점검해보세요</div>
           </div>
           <p class="pr-desc">해당되는 항목을 체크하세요. 체크 개수에 따라 위험도를 알려드립니다</p>
         </div>
@@ -1683,7 +1689,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <div class="ph-topbar">
       <div class="ph-brand">
         <i class="ph-fill ph-radar"></i>
-        CULT.RADAR // V01.00
+        CULT.RADAR // V03.00
       </div>
       <button class="ph-theme-btn" onclick="phToggleTheme()">
         <i class="ph-fill ph-sun" id="phThemeIcon"></i>
@@ -1746,7 +1752,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <canvas id="pd-canvas"></canvas>
 
     <div class="pd-topbar">
-      <div class="pd-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V01.00</div>
+      <div class="pd-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V06.00</div>
       <button class="pd-theme-btn" onclick="pdToggleTheme()">
         <i class="ph-fill ph-sun" id="pdThemeIcon"></i>
         <span id="pdThemeText">LIGHT</span>
@@ -1833,7 +1839,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <canvas id="pc-canvas"></canvas>
 
     <div class="pc-topbar">
-      <div class="pc-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V01.00</div>
+      <div class="pc-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V04.00</div>
       <button class="pc-theme-btn" onclick="pcToggleTheme()">
         <i class="ph-fill ph-sun" id="pcThemeIcon"></i>
         <span id="pcThemeText">LIGHT</span>
@@ -1876,7 +1882,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div id="p-prev" style="display:none">
     <div id="pv-webgl"></div>
     <div class="pv-header">
-      <div class="pv-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V01.00</div>
+      <div class="pv-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V05.00</div>
       <button class="pv-theme-btn" onclick="pvToggleTheme()" id="pv-theme-btn">
         <i class="ph-fill ph-sun" id="pv-theme-icon"></i>
         <span id="pv-theme-text">LIGHT</span>
@@ -1928,6 +1934,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div id="p-list" class="pl-light" style="display:none">
     <div id="pl-webgl"></div>
     <div class="pl-topbar">
+      <div class="font-mono text-xs font-bold tracking-[.2em] flex items-center gap-2 pointer-events-auto" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;font-weight:700;color:var(--text-secondary);"><i class="ph-fill ph-radar"></i> CULT.RADAR // V01.00</div>
       <button class="pl-theme-btn" onclick="plToggleTheme()" id="pl-theme-btn">
         <i class="ph-fill ph-sun text-lg" id="pl-theme-icon"></i>
         <span id="pl-theme-text">LIGHT</span>
@@ -1938,13 +1945,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         <header class="liquid-glass rounded-[3rem] w-full max-w-4xl p-12 md:p-16 mb-16 flex flex-col items-center text-center animate-slide-up overflow-hidden">
             <div class="inline-flex items-center gap-2 font-mono text-xs font-bold tracking-[0.2em] px-5 py-2 rounded-full uppercase mb-8 shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">
                 <i class="ph-fill ph-radar"></i>
-                05 Section // Cult.Radar
+                01 Section // Cult.Radar
             </div>
-            <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" style="line-height:1.15;color:var(--text-primary);">한눈에 보는 주요 이단 가이드</h1>
-            <h2 class="font-sans text-xl md:text-2xl font-medium mb-8" style="color:var(--text-secondary);">지금 이 순간도 유튜브에서 활동 중인 이단들</h2>
+            <p class="font-sans text-base font-medium tracking-widest uppercase mb-2" style="color:var(--text-secondary);letter-spacing:.15em;">한눈에 보는</p><h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" style="line-height:1.1;color:var(--text-primary);">주요 이단 가이드</h1>
             <p class="font-sans text-base md:text-lg leading-relaxed max-w-2xl mx-auto" style="color:var(--text-secondary);">
                 한국 교단이 공식적으로 이단·사이비로 결의한 단체들입니다<br class="hidden md:block">
-                기독교처럼 보이려 노력합니다
+                지금도 유튜브 및 SNS에서 기독교처럼 보이려 노력합니다
             </p>
         </header>
 
@@ -2772,12 +2778,12 @@ document.addEventListener('mousemove',e=>{
 
 // ── SLIDES ──
 const SLIDES=[
+  {lines:['Know','Your','Enemy'],                page:'list'},
   {lines:['The','Cult','Radar'],                 page:'radar'},
   {lines:['Get','Help','Now'],                   page:'help'},
-  {lines:['Heresy','vs','Pseudo'],               page:'def'},
   {lines:['Scripture','Alone','Judges'],         page:'crit'},
-  {lines:['Know','Your','Enemy'],                page:'list'},
   {lines:['Prevention','Is The','Best Shield'],  page:'prev'},
+  {lines:['Heresy','vs','Pseudo'],               page:'def'},
 ];
 
 // ── TITLE RENDER ──
