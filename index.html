@@ -154,6 +154,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #slider{
   position:fixed;inset:0;
   margin-top:50px;
+  overflow:hidden;
 }
 .slide{
   position:absolute;inset:0;
@@ -1422,22 +1423,31 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   /* ── Main slider right control ── */
   #control{right:16px;bottom:80px;}
 
-  /* ── p-radar topbar ── */
+  /* ── BACK 버튼: 모바일에서 숨김 (헤더 X로고가 closePage 역할) ── */
+  .p-back{display:none;}
+
+  /* ── 모든 subpage topbar: 단일 행 ── */
   .pr-topbar{padding:14px 20px;}
+  .ph-topbar{padding:14px 20px;}
+  .pd-topbar{padding:14px 20px;}
+  .pc-topbar{padding:14px 20px;}
+  .pv-header{padding:14px 20px;}
+  .pl-topbar{padding:14px 20px;}
+
+  /* ── footers ── */
   .pr-footer{padding:0 20px;}
+  .ph-footer{padding:0 20px;}
+  .pd-footer{padding:0 20px;}
+  .pc-footer{padding:0 20px;}
+  .pv-footer{padding:0 20px;}
 
   /* ── p-help ── */
   .ph-grid{grid-template-columns:1fr;}
   .ph-card{padding:36px 20px 80px;}
-  .ph-footer{padding:0 20px;}
 
   /* ── p-def ── */
   .pd-grid{grid-template-columns:1fr;}
   .pd-card{padding:36px 20px 80px;}
-  .pd-footer{padding:0 20px;}
-
-  /* ── p-crit ── */
-  .pc-footer{padding:0 20px;}
 
   /* ── p-prev ── */
   .pv-main{padding:20px 12px 100px;}
@@ -1448,20 +1458,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   .pv-acc-body{padding:0 16px;}
   .pv-acc.open .pv-acc-body{padding-top:16px;padding-bottom:16px;}
   .pv-acc-title{font-size:14px;}
-  .pv-footer{padding:0 20px;}
 
-  /* ── p-list topbar ── */
-  .pl-topbar{padding:12px 20px;}
+  /* ── p-list theme button ── */
   .pl-theme-btn{height:36px;padding:0 14px;font-size:10px;}
-
-  /* ── Hide global BACK button on mobile (header X logo already closes page) ── */
-  .p-back{display:none;}
-
-  /* ── p-radar topbar: brand left, button right, clean single row ── */
-  .pr-topbar{padding:14px 20px;}
-
-  /* ── p-list topbar: same treatment ── */
-  .pl-topbar{padding:14px 20px;}
 }
 </style>
 </head>
@@ -2888,7 +2887,13 @@ function startVideoLoop(slideEl) {
 
   const all = Array.from(slideEl.querySelectorAll('.video-layer'));
   if (all.length === 0) return;
-  const videos = all; // HTML 순서대로 재생
+  const videos = all;
+
+  // 슬라이드 활성화 시 모든 영상 미리 로드 (블랙프레임 방지)
+  all.forEach(v => {
+    v.muted = true;
+    if (v.readyState === 0) { v.preload = 'auto'; v.load(); }
+  });
 
   // 첫 번째 영상 활성화
   all.forEach(v => v.classList.remove('active'));
@@ -2899,13 +2904,17 @@ function startVideoLoop(slideEl) {
 
   let cur = 0;
   function scheduleNext() {
-    // data-duration 속성 있으면 개별 시간 사용, 없으면 VIDEO_INTERVAL
     const dur = parseInt(videos[cur].dataset.duration) || VIDEO_INTERVAL;
     videoTimers[sid] = setTimeout(() => {
+      const nextIdx = (cur + 1) % videos.length;
+      const nextVid = videos[nextIdx];
+      // 전환 전에 다음 영상 미리 재생 — 검정 프레임 제거
+      nextVid.muted = true;
+      nextVid.play().catch(() => {});
+      // 크로스페이드
       videos[cur].classList.remove('active');
-      cur = (cur + 1) % videos.length;
+      cur = nextIdx;
       videos[cur].classList.add('active');
-      playVideo(videos[cur]);
       scheduleNext();
     }, dur);
   }
