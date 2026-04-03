@@ -3,7 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-<title>이단·사이비 바로알기 — DISCERN</title>
+<title>이단·사이비 바로알기 — THE RADAR</title>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+tailwind.config={
+  corePlugins:{preflight:false},
+  darkMode:['class'],
+  theme:{extend:{
+    colors:{surface1:'var(--bg-surface-1)',surface2:'var(--bg-surface-2)',surface3:'var(--bg-surface-3)',primary:'var(--text-primary)',secondary:'var(--text-secondary)',tech:'var(--text-tech)',glass:'var(--border-glass)',highlight:'var(--border-highlight)'},
+    fontFamily:{sans:['Space Grotesk','-apple-system','BlinkMacSystemFont','system-ui','Roboto','Helvetica Neue','Noto Sans KR','sans-serif'],display:['Space Grotesk','sans-serif'],mono:['JetBrains Mono','monospace']},
+    transitionTimingFunction:{'apple':'cubic-bezier(0.16,1,0.3,1)'}
+  }}
+}
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&display=swap');
 
@@ -282,7 +298,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   position:fixed;inset:0;
   background:#121212;
   z-index:500;
-  display:grid;grid-template-columns:1fr 320px;
+  display:grid;grid-template-columns:1fr;
   opacity:0;pointer-events:none;
   transition:opacity .4s cubic-bezier(.4,0,.2,1);
 }
@@ -290,8 +306,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 
 .menu-left{
   padding:100px 80px 60px;
-  display:flex;flex-direction:column;justify-content:center;
-  border-right:1px solid rgba(255,255,255,.08);
+  display:flex;flex-direction:column;justify-content:space-between;
 }
 .menu-nav{list-style:none;}
 .menu-nav li{
@@ -549,6 +564,692 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .pc-ico svg{width:18px;height:18px;}
 .pc-txt{font-size:14px;line-height:2;color:#a1a1a6;}
 
+/* ── CULT RADAR NEW DESIGN ── */
+#p-radar{position:relative;min-height:100%;}
+#pr-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.pr-topbar{
+  position:sticky;top:0;z-index:10;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 40px;
+  background:linear-gradient(to bottom,#030407 0%,transparent 100%);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.2em;font-weight:700;
+  color:rgba(255,255,255,.38);
+}
+.pr-brand{display:flex;align-items:center;gap:10px;}
+.pr-theme-btn{
+  height:34px;padding:0 14px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:999px;
+  color:rgba(255,255,255,.6);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  transition:background .3s,transform .2s;
+}
+.pr-theme-btn:hover{background:rgba(255,255,255,.12);transform:scale(1.03);}
+.pr-main{
+  position:relative;z-index:5;
+  padding:40px 24px 100px;
+  display:flex;justify-content:center;
+  min-height:calc(100vh - 80px);
+}
+.pr-card{
+  width:100%;max-width:660px;
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(32px);
+  -webkit-backdrop-filter:blur(32px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:40px;
+  padding:52px 44px;
+  display:flex;flex-direction:column;gap:36px;
+}
+.pr-card-hd{text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center;}
+.pr-icon{font-size:52px;opacity:.9;filter:drop-shadow(0 0 16px rgba(255,255,255,.35));margin-bottom:4px;}
+.pr-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,34px);font-weight:700;letter-spacing:-.02em;text-transform:uppercase;color:#fff;}
+.pr-subtitle{font-size:17px;font-weight:600;color:#fff;}
+.pr-desc{color:rgba(255,255,255,.55);font-size:14px;max-width:76%;margin:0 auto;line-height:1.6;}
+.pr-checklist{display:flex;flex-direction:column;gap:10px;}
+.pr-item{
+  display:flex;align-items:center;gap:18px;
+  padding:15px 22px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:20px;
+  cursor:pointer;
+  transition:background .25s,border-color .25s,transform .2s;
+  position:relative;overflow:hidden;
+  -webkit-user-select:none;user-select:none;
+}
+.pr-item:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);transform:translateX(4px);}
+.pr-item.checked{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.18);}
+.pr-box{
+  width:26px;height:26px;flex-shrink:0;
+  border-radius:8px;border:2px solid rgba(255,255,255,.3);
+  background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+}
+.pr-box i{color:#030407;font-size:14px;opacity:0;transform:scale(.4) rotate(-45deg);transition:all .35s cubic-bezier(.16,1,.3,1);}
+.pr-item.checked .pr-box{background:#fff;border-color:#fff;box-shadow:0 0 14px rgba(255,255,255,.25);}
+.pr-item.checked .pr-box i{opacity:1;transform:scale(1) rotate(0deg);}
+.pr-item-body{display:flex;flex-direction:column;gap:3px;flex:1;}
+.pr-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.32);letter-spacing:.1em;font-weight:700;}
+.pr-text{font-size:15px;color:#fff;line-height:1.45;transition:color .25s;}
+.pr-item.checked .pr-text{color:rgba(255,255,255,.5);}
+/* Result panel */
+.pr-result{
+  --rc:255,255,255;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(var(--rc),.25);
+  border-radius:28px;
+  padding:30px;
+  display:flex;flex-direction:column;gap:22px;
+  position:relative;overflow:hidden;
+  transition:border-color .5s,box-shadow .5s;
+  box-shadow:0 8px 32px rgba(var(--rc),.05);
+}
+.pr-result::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(var(--rc),.08) 0%,transparent 100%);
+  pointer-events:none;transition:background .5s;
+}
+.pr-rhead{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;}
+.pr-rlabel{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;font-weight:700;
+  color:rgb(var(--rc));display:flex;align-items:center;gap:7px;transition:color .5s;
+}
+.pr-rcount{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fff;}
+.pr-meter{height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;position:relative;z-index:1;}
+.pr-fill{height:100%;width:0%;border-radius:3px;background:rgb(var(--rc));transition:width .6s cubic-bezier(.16,1,.3,1),background .5s;box-shadow:0 0 10px rgb(var(--rc));}
+.pr-msg{font-size:15px;line-height:1.6;color:#fff;font-weight:500;position:relative;z-index:1;min-height:44px;display:flex;align-items:center;}
+.pr-btn{
+  height:56px;border:none;border-radius:999px;
+  background:rgb(var(--rc));
+  color:#030407;
+  font-weight:700;font-size:15px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:transform .2s,box-shadow .2s,background .5s;
+  position:relative;z-index:1;
+  box-shadow:0 10px 28px rgba(var(--rc),.2);
+}
+.pr-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(var(--rc),.35);}
+.pr-btn.disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3);box-shadow:none;cursor:not-allowed;transform:none;}
+@keyframes pr-pulse{0%{box-shadow:0 0 0 0 rgba(248,113,113,.4);}70%{box-shadow:0 0 0 18px rgba(248,113,113,0);}100%{box-shadow:0 0 0 0 rgba(248,113,113,0);}}
+.pr-danger{animation:pr-pulse 2s infinite;}
+.pr-footer{
+  position:fixed;bottom:28px;left:0;right:0;
+  display:flex;justify-content:space-between;
+  padding:0 44px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:rgba(255,255,255,.2);letter-spacing:.1em;
+  pointer-events:none;z-index:10;
+}
+
+/* Light mode for p-radar */
+#p-radar.pr-light .pr-topbar{background:linear-gradient(to bottom,#F5F7FA 0%,transparent 100%);color:rgba(0,0,0,.35);}
+#p-radar.pr-light .pr-theme-btn{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.08);color:rgba(0,0,0,.6);}
+#p-radar.pr-light .pr-card{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08);}
+#p-radar.pr-light .pr-h1,#p-radar.pr-light .pr-subtitle{color:#050608;}
+#p-radar.pr-light .pr-desc{color:rgba(0,0,0,.55);}
+#p-radar.pr-light .pr-item{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.08);}
+#p-radar.pr-light .pr-item:hover{background:rgba(0,0,0,.09);border-color:rgba(0,0,0,.14);}
+#p-radar.pr-light .pr-item.checked{background:rgba(0,0,0,.07);}
+#p-radar.pr-light .pr-box{border-color:rgba(0,0,0,.25);}
+#p-radar.pr-light .pr-item.checked .pr-box{background:#050608;border-color:#050608;box-shadow:0 0 14px rgba(0,0,0,.15);}
+#p-radar.pr-light .pr-item.checked .pr-box i{color:#fff;}
+#p-radar.pr-light .pr-num{color:rgba(0,0,0,.3);}
+#p-radar.pr-light .pr-text{color:#050608;}
+#p-radar.pr-light .pr-item.checked .pr-text{color:rgba(0,0,0,.45);}
+#p-radar.pr-light .pr-icon{filter:drop-shadow(0 0 12px rgba(0,0,0,.2));}
+#p-radar.pr-light .pr-result{background:rgba(0,0,0,.04);}
+#p-radar.pr-light .pr-rcount{color:#050608;}
+#p-radar.pr-light .pr-msg{color:#050608;}
+#p-radar.pr-light .pr-meter{background:rgba(0,0,0,.1);}
+#p-radar.pr-light .pr-footer{color:rgba(0,0,0,.2);}
+#p-radar.pr-light{background:#F5F7FA;}
+/* ── HELP PAGE NEW DESIGN ── */
+#p-help{position:relative;min-height:100%;background:#080600;}
+#ph-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.ph-topbar{
+  position:sticky;top:0;z-index:10;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 40px;
+  background:linear-gradient(to bottom,#080600 0%,transparent 100%);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.2em;font-weight:700;
+  color:rgba(255,184,48,.4);
+}
+.ph-brand{display:flex;align-items:center;gap:10px;color:rgba(255,228,181,.7);}
+.ph-theme-btn{
+  height:34px;padding:0 14px;
+  background:rgba(255,210,100,.07);
+  border:1px solid rgba(255,184,48,.12);
+  border-radius:999px;
+  color:rgba(255,228,181,.6);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  cursor:pointer;display:flex;align-items:center;gap:8px;
+  transition:background .3s,transform .2s;
+}
+.ph-theme-btn:hover{background:rgba(255,184,48,.15);transform:scale(1.03);}
+.ph-main{
+  position:relative;z-index:5;
+  padding:40px 24px 100px;
+  display:flex;justify-content:center;
+  align-items:center;
+  min-height:calc(100vh - 80px);
+}
+.ph-card{
+  width:100%;max-width:720px;
+  background:rgba(255,235,180,.04);
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  border:1px solid rgba(255,184,48,.1);
+  border-radius:40px;
+  padding:48px 40px;
+  display:flex;flex-direction:column;gap:44px;
+  box-shadow:0 24px 80px rgba(0,0,0,.4);
+}
+.ph-card-hd{text-align:center;display:flex;flex-direction:column;gap:20px;align-items:center;}
+.ph-icon{font-size:48px;color:#FFB830;opacity:.9;filter:drop-shadow(0 0 16px rgba(255,184,48,.4));}
+.ph-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,3.5vw,32px);font-weight:700;letter-spacing:-.02em;text-transform:uppercase;color:#FFE4B5;}
+.ph-subtitle{font-size:16px;font-weight:600;color:#FFB830;}
+.ph-desc{color:rgba(255,228,181,.6);font-size:14px;max-width:90%;line-height:1.5;}
+.ph-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.ph-rcard{
+  position:relative;
+  display:flex;flex-direction:column;gap:12px;
+  padding:24px;
+  background:rgba(255,210,100,.07);
+  border:1px solid rgba(255,184,48,.1);
+  border-radius:20px;
+  text-decoration:none;color:inherit;
+  overflow:hidden;cursor:pointer;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.ph-rcard::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,184,48,.12) 0%,transparent 50%);
+  opacity:0;transition:opacity .4s;pointer-events:none;
+}
+.ph-rcard:hover{background:rgba(255,184,48,.12);border-color:rgba(255,184,48,.3);transform:translateY(-4px) scale(1.02);box-shadow:0 20px 60px rgba(0,0,0,.2),0 0 40px rgba(255,184,48,.1);}
+.ph-rcard:hover::before{opacity:1;}
+.ph-rcard-n{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+  color:rgba(255,184,48,.4);letter-spacing:.15em;
+  padding:5px 10px;background:rgba(255,235,180,.04);
+  border-radius:999px;align-self:flex-start;
+  transition:all .3s;
+}
+.ph-rcard:hover .ph-rcard-n{background:#FFB830;color:#080600;transform:scale(1.1);}
+.ph-rcard-name{font-size:18px;font-weight:700;color:#FFE4B5;transition:transform .3s cubic-bezier(.16,1,.3,1);}
+.ph-rcard:hover .ph-rcard-name{transform:translateX(4px);}
+.ph-rcard-url{font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,184,48,.4);letter-spacing:.05em;transition:color .3s;}
+.ph-rcard:hover .ph-rcard-url{color:#FFE4B5;}
+.ph-rcard-desc{font-size:13px;color:rgba(255,228,181,.6);line-height:1.5;}
+.ph-rcard-arrow{position:absolute;top:20px;right:20px;font-size:20px;color:rgba(255,184,48,.4);opacity:.6;transition:all .4s cubic-bezier(.16,1,.3,1);}
+.ph-rcard:hover .ph-rcard-arrow{color:#FFB830;transform:translate(4px,-4px) scale(1.2);opacity:1;}
+.ph-footer{
+  position:fixed;bottom:28px;left:0;right:0;
+  display:flex;justify-content:space-between;padding:0 44px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:rgba(255,184,48,.25);letter-spacing:.1em;
+  pointer-events:none;z-index:10;
+}
+/* light mode */
+#p-help.ph-light{background:#FFFBF0;}
+#p-help.ph-light .ph-topbar{background:linear-gradient(to bottom,#FFFBF0 0%,transparent 100%);color:rgba(120,80,0,.4);}
+#p-help.ph-light .ph-brand{color:rgba(45,30,0,.7);}
+#p-help.ph-light .ph-theme-btn{background:rgba(120,80,0,.06);border-color:rgba(120,80,0,.1);color:rgba(45,30,0,.6);}
+#p-help.ph-light .ph-card{background:rgba(120,80,0,.04);border-color:rgba(120,80,0,.1);}
+#p-help.ph-light .ph-h1{color:#2D1E00;}
+#p-help.ph-light .ph-subtitle{color:#664400;}
+#p-help.ph-light .ph-icon{color:#664400;filter:drop-shadow(0 0 12px rgba(102,68,0,.2));}
+#p-help.ph-light .ph-desc{color:rgba(45,30,0,.6);}
+#p-help.ph-light .ph-rcard{background:rgba(120,80,0,.06);border-color:rgba(120,80,0,.1);}
+#p-help.ph-light .ph-rcard:hover{background:rgba(255,184,48,.15);border-color:rgba(255,184,48,.4);}
+#p-help.ph-light .ph-rcard-n{background:rgba(120,80,0,.04);color:rgba(120,80,0,.4);}
+#p-help.ph-light .ph-rcard:hover .ph-rcard-n{background:#664400;color:#FFFBF0;}
+#p-help.ph-light .ph-rcard-name{color:#2D1E00;}
+#p-help.ph-light .ph-rcard-url{color:rgba(120,80,0,.4);}
+#p-help.ph-light .ph-rcard:hover .ph-rcard-url{color:#2D1E00;}
+#p-help.ph-light .ph-rcard-desc{color:rgba(45,30,0,.6);}
+#p-help.ph-light .ph-rcard-arrow{color:rgba(120,80,0,.4);}
+#p-help.ph-light .ph-rcard:hover .ph-rcard-arrow{color:#664400;}
+#p-help.ph-light .ph-footer{color:rgba(120,80,0,.25);}
+/* ── DEF PAGE NEW DESIGN ── */
+#p-def{position:relative;min-height:100%;background:#0a0514;}
+#pd-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.pd-topbar{
+  position:sticky;top:0;z-index:10;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 40px;
+  background:linear-gradient(to bottom,#0a0514 0%,transparent 100%);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.2em;font-weight:700;
+  color:rgba(192,132,252,.45);
+}
+.pd-brand{display:flex;align-items:center;gap:10px;color:rgba(245,243,255,.7);}
+.pd-theme-btn{
+  height:34px;padding:0 14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(168,85,247,.2);
+  border-radius:999px;color:rgba(245,243,255,.7);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  cursor:pointer;display:flex;align-items:center;gap:8px;
+  transition:background .3s,transform .2s;
+}
+.pd-theme-btn:hover{background:rgba(168,85,247,.15);border-color:rgba(244,114,182,.35);transform:scale(1.03);}
+.pd-main{
+  position:relative;z-index:5;
+  padding:40px 24px 100px;
+  display:flex;justify-content:center;align-items:center;
+  min-height:calc(100vh - 80px);
+}
+.pd-card{
+  width:100%;max-width:900px;
+  background:rgba(30,15,50,.3);
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  border:1px solid rgba(168,85,247,.2);
+  border-radius:40px;
+  padding:56px 48px;
+  display:flex;flex-direction:column;gap:48px;
+  box-shadow:0 24px 80px rgba(0,0,0,.4),0 0 40px rgba(124,58,237,.1);
+}
+.pd-card-hd{text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center;}
+.pd-icon{font-size:56px;color:#d8b4fe;filter:drop-shadow(0 0 16px #7c3aed);margin-bottom:8px;}
+.pd-h1{
+  font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,36px);
+  font-weight:700;letter-spacing:-.02em;text-transform:uppercase;
+  background:linear-gradient(45deg,#f5f3ff,#f472b6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.pd-subtitle{font-size:18px;font-weight:600;color:rgba(216,180,254,.7);}
+.pd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;perspective:1200px;}
+.pd-tcard{
+  position:relative;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(168,85,247,.2);
+  border-radius:20px;
+  padding:28px;
+  display:flex;flex-direction:column;gap:16px;
+  transform-style:preserve-3d;
+  transition:border-color .4s,box-shadow .4s,background-color .4s;
+  will-change:transform;
+  overflow:hidden;cursor:default;
+}
+.pd-tcard:nth-child(1){--cg:rgba(168,85,247,.2);}
+.pd-tcard:nth-child(2){--cg:rgba(236,72,153,.2);}
+.pd-tcard:nth-child(3){--cg:rgba(139,92,246,.2);}
+.pd-tcard:nth-child(4){--cg:rgba(244,114,182,.2);}
+.pd-tcard:nth-child(5){--cg:rgba(192,132,252,.2);}
+.pd-tcard:nth-child(6){--cg:rgba(219,39,119,.2);}
+.pd-tcard::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(800px circle at var(--mx,50%) var(--my,50%),var(--cg),transparent 40%);
+  opacity:0;transition:opacity .5s;pointer-events:none;z-index:0;
+}
+.pd-tcard:hover::before{opacity:1;}
+.pd-tcard:hover{border-color:rgba(244,114,182,.4);background:rgba(255,255,255,.08);box-shadow:0 20px 40px rgba(0,0,0,.3),0 0 20px rgba(244,114,182,.1);z-index:10;}
+.pd-tcard-inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:16px;height:100%;}
+.pd-tcard-hd{display:flex;align-items:flex-start;gap:16px;}
+.pd-tnum{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:rgba(192,132,252,.5);letter-spacing:.1em;
+  padding:6px 12px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(168,85,247,.2);
+  border-radius:999px;flex-shrink:0;
+  transition:all .3s;
+}
+.pd-tcard:hover .pd-tnum{background:#f472b6;color:#0a0514;border-color:transparent;box-shadow:0 0 15px #f472b6;}
+.pd-ttitle{display:flex;flex-direction:column;gap:4px;}
+.pd-tko{font-size:20px;font-weight:700;color:#f5f3ff;letter-spacing:-.01em;}
+.pd-thanja{font-size:13px;color:rgba(192,132,252,.5);font-weight:500;letter-spacing:.05em;}
+.pd-tdesc{font-size:15px;color:rgba(216,180,254,.7);line-height:1.6;margin-top:auto;}
+.pd-footer{
+  position:fixed;bottom:28px;left:0;right:0;
+  display:flex;justify-content:space-between;padding:0 44px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:rgba(192,132,252,.3);letter-spacing:.1em;
+  pointer-events:none;z-index:10;
+}
+/* light mode */
+#p-def.pd-light{background:#fdfaff;}
+#p-def.pd-light .pd-topbar{background:linear-gradient(to bottom,#fdfaff 0%,transparent 100%);color:rgba(124,58,237,.4);}
+#p-def.pd-light .pd-brand{color:rgba(46,16,101,.7);}
+#p-def.pd-light .pd-theme-btn{background:rgba(107,33,168,.05);border-color:rgba(124,58,237,.15);color:rgba(46,16,101,.7);}
+#p-def.pd-light .pd-card{background:rgba(107,33,168,.05);border-color:rgba(124,58,237,.15);box-shadow:0 24px 80px rgba(0,0,0,.1);}
+#p-def.pd-light .pd-h1{background:linear-gradient(45deg,#2e1065,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#p-def.pd-light .pd-icon{color:#7c3aed;filter:drop-shadow(0 0 12px #f472b6);}
+#p-def.pd-light .pd-subtitle{color:#5b21b6;}
+#p-def.pd-light .pd-tcard{background:rgba(107,33,168,.08);border-color:rgba(124,58,237,.15);}
+#p-def.pd-light .pd-tcard:hover{background:rgba(107,33,168,.12);border-color:rgba(236,72,153,.3);}
+#p-def.pd-light .pd-tnum{background:rgba(107,33,168,.12);border-color:rgba(124,58,237,.15);color:#a78bfa;}
+#p-def.pd-light .pd-tcard:hover .pd-tnum{background:#7c3aed;color:#fff;}
+#p-def.pd-light .pd-tko{color:#2e1065;}
+#p-def.pd-light .pd-thanja{color:#a78bfa;}
+#p-def.pd-light .pd-tdesc{color:#5b21b6;}
+#p-def.pd-light .pd-footer{color:rgba(124,58,237,.3);}
+/* ── CRIT PAGE NEW DESIGN ── */
+#p-crit{position:relative;min-height:100%;background:#0a0a1a;}
+#pc-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.pc-topbar{
+  position:sticky;top:0;z-index:10;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 40px;
+  background:linear-gradient(to bottom,#0a0a1a 0%,transparent 100%);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.2em;font-weight:700;
+  color:rgba(167,139,250,.5);
+}
+.pc-brand{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.7);}
+.pc-theme-btn{
+  height:34px;padding:0 14px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(167,139,250,.25);
+  border-radius:999px;color:rgba(255,255,255,.7);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  cursor:pointer;display:flex;align-items:center;gap:8px;
+  transition:background .3s,transform .2s;
+}
+.pc-theme-btn:hover{background:rgba(167,139,250,.15);border-color:rgba(196,181,253,.5);transform:scale(1.03);}
+.pc-main{
+  position:relative;z-index:5;
+  padding:40px 24px 100px;
+  display:flex;justify-content:center;
+  min-height:calc(100vh - 72px);
+}
+.pc-card{
+  width:100%;max-width:960px;
+  background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,rgba(255,255,255,.03) 100%);
+  backdrop-filter:blur(40px) saturate(180%);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:40px;
+  padding:48px 48px 56px;
+  display:flex;flex-direction:column;gap:40px;
+  box-shadow:0 8px 32px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.1),inset 0 -1px 0 rgba(255,255,255,.05);
+}
+.pc-card-hd{text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center;}
+.pc-icon{font-size:48px;color:#e0f2fe;filter:drop-shadow(0 0 15px #a78bfa);}
+.pc-h1{font-size:clamp(22px,4vw,36px);font-weight:700;letter-spacing:-.02em;color:#fff;}
+.pc-sub{font-size:16px;font-weight:600;color:#a78bfa;text-transform:uppercase;}
+.pc-desc{color:rgba(255,255,255,.75);font-size:15px;max-width:700px;line-height:1.6;}
+/* list */
+.pc-list{position:relative;display:flex;flex-direction:column;gap:14px;padding-left:24px;}
+.pc-prog-bg{position:absolute;left:0;top:0;bottom:0;width:2px;background:rgba(167,139,250,.15);z-index:1;}
+.pc-prog-fill{position:absolute;left:0;top:0;width:2px;height:100%;background:linear-gradient(to bottom,#e0f2fe,#a78bfa);box-shadow:0 0 20px rgba(167,139,250,.8),0 0 40px rgba(167,139,250,.4);z-index:2;}
+.pc-row{position:relative;z-index:3;}
+.pc-item{
+  background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,.02) 100%);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;
+  padding:20px 28px;
+  display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:32px;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  backdrop-filter:blur(20px);
+}
+.pc-item:hover{
+  border-color:rgba(167,139,250,.6);
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,rgba(167,139,250,.08) 100%);
+  transform:translateX(8px);
+  box-shadow:0 8px 32px rgba(167,139,250,.15);
+}
+.pc-info{display:flex;flex-direction:column;gap:8px;flex:1;}
+.pc-title-row{display:flex;align-items:baseline;gap:12px;}
+.pc-ko{font-size:20px;font-weight:700;color:#fff;}
+.pc-en{font-family:'Space Grotesk',sans-serif;font-size:12px;color:rgba(167,139,250,.8);letter-spacing:.1em;text-transform:uppercase;}
+.pc-body{font-size:14px;color:rgba(255,255,255,.75);line-height:1.5;max-width:540px;}
+.pc-idx{
+  font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;
+  color:#a78bfa;opacity:.3;transition:opacity .3s;
+}
+.pc-item:hover .pc-idx{opacity:1;text-shadow:0 0 10px #a78bfa;}
+.pc-footer{
+  position:fixed;bottom:28px;left:0;right:0;
+  display:flex;justify-content:space-between;padding:0 44px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:rgba(167,139,250,.35);letter-spacing:.1em;
+  pointer-events:none;z-index:10;
+}
+/* light */
+#p-crit.pc-light{background:#f8fafc;}
+#p-crit.pc-light .pc-topbar{background:linear-gradient(to bottom,#f8fafc 0%,transparent 100%);color:rgba(109,40,217,.4);}
+#p-crit.pc-light .pc-brand{color:rgba(15,23,42,.7);}
+#p-crit.pc-light .pc-theme-btn{background:rgba(148,163,184,.1);border-color:rgba(109,40,217,.15);color:rgba(15,23,42,.7);}
+#p-crit.pc-light .pc-card{background:linear-gradient(135deg,rgba(241,245,249,.6) 0%,rgba(255,255,255,.3) 100%);border-color:rgba(109,40,217,.15);}
+#p-crit.pc-light .pc-h1{color:#0f172a;}
+#p-crit.pc-light .pc-sub{color:#6d28d9;}
+#p-crit.pc-light .pc-icon{color:#6d28d9;filter:drop-shadow(0 0 12px #bae6fd);}
+#p-crit.pc-light .pc-desc{color:rgba(15,23,42,.7);}
+#p-crit.pc-light .pc-item{background:linear-gradient(135deg,rgba(241,245,249,.8) 0%,rgba(255,255,255,.5) 100%);border-color:rgba(109,40,217,.15);}
+#p-crit.pc-light .pc-item:hover{border-color:rgba(109,40,217,.4);background:linear-gradient(135deg,rgba(241,245,249,.9) 0%,rgba(109,40,217,.08) 100%);}
+#p-crit.pc-light .pc-ko{color:#0f172a;}
+#p-crit.pc-light .pc-en{color:rgba(109,40,217,.7);}
+#p-crit.pc-light .pc-body{color:rgba(15,23,42,.7);}
+#p-crit.pc-light .pc-idx{color:#6d28d9;}
+#p-crit.pc-light .pc-prog-fill{background:linear-gradient(to bottom,#6d28d9,#bae6fd);}
+#p-crit.pc-light .pc-footer{color:rgba(109,40,217,.3);}
+/* ── PL (p-list) ── */
+#p-list{
+  position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+  --bg-base:#030407;
+  --bg-surface-1:rgba(255,255,255,.03);
+  --bg-surface-2:rgba(255,255,255,.06);
+  --bg-surface-3:rgba(255,255,255,.12);
+  --text-primary:#fff;
+  --text-secondary:rgba(255,255,255,.6);
+  --text-tech:rgba(255,255,255,.4);
+  --border-glass:rgba(255,255,255,.1);
+  --border-highlight:rgba(255,255,255,.2);
+  --shader-core:#fff;
+  --shader-fringe:#4A88FF;
+  --glass-reflection:rgba(255,255,255,.15);
+  background:var(--bg-base);
+  color:var(--text-primary);
+  transition:background .6s cubic-bezier(.16,1,.3,1),color .6s cubic-bezier(.16,1,.3,1);
+}
+#p-list.pl-light{
+  --bg-base:#F5F7FA;
+  --bg-surface-1:rgba(255,255,255,.6);
+  --bg-surface-2:rgba(255,255,255,.8);
+  --bg-surface-3:#fff;
+  --text-primary:#050608;
+  --text-secondary:rgba(0,0,0,.6);
+  --text-tech:rgba(0,0,0,.4);
+  --border-glass:rgba(0,0,0,.08);
+  --border-highlight:rgba(0,0,0,.15);
+  --shader-core:#050608;
+  --shader-fringe:#8BA3CC;
+  --glass-reflection:rgba(255,255,255,.8);
+}
+#pl-webgl{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
+.pl-topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:flex-end;padding:16px 48px;pointer-events:none;}
+.pl-theme-btn{
+  height:44px;padding:0 20px;
+  background:var(--bg-surface-1);
+  border:1px solid var(--border-glass);
+  border-radius:999px;color:var(--text-primary);
+  display:flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+  cursor:pointer;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  transition:all .3s ease;pointer-events:all;
+}
+.pl-theme-btn:hover{transform:scale(1.02);background:var(--bg-surface-2);}
+#p-list .liquid-glass{
+  background:var(--bg-surface-1);
+  backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
+  border:1px solid var(--border-glass);
+  box-shadow:0 24px 80px rgba(0,0,0,.08);
+  position:relative;transition:all .6s cubic-bezier(.16,1,.3,1);
+}
+#p-list .liquid-glass::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:linear-gradient(to bottom,var(--glass-reflection),transparent);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+#p-list .card-hover:hover{
+  background:var(--bg-surface-2);border-color:var(--border-highlight);
+  transform:translateY(-8px);box-shadow:0 32px 90px rgba(0,0,0,.12);
+}
+@keyframes plSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+#p-list .animate-slide-up{animation:plSlideUp 1s cubic-bezier(.16,1,.3,1) forwards;opacity:0;}
+#p-list ::-webkit-scrollbar{width:8px;}
+#p-list ::-webkit-scrollbar-track{background:transparent;}
+#p-list ::-webkit-scrollbar-thumb{background:var(--bg-surface-3);border-radius:99px;}
+/* ── PV (p-prev) NEW DESIGN ── */
+#p-prev{
+  position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+  --pv-bg:#F8F5F0;--pv-s1:rgba(141,115,93,.05);--pv-s2:rgba(141,115,93,.08);--pv-s3:rgba(141,115,93,.15);
+  --pv-txt:#2D241E;--pv-txt2:#6B5D52;--pv-tech:#A69689;
+  --pv-br:rgba(45,36,30,.1);--pv-br2:rgba(45,36,30,.2);
+  --pv-shcore:#D4AF37;--pv-shfringe:#8C7851;
+  --pv-tabbg:rgba(45,36,30,.04);--pv-tabact:rgba(45,36,30,.08);
+  background:var(--pv-bg);color:var(--pv-txt);
+  transition:background .6s cubic-bezier(.16,1,.3,1),color .6s cubic-bezier(.16,1,.3,1);
+}
+#p-prev.pv-dark{
+  --pv-bg:#030407;--pv-s1:rgba(255,255,255,.04);--pv-s2:rgba(255,255,255,.07);--pv-s3:rgba(255,255,255,.12);
+  --pv-txt:#fff;--pv-txt2:rgba(255,255,255,.6);--pv-tech:rgba(255,255,255,.4);
+  --pv-br:rgba(255,255,255,.1);--pv-br2:rgba(255,255,255,.2);
+  --pv-shcore:#fff;--pv-shfringe:#4A88FF;
+  --pv-tabbg:rgba(255,255,255,.05);--pv-tabact:rgba(255,255,255,.15);
+}
+#pv-webgl{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
+.pv-header{position:sticky;top:0;z-index:30;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,var(--pv-bg) 0%,transparent 100%);pointer-events:none;}
+.pv-brand{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.2em;font-weight:700;color:var(--pv-txt);pointer-events:auto;}
+.pv-theme-btn{height:40px;padding:0 16px;background:var(--pv-s2);border:1px solid var(--pv-br);border-radius:999px;color:var(--pv-txt);display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;cursor:pointer;backdrop-filter:blur(10px);transition:all .3s ease;pointer-events:auto;}
+.pv-theme-btn:hover{background:var(--pv-s3);transform:scale(1.02);}
+.pv-main{position:relative;z-index:20;padding:40px 24px 120px;display:flex;justify-content:center;align-items:flex-start;}
+.pv-card{width:100%;max-width:720px;background:var(--pv-s1);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid var(--pv-br);border-radius:40px;padding:56px 48px;display:flex;flex-direction:column;gap:40px;box-shadow:0 24px 80px rgba(45,36,30,.08),inset 0 1px 0 rgba(255,255,255,.4);transition:background .6s cubic-bezier(.16,1,.3,1);}
+.pv-card-hd{text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center;}
+.pv-icon{font-size:56px;color:var(--pv-txt);opacity:.9;filter:drop-shadow(0 0 12px rgba(212,175,55,.2));margin-bottom:8px;}
+.pv-h1{font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.02em;text-transform:uppercase;color:var(--pv-txt);}
+.pv-subtitle{font-size:18px;font-weight:600;color:var(--pv-txt);}
+.pv-tabs{display:flex;background:var(--pv-tabbg);padding:6px;border-radius:999px;border:1px solid var(--pv-br);margin-bottom:8px;}
+.pv-tab{flex:1;background:transparent;border:none;color:var(--pv-txt2);font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:600;padding:14px 24px;border-radius:999px;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;justify-content:center;gap:8px;}
+.pv-tab:hover{color:var(--pv-txt);}
+.pv-tab.active{color:var(--pv-txt);background:var(--pv-tabact);box-shadow:0 4px 12px rgba(45,36,30,.05);border:1px solid rgba(45,36,30,.05);}
+.pv-section{display:none;flex-direction:column;gap:12px;animation:pvFadeIn .4s ease forwards;}
+.pv-section.active{display:flex;}
+@keyframes pvFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.pv-acc{background:var(--pv-s2);border:1px solid var(--pv-br);border-radius:20px;overflow:hidden;transition:all .4s cubic-bezier(.16,1,.3,1);position:relative;}
+.pv-acc:hover{background:var(--pv-s3);border-color:var(--pv-br2);transform:translateX(4px);}
+.pv-acc.open{background:var(--pv-s3);border-color:var(--pv-br2);box-shadow:0 8px 24px rgba(45,36,30,.06);transform:translateX(4px);}
+.pv-acc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--pv-txt);opacity:0;transition:opacity .3s ease;}
+.pv-acc.open::before{opacity:1;}
+.pv-acc-hd{display:flex;align-items:center;gap:20px;padding:20px 24px;cursor:pointer;user-select:none;}
+.pv-acc-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--pv-tech);letter-spacing:.1em;font-weight:700;width:48px;flex-shrink:0;}
+.pv-acc-title{font-size:16px;color:var(--pv-txt);font-weight:500;flex:1;line-height:1.4;transition:all .3s ease;}
+.pv-acc-icon{color:var(--pv-txt2);font-size:20px;transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.pv-acc.open .pv-acc-icon{transform:rotate(180deg);color:var(--pv-txt);}
+.pv-acc.open .pv-acc-title{font-weight:600;}
+.pv-acc-body{max-height:0;overflow:hidden;opacity:0;padding:0 28px;transition:max-height .5s cubic-bezier(.16,1,.3,1),padding .5s cubic-bezier(.16,1,.3,1),opacity .4s ease;}
+.pv-acc.open .pv-acc-body{opacity:1;padding-bottom:28px;}
+.pv-acc-inner{color:var(--pv-txt2);font-size:15px;line-height:1.75;border-top:1px solid var(--pv-br);padding-top:20px;}
+.pv-footer{position:fixed;bottom:32px;left:0;right:0;padding:0 48px;display:flex;justify-content:space-between;z-index:30;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--pv-tech);letter-spacing:.1em;pointer-events:none;}
+/* ── VARIANT REDESIGN — Sub-pages ── */
+.vr-bar{font-size:9px;letter-spacing:.3em;color:rgba(255,255,255,.22);text-transform:uppercase;padding:11px 56px;border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:5;background:#000;}
+.vr-bar-light{background:#f3f0e8;color:rgba(0,0,0,.28);border-bottom-color:rgba(0,0,0,.08);}
+.vr-page{position:relative;min-height:100%;}
+.vr-glow{position:absolute;pointer-events:none;border-radius:50%;filter:blur(120px);z-index:0;}
+.vr-glow-blue{width:640px;height:640px;background:radial-gradient(circle,rgba(80,130,255,.22),transparent 70%);top:30%;left:50%;transform:translate(-50%,-30%);}
+.vr-glow-gold{width:680px;height:680px;background:radial-gradient(circle,rgba(200,140,50,.18),transparent 70%);top:20%;left:50%;transform:translate(-50%,-10%);}
+.vr-glow-purple{width:700px;height:700px;background:radial-gradient(circle,rgba(100,40,200,.25) 0%,rgba(60,10,150,.12) 50%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);}
+.vr-inner{position:relative;z-index:2;padding:56px 80px 100px;}
+.vr-inner-light{padding:56px 80px 100px;}
+.vr-sect{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:18px;}
+.vr-sect-light{color:rgba(0,0,0,.3);}
+.vr-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,84px);font-weight:300;color:#f5f5f7;line-height:1.02;letter-spacing:-.02em;margin-bottom:14px;}
+.vr-h1-light{color:#1a1a1a;}
+.vr-sub{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#6e6e73;margin-bottom:14px;display:block;}
+.vr-sub-light{color:#888;}
+.vr-desc{font-size:14px;color:#a1a1a6;line-height:2;max-width:600px;margin-bottom:48px;}
+.vr-desc-light{color:#555;}
+.vr-icon{width:40px;height:40px;color:#8e8e93;margin-bottom:24px;}
+.vr-icon-dark{color:#555;}
+
+/* Checklist */
+.vr-checklist{display:flex;flex-direction:column;gap:7px;margin-bottom:36px;}
+.vr-chk{display:flex;align-items:center;gap:16px;padding:13px 18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;cursor:pointer;transition:background .2s,border-color .2s;}
+.vr-chk:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);}
+.vr-chk.active{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);}
+.vr-chk-box{width:18px;height:18px;border:1px solid #3d3d3f;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;}
+.vr-chk.active .vr-chk-box{background:#f5f5f7;border-color:#f5f5f7;}
+.vr-chk-box svg{opacity:0;transition:opacity .12s;}
+.vr-chk.active .vr-chk-box svg{opacity:1;}
+.vr-chk-label{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:#444;flex-shrink:0;min-width:48px;transition:color .15s;}
+.vr-chk.active .vr-chk-label{color:#8e8e93;}
+.vr-chk-text{font-size:13.5px;color:#a1a1a6;line-height:1.5;transition:color .15s;}
+.vr-chk.active .vr-chk-text{color:#f5f5f7;}
+
+/* Score */
+.vr-score{padding:26px 30px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;}
+
+/* Resource cards (help) */
+.vr-grid2{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.vr-rcard{padding:38px 34px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);transition:background .25s;position:relative;overflow:hidden;}
+.vr-rcard::after{content:'';position:absolute;left:0;top:0;width:2px;height:0;background:#8e8e93;transition:height .4s cubic-bezier(.16,1,.3,1);}
+.vr-rcard:hover::after{height:100%;}
+.vr-rcard:hover{background:rgba(255,255,255,.07);}
+.vr-rcard-num{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#6e6e73;margin-bottom:8px;}
+.vr-rcard-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#f5f5f7;margin-bottom:12px;line-height:1.3;}
+.vr-rcard-body{font-size:13.5px;color:#a1a1a6;line-height:1.9;margin-bottom:20px;}
+.vr-rcard-link{font-size:10px;letter-spacing:.16em;color:#8e8e93;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:3px;}
+
+/* Definition cards */
+.vr-def-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.08);}
+.vr-def-card{padding:38px 34px;background:#050012;transition:background .25s;}
+.vr-def-card:hover{background:#0a0020;}
+.vr-def-code{font-size:8.5px;letter-spacing:.28em;text-transform:uppercase;color:rgba(150,100,255,.4);margin-bottom:4px;}
+.vr-def-term{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#f5f5f7;margin-bottom:12px;}
+.vr-def-body{font-size:13.5px;color:#a1a1a6;line-height:1.95;}
+
+/* Criterion list */
+.vr-crit-list{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.07);}
+.vr-crit-card{padding:26px 40px 26px 36px;background:#030008;display:flex;gap:24px;align-items:flex-start;transition:background .25s;}
+.vr-crit-card:hover{background:#080018;}
+.vr-crit-n{font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(255,255,255,.18);flex-shrink:0;min-width:22px;margin-top:3px;}
+.vr-crit-inner{flex:1;}
+.vr-crit-code{font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;color:rgba(120,70,230,.65);margin-bottom:5px;}
+.vr-crit-title{font-size:14px;color:#d0c0ff;font-weight:400;margin-bottom:7px;}
+.vr-crit-body{font-size:13px;color:#8e8e93;line-height:1.9;}
+
+/* ACTION GUIDELINES — light cream */
+#p-prev{background:#f3f0e8;}
+.vr-tab-bar{display:flex;border-bottom:1px solid rgba(0,0,0,.1);padding:0 56px;}
+.vr-tab-btn{padding:14px 24px;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;background:none;border:none;color:#999;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s;}
+.vr-tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+.vr-accord{display:none;flex-direction:column;}
+.vr-accord.active{display:flex;}
+.vr-accord-row{display:flex;align-items:flex-start;gap:18px;padding:18px 56px;border-bottom:1px solid rgba(0,0,0,.06);transition:background .2s;}
+.vr-accord-row:hover{background:rgba(0,0,0,.03);}
+.vr-accord-code{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:#bbb;flex-shrink:0;min-width:52px;margin-top:3px;}
+.vr-accord-txt{font-size:14px;color:#333;line-height:1.7;}
+
+/* Cult cards */
+.vr-cult-header{padding:44px 60px 36px;}
+.vr-cult-sect{font-size:8.5px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:10px;}
+.vr-cult-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5.5vw,76px);font-weight:300;color:#f5f5f7;margin-bottom:10px;line-height:1.02;}
+.vr-cult-sub{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#6e6e73;margin-bottom:12px;display:block;}
+.vr-cult-desc{font-size:13.5px;color:#a1a1a6;line-height:1.9;max-width:540px;}
+.vr-cult-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:24px 60px 80px;}
+.vr-ccard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:26px 22px;transition:background .3s,border-color .3s;backdrop-filter:blur(8px);}
+.vr-ccard:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2);}
+.vr-ccard-n{font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.28);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.vr-ccard-name{font-size:16px;font-weight:700;color:#f5f5f7;line-height:1.35;margin-bottom:16px;}
+.vr-ccard-meta{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08);}
+.vr-ccard-row{display:flex;gap:10px;align-items:baseline;}
+.vr-ccard-key{font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:#6e6e73;flex-shrink:0;min-width:42px;}
+.vr-ccard-val{font-size:12px;color:#a1a1a6;line-height:1.5;}
+.vr-ccard-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.vr-ctag{font-size:8.5px;letter-spacing:.1em;color:#6e6e73;border:1px solid rgba(255,255,255,.12);padding:2px 7px;border-radius:3px;}
+.vr-ccard-quote{font-size:11.5px;color:#6e6e73;line-height:1.75;}
+
 /* progress bar */
 #prog{position:fixed;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.04);z-index:200;}
 #prog-bar{height:100%;background:rgba(255,255,255,.35);transition:width .5s cubic-bezier(.4,0,.2,1);}
@@ -720,12 +1421,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
       <span></span>
       <span></span>
     </div>
-    <span class="logo-name">Discern</span>
+    <span class="logo-name">The Radar</span>
   </a>
   <div class="marquee-wrap">
     <div class="marquee-track">
-      <p>Discerning Truth from Heresy · General Assembly of Korea · Since 1907 · Scripture Alone · 6 Designated Heresy Groups · GAPCK Official Guide ·&nbsp;</p>
-      <p>Discerning Truth from Heresy · General Assembly of Korea · Since 1907 · Scripture Alone · 6 Designated Heresy Groups · GAPCK Official Guide ·&nbsp;</p>
+      <p>The Radar · General Assembly of Korea · Since 1907 · Scripture Alone · 6 Designated Heresy Groups · GAPCK Official Guide ·&nbsp;</p>
+      <p>The Radar · General Assembly of Korea · Since 1907 · Scripture Alone · 6 Designated Heresy Groups · GAPCK Official Guide ·&nbsp;</p>
     </div>
   </div>
   <button class="menu-btn" onclick="toggleMenu()">
@@ -825,6 +1526,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div class="slide" id="s4">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/people-hypnotized-by-their-mobiles-walk-in-the-dar-2026-01-28-03-15-21-utc.mp4" type="video/mp4">
+      </video>
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
+        <source src="videos/printing-machine-print-paper-in-typography-2025-12-17-11-07-28-utc.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="slide-dim"></div>
+    <div class="slide-caption">
+      <span class="slide-num">05</span>
+      <span class="slide-caption-tag">Major Heresy Groups · Official Ruling</span>
+    </div>
+  </div>
+
+  <div class="slide" id="s5">
+    <div class="slide-bg">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/hacker-in-hoodie-merged-with-matrix-code-while-typ-2026-01-22-02-56-04-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
@@ -839,207 +1556,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     </div>
     <div class="slide-dim"></div>
     <div class="slide-caption">
-      <span class="slide-num">05</span>
-      <span class="slide-caption-tag">Major Heresy Groups · Official Ruling</span>
-    </div>
-  </div>
-
-  <div class="slide" id="s5">
-    <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/people-hypnotized-by-their-mobiles-walk-in-the-dar-2026-01-28-03-15-21-utc.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/printing-machine-print-paper-in-typography-2025-12-17-11-07-28-utc.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="slide-dim"></div>
-    <div class="slide-caption">
       <span class="slide-num">06</span>
       <span class="slide-caption-tag">Prevention &amp; Response · 20 Guidelines</span>
-    </div>
-  </div>
-
-
-  <!-- s6 — interactive heresy grid (Plus X eXperience style) -->
-  <div class="slide" id="s6">
-    <div class="slide-bg" style="background:#0d0d0d;">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/the-mesmerizing-interplay-of-white-and-black-paint-2026-01-22-10-28-07-utc.mp4" type="video/mp4">
-      </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/warning-cyber-glitch-backgrounds-hacking-effect-an-2026-01-28-05-38-39-utc.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="slide-dim" style="background:rgba(0,0,0,.55);"></div>
-
-    <div id="exp-category">
-      <div class="exp-cat selected" data-filter="all" onclick="filterExp('all',this)">
-        <div class="cat-mask"><span>ALL</span></div>
-      </div>
-      <div class="exp-cat" data-filter="heresy" onclick="filterExp('heresy',this)">
-        <div class="cat-mask"><span>이단</span></div>
-      </div>
-      <div class="exp-cat" data-filter="pseudo" onclick="filterExp('pseudo',this)">
-        <div class="cat-mask"><span>사이비</span></div>
-      </div>
-    </div>
-
-    <div id="exp-grid">
-      <div id="exp-list">
-
-        <div class="exp-item" data-type="heresy">
-          <a class="item-link" href="#" onclick="openPage('list');return false;">
-            <div class="item-frame"><div class="item-visual">
-              <div class="image-box" style="background:#1a0a0a;">
-                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeRotate 8s linear infinite;opacity:.5;" fill="none" stroke="rgba(255,80,80,.7)" stroke-width="1">
-                  <line x1="50" y1="10" x2="50" y2="90"/><line x1="10" y1="50" x2="90" y2="50"/>
-                  <line x1="22" y1="22" x2="78" y2="78"/><line x1="78" y1="22" x2="22" y2="78"/>
-                  <circle cx="50" cy="50" r="38"/><circle cx="50" cy="50" r="20"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:#2a0505;">
-                <svg viewBox="0 0 100 100" style="width:75%;height:75%;animation:shapePulse 2s ease-in-out infinite;opacity:.8;" fill="none" stroke="rgba(255,100,100,.9)" stroke-width=".8">
-                  <polygon points="50,10 90,85 10,85"/><polygon points="50,28 74,74 26,74"/>
-                  <circle cx="50" cy="62" r="9" style="animation:shapeRotate 4s linear infinite;transform-origin:50px 50px;"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div></div>
-            <div class="exp-badge"><span class="badge-num">01</span><span class="badge-type">이단</span></div>
-            <div class="exp-info"><div class="exp-name">신천지</div><div class="exp-sub">이만희</div></div>
-          </a>
-        </div>
-
-        <div class="exp-item" data-type="heresy">
-          <a class="item-link" href="#" onclick="openPage('list');return false;">
-            <div class="item-frame"><div class="item-visual">
-              <div class="image-box" style="background:#0a0a1a;">
-                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeFloat 4s ease-in-out infinite;opacity:.5;" fill="none" stroke="rgba(80,80,255,.7)" stroke-width="1">
-                  <circle cx="50" cy="50" r="40"/><circle cx="50" cy="50" r="28"/><circle cx="50" cy="50" r="15"/>
-                  <circle cx="50" cy="10" r="5" style="animation:shapeOrbit 5s linear infinite;transform-origin:50px 50px;"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:#050520;">
-                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;" fill="none" stroke="rgba(100,100,255,.9)" stroke-width=".8">
-                  <circle cx="50" cy="50" r="42" style="animation:shapeRotate 12s linear infinite;stroke-dasharray:8 4;"/>
-                  <circle cx="50" cy="50" r="28" style="animation:shapeRotate 8s linear infinite reverse;"/>
-                  <circle cx="50" cy="50" r="14" style="animation:shapePulse 3s ease-in-out infinite;"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div></div>
-            <div class="exp-badge"><span class="badge-num">02</span><span class="badge-type">이단</span></div>
-            <div class="exp-info"><div class="exp-name">하나님의교회</div><div class="exp-sub">안상홍 / 장길자</div></div>
-          </a>
-        </div>
-
-        <div class="exp-item" data-type="heresy">
-          <a class="item-link" href="#" onclick="openPage('list');return false;">
-            <div class="item-frame"><div class="item-visual">
-              <div class="image-box" style="background:#100a00;">
-                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeRotate 10s linear infinite;opacity:.5;" fill="none" stroke="rgba(255,160,40,.7)" stroke-width="1">
-                  <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"/>
-                  <circle cx="50" cy="50" r="20" style="animation:shapePulse 3s ease-in-out infinite;"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:#1a0f00;">
-                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;animation:shapeRotate 6s linear infinite;" fill="none" stroke="rgba(255,180,60,.9)" stroke-width=".8">
-                  <line x1="50" y1="5" x2="50" y2="25"/><line x1="50" y1="75" x2="50" y2="95"/>
-                  <line x1="5" y1="50" x2="25" y2="50"/><line x1="75" y1="50" x2="95" y2="50"/>
-                  <line x1="18" y1="18" x2="32" y2="32"/><line x1="68" y1="68" x2="82" y2="82"/>
-                  <line x1="82" y1="18" x2="68" y2="32"/><line x1="32" y1="68" x2="18" y2="82"/>
-                  <circle cx="50" cy="50" r="22"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div></div>
-            <div class="exp-badge"><span class="badge-num">03</span><span class="badge-type">이단</span></div>
-            <div class="exp-info"><div class="exp-name">만민중앙교회</div><div class="exp-sub">이재록</div></div>
-          </a>
-        </div>
-
-        <div class="exp-item" data-type="pseudo">
-          <a class="item-link" href="#" onclick="openPage('list');return false;">
-            <div class="item-frame"><div class="item-visual">
-              <div class="image-box" style="background:#0d0d0d;">
-                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeFloat 5s ease-in-out infinite;opacity:.5;" fill="none" stroke="rgba(200,200,200,.6)" stroke-width="1">
-                  <polygon points="50,8 92,80 8,80"/>
-                  <polygon points="50,28 76,72 24,72" style="animation:shapeRotate 7s linear infinite;transform-origin:50px 53px;"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:#150515;">
-                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;" fill="none" stroke="rgba(200,100,255,.9)" stroke-width=".8">
-                  <circle cx="50" cy="50" r="42" style="animation:shapeRotate 15s linear infinite;stroke-dasharray:5 3;"/>
-                  <circle cx="50" cy="50" r="30" style="animation:shapeRotate 10s linear infinite reverse;stroke-dasharray:3 5;"/>
-                  <circle cx="50" cy="50" r="18" style="animation:shapeRotate 6s linear infinite;stroke-dasharray:8 2;"/>
-                  <circle cx="50" cy="50" r="6" style="animation:shapePulse 2s ease-in-out infinite;"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div></div>
-            <div class="exp-badge"><span class="badge-num">04</span><span class="badge-type">사이비</span></div>
-            <div class="exp-info"><div class="exp-name">JMS</div><div class="exp-sub">정명석</div></div>
-          </a>
-        </div>
-
-        <div class="exp-item" data-type="heresy">
-          <a class="item-link" href="#" onclick="openPage('list');return false;">
-            <div class="item-frame"><div class="item-visual">
-              <div class="image-box" style="background:#050f05;">
-                <svg viewBox="0 0 100 100" style="width:65%;height:65%;opacity:.5;" fill="none" stroke="rgba(80,200,80,.7)" stroke-width="1">
-                  <path d="M5,30 Q20,10 35,30 Q50,50 65,30 Q80,10 95,30" style="animation:shapeFloat 3s ease-in-out infinite;"/>
-                  <path d="M5,50 Q20,30 35,50 Q50,70 65,50 Q80,30 95,50" style="animation:shapeFloat 3s ease-in-out infinite .5s;"/>
-                  <path d="M5,70 Q20,50 35,70 Q50,90 65,70 Q80,50 95,70" style="animation:shapeFloat 3s ease-in-out infinite 1s;"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:#0a1a0a;">
-                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;animation:shapeRotate 20s linear infinite;" fill="none" stroke="rgba(100,220,100,.8)" stroke-width=".8">
-                  <line x1="20" y1="10" x2="20" y2="90"/><line x1="40" y1="10" x2="40" y2="90"/>
-                  <line x1="60" y1="10" x2="60" y2="90"/><line x1="80" y1="10" x2="80" y2="90"/>
-                  <line x1="10" y1="20" x2="90" y2="20"/><line x1="10" y1="40" x2="90" y2="40"/>
-                  <line x1="10" y1="60" x2="90" y2="60"/><line x1="10" y1="80" x2="90" y2="80"/>
-                  <circle cx="50" cy="50" r="30" style="animation:shapePulse 4s ease-in-out infinite;"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div></div>
-            <div class="exp-badge"><span class="badge-num">05</span><span class="badge-type">이단</span></div>
-            <div class="exp-info"><div class="exp-name">구원파</div><div class="exp-sub">권신찬 / 이요한 / 박옥수</div></div>
-          </a>
-        </div>
-
-        <div class="exp-item" data-type="pseudo">
-          <a class="item-link" href="#" onclick="openPage('list');return false;">
-            <div class="item-frame"><div class="item-visual">
-              <div class="image-box" style="background:#0f0800;">
-                <svg viewBox="0 0 100 100" style="width:65%;height:65%;animation:shapeRotate 9s linear infinite;opacity:.5;" fill="none" stroke="rgba(255,140,0,.7)" stroke-width="1">
-                  <polygon points="50,8 92,50 50,92 8,50"/>
-                  <polygon points="50,24 76,50 50,76 24,50" style="animation:shapeRotate 6s linear infinite reverse;transform-origin:50px 50px;"/>
-                  <circle cx="50" cy="50" r="10" style="animation:shapePulse 2.5s ease-in-out infinite;"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:#1a0d00;">
-                <svg viewBox="0 0 100 100" style="width:75%;height:75%;opacity:.8;" fill="none" stroke="rgba(255,160,40,.8)" stroke-width=".8">
-                  <ellipse cx="50" cy="50" rx="42" ry="15" style="animation:shapeRotate 4s linear infinite;"/>
-                  <ellipse cx="50" cy="50" rx="42" ry="15" transform="rotate(60,50,50)" style="animation:shapeRotate 4s linear infinite;"/>
-                  <ellipse cx="50" cy="50" rx="42" ry="15" transform="rotate(120,50,50)" style="animation:shapeRotate 4s linear infinite;"/>
-                  <circle cx="50" cy="50" r="8" style="fill:rgba(255,160,40,.3);animation:shapePulse 2s ease-in-out infinite;"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div></div>
-            <div class="exp-badge"><span class="badge-num">06</span><span class="badge-type">사이비</span></div>
-            <div class="exp-info"><div class="exp-name">통일교</div><div class="exp-sub">문선명</div></div>
-          </a>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="slide-caption" style="left:260px;">
-      <span class="slide-num">07</span>
-      <span class="slide-caption-tag">Heresy Groups · Drag to Explore</span>
     </div>
   </div>
 
@@ -1050,7 +1568,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div class="ctrl-number">
     <div class="ctrl-now"><span id="ctrl-now">1</span></div>
     <div class="ctrl-total">
-      <span id="ctrl-total">7</span>
+      <span id="ctrl-total">6</span>
     </div>
   </div>
   <button class="ctrl-arrow" id="btn-up" onclick="prev()">
@@ -1075,22 +1593,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </button>
   <div class="menu-left">
     <ul class="menu-nav">
-      <li><a href="#" onclick="closePage();toggleMenu();return false;"><span>Home</span><span class="menu-num">01</span></a></li>
-      <li><a href="#" onclick="openPage('radar');toggleMenu();return false;"><span>The Cult Radar</span><span class="menu-num">02</span></a></li>
-      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><span>Get Help</span><span class="menu-num">03</span></a></li>
+      <li><a href="#" onclick="closePage();toggleMenu();return false;"><span>Home</span><span class="menu-num">MAIN</span></a></li>
+      <li><a href="#" onclick="openPage('radar');toggleMenu();return false;"><span>The Cult Radar</span><span class="menu-num">01</span></a></li>
+      <li><a href="#" onclick="openPage('help');toggleMenu();return false;"><span>Get Help</span><span class="menu-num">02</span></a></li>
       <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><span>Definition</span><span class="menu-num">03</span></a></li>
       <li><a href="#" onclick="openPage('crit');toggleMenu();return false;"><span>Criteria</span><span class="menu-num">04</span></a></li>
       <li><a href="#" onclick="openPage('list');toggleMenu();return false;"><span>Heresy Groups</span><span class="menu-num">05</span></a></li>
       <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><span>Prevention</span><span class="menu-num">06</span></a></li>
-      <li><a href="#" onclick="go(6);toggleMenu();return false;"><span>Heresy Grid</span><span class="menu-num">07</span></a></li>
-    </ul>
-  </div>
-  <div class="menu-right">
-    <div></div>
-    <ul class="menu-sub">
-      <li><a href="#">Counseling</a><div class="menu-sub-desc">이단 피해 상담 및 탈퇴 지원</div></li>
-      <li><a href="#">Seminar</a><div class="menu-sub-desc">교회 방문 특강 신청</div></li>
-      <li><a href="#">References</a><div class="menu-sub-desc">총회 연구보고서 및 가이드북</div></li>
     </ul>
     <div class="menu-foot">대한예수교장로회총회<br>이단사이비대책위원회<br>이단사이비문제상담소<br><br>ⓒ 대한예수교장로회총회.<br>All rights reserved.</div>
   </div>
@@ -1103,412 +1612,1149 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     Back
   </button>
 
-  <!-- RADAR — 자가진단 -->
-  <div id="p-radar" style="display:none">
-    <div class="p-header">
-      <h2 class="p-title">The Cult Radar</h2>
-      <p class="p-sub">지금 보는 채널을 점검해보세요</p>
-    </div>
-    <div style="padding:28px 56px 12px;">
-      <p style="font-size:14px;color:#a1a1a6;letter-spacing:.03em;line-height:2;">해당되는 항목을 체크하세요. 체크 개수에 따라 위험도를 알려드립니다.</p>
-    </div>
-    <div style="padding:0 40px 20px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+  <!-- 01 · THE CULT RADAR -->
+  <div id="p-radar" class="pr-light" style="display:none">
+    <canvas id="pr-canvas"></canvas>
 
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">성경을 특정 구절만 뽑아 비유로 풀이하며 짜맞추기 한다</div>
+    <!-- 상단 바 -->
+    <div class="pr-topbar">
+      <div class="pr-brand">
+        <i class="ph-fill ph-radar"></i>
+        CULT.RADAR // V01.00
       </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">부모님이나 목사님께 비밀로 시청하도록 유도한다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">시대별로 구원자가 다르게 존재한다고 가르친다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">구원자 또는 재림주가 한국에서 태어났다고 주장한다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">교주가 하나님께 직접 계시를 받았다고 주장한다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">2~3년 내 종말이 온다며 공포감을 조장한다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">토요일 안식일·절기 지키기를 구원의 조건으로 강요한다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">정통교회를 타락했다며 자기 단체로 이동을 유도한다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">프리메이슨·일루미나티 등 음모론으로 세상을 설명한다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">채널 운영자의 신학 배경·교단 소속이 전혀 확인되지 않는다</div>
-      </div>
-      <div class="radar-item" onclick="toggleRadar(this)" style="grid-column:1/-1;">
-        <div class="radar-box"><svg viewBox="0 0 10 10" style="width:10px;height:10px;opacity:0;transition:opacity .2s"><polyline points="1.5,5 4,8 8.5,2" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="radar-text">시청할수록 일상이 무의미하고 가족과 멀어지는 느낌이 든다</div>
-      </div>
-
+      <button class="pr-theme-btn" id="prThemeBtn" onclick="prToggleTheme()">
+        <i class="ph-fill ph-sun" id="prThemeIcon"></i>
+        <span id="prThemeText">LIGHT</span>
+      </button>
     </div>
 
-    <!-- 결과 -->
-    <div style="margin:0 40px 80px;padding:28px 32px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);">
-      <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:14px;">
-        <span id="radar-score-n" style="font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:#fff;letter-spacing:.04em;">0</span>
-        <span style="font-size:13px;color:#444;letter-spacing:.1em;">/ 11</span>
-      </div>
-      <div id="radar-score-adv" style="font-size:14px;color:#6e6e73;letter-spacing:.03em;line-height:1.8;">항목을 체크하면 위험도를 확인할 수 있습니다.</div>
-    </div>
-  </div>
+    <!-- 메인 카드 -->
+    <div class="pr-main">
+      <div class="pr-card">
+        <!-- 헤더 -->
+        <div class="pr-card-hd">
+          <i class="ph-light ph-fingerprint pr-icon"></i>
+          <div>
+            <div class="pr-h1">01 · THE CULT RADAR</div>
+            <div class="pr-subtitle">지금 보는 채널을 점검해보세요</div>
+          </div>
+          <p class="pr-desc">해당되는 항목을 체크하세요. 체크 개수에 따라 위험도를 알려드립니다</p>
+        </div>
 
-  <!-- HELP -->
-  <div id="p-help" style="display:none">
-    <div class="p-header"><h2 class="p-title">도움 받을 수 있는 곳</h2><p class="p-sub">전문 상담 기관</p></div>
-    <div style="padding:32px 56px 40px;border-bottom:1px solid rgba(255,255,255,.08);">
-      <p style="font-size:14px;color:#a1a1a6;line-height:2;">혼자 고민하지 마세요. 전문 기관에서 도움을 받을 수 있습니다.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
-      <div class="gcard">
-        <svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 4v16"/></svg>
-        <div class="gc-num">연구 · 상담 · 01</div><div class="gc-ttl">현대종교</div>
-        <p class="gc-body">이단·사이비 전문 연구 및 상담 기관. 각 이단 단체에 대한 상세 자료 제공</p>
-        <a href="https://hdjongkyo.co.kr" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.14em;color:#8e8e93;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:6px;">hdjongkyo.co.kr →</a>
-      </div>
-      <div class="gcard">
-        <svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-        <div class="gc-num">전문 매체 · 02</div><div class="gc-ttl">기독교포털뉴스</div>
-        <p class="gc-body">이단·사이비 관련 최신 뉴스 및 분별 자료를 제공하는 기독교 전문 매체</p>
-        <a href="https://kportalnews.co.kr" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.14em;color:#8e8e93;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:6px;">kportalnews.co.kr →</a>
-      </div>
-      <div class="gcard">
-        <svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div class="gc-num">상담소 협회 · 03</div><div class="gc-ttl">한국기독교이단상담소협회</div>
-        <p class="gc-body">전국 각 교단이 연합하여 운영하는 이단 전문 상담 기관</p>
-        <a href="https://jesus114.net" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.14em;color:#8e8e93;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:6px;">jesus114.net →</a>
-      </div>
-      <div class="gcard" style="margin-bottom:80px;">
-        <svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <div class="gc-num">전문 상담소 · 04</div><div class="gc-ttl">신천지 전문 구리상담소</div>
-        <p class="gc-body">신천지 이탈 및 회복을 전문으로 돕는 상담 기관</p>
-        <a href="https://antiscj.or.kr" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.14em;color:#8e8e93;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:6px;">antiscj.or.kr →</a>
+        <!-- 체크리스트 -->
+        <div class="pr-checklist">
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_01</span><span class="pr-text">성경을 특정 구절만 뽑아 비유로 풀이하며 짜맞추기 한다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_02</span><span class="pr-text">부모님이나 목사님께 비밀로 시청하도록 유도한다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_03</span><span class="pr-text">시대별로 구원자가 다르게 존재한다고 가르친다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_04</span><span class="pr-text">구원자 또는 재림주가 한국에서 태어났다고 주장한다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_05</span><span class="pr-text">교주가 하나님께 직접 계시를 받았다고 주장한다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_06</span><span class="pr-text">2~3년 내 종말이 온다며 공포감을 조장한다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_07</span><span class="pr-text">토요일 안식일·절기 지키기를 구원의 조건으로 강요한다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_08</span><span class="pr-text">정통교회를 타락했다며 자기 단체로 이동을 유도한다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_09</span><span class="pr-text">프리메이슨·일루미나티 등 음모론으로 세상을 설명한다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_10</span><span class="pr-text">채널 운영자의 신학 배경·교단 소속이 전혀 확인되지 않는다</span></div></div>
+          <div class="pr-item" onclick="prChk(this)"><div class="pr-box"><i class="ph-bold ph-check"></i></div><div class="pr-item-body"><span class="pr-num">CHK_11</span><span class="pr-text">시청할수록 일상이 무의미하고 가족과 멀어지는 느낌이 든다</span></div></div>
+        </div>
+
+        <!-- 결과 패널 -->
+        <div class="pr-result" id="prResult">
+          <div class="pr-rhead">
+            <div class="pr-rlabel" id="prLabel"><i class="ph-fill ph-shield-check"></i> ANALYSIS PENDING</div>
+            <div class="pr-rcount"><span id="prCount">0</span>/11</div>
+          </div>
+          <div class="pr-meter"><div class="pr-fill" id="prFill"></div></div>
+          <div class="pr-msg" id="prMsg">항목을 체크하면 위험도를 확인할 수 있습니다</div>
+          <button class="pr-btn disabled" id="prBtn">결과 대기중 <i class="ph-bold ph-hourglass-low"></i></button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- DEF -->
-  <div id="p-def" style="display:none">
-    <div class="p-header"><h2 class="p-title">정의 및 용어</h2><p class="p-sub">운영세칙 제3조 기준</p></div>
-    <div class="g2">
-      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div class="gc-num">Heresy · 01</div><div class="gc-ttl">이단 異端</div><p class="gc-body">성경 및 공교회의 주요 교리에 위배되는 사상이나 그런 사상을 추종하는 집단을 말한다.</p></div>
-      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg><div class="gc-num">Pseudo · 02</div><div class="gc-ttl">사이비 似而非</div><p class="gc-body">사회적·반윤리적 행위를 조장하는 사상 및 그런 사상을 추종하는 유사 기독교를 말한다.</p></div>
-      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><div class="gc-num">Tendency · 03</div><div class="gc-ttl">이단성 異端性</div><p class="gc-body">이단이나 사이비로 규정하기에는 정도가 약하나, 그러한 요소가 있어서 일정한 제재가 필요한 경우를 말한다.</p></div>
-      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><div class="gc-num">Ban · 04</div><div class="gc-ttl">참여금지</div><p class="gc-body">집회나 교육 프로그램이 성경적·목회적으로 문제점과 부작용이 현저한 경우에 참여를 금지하도록 하는 것을 말한다.</p></div>
-      <div class="gcard"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><div class="gc-num">Monitor · 05</div><div class="gc-ttl">참여자제 및 예의주시</div><p class="gc-body">문제점과 부작용이 예상되어 일정한 제재가 필요한 경우, 참여를 자제토록 하고 총회가 지속적으로 감시한다.</p></div>
-      <div class="gcard" style="margin-bottom:80px;"><svg class="gc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg><div class="gc-num">Media · 06</div><div class="gc-ttl">이단사이비 옹호언론</div><p class="gc-body">이단이나 사이비로 규정된 개인이나 집단의 수장을 옹호·홍보하거나 관련 광고를 게재하는 언론을 말한다.</p></div>
+    <!-- 하단 기술 풋터 -->
+    <div class="pr-footer">
+      <span>SYS.SCAN // ACTIVE</span>
+      <span>RADAR_ONLINE_</span>
     </div>
-  </div>
+  </div><!-- /p-radar -->
 
-  <!-- CRIT -->
-  <div id="p-crit" style="display:none">
-    <div class="p-header"><h2 class="p-title">판단 기준</h2><p class="p-sub">오직 성경 — 운영세칙 제4조</p></div>
-    <div style="padding:24px 56px 20px;background:rgba(255,255,255,.018);"><p style="font-size:11.5px;color:#666;line-height:2;">이단 또는 사이비로 규정할 때 그 기준은 <strong style="color:#e8e8e8;font-weight:400;">오직 성경</strong>이다. ①사도신경 ②신조 ③웨스트민스터 소요리문답 및 신앙고백 ④기타 개혁교회의 교리와 신학 전통을 기준으로 한다.</p></div>
-    <div class="lrow"><div class="lr-n">01</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg></div><div><div class="lr-topic">계시론 · Revelation</div><div class="lr-body">성경에서 벗어난 계시를 강조하거나, 성경과 동등한 권위를 가진 다른 경전이 있다고 주장하거나, 성경의 권위를 부정하거나 왜곡 해석하는 경우</div></div></div>
-    <div class="lrow"><div class="lr-n">02</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="lr-topic">삼위일체론 · Trinity</div><div class="lr-body">삼위일체를 부정하거나 현저히 잘못 가르치는 경우 — 종속론, 양태론, 삼신론 등</div></div></div>
-    <div class="lrow"><div class="lr-n">03</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="lr-topic">그리스도론 · Christology</div><div class="lr-body">예수 그리스도의 참 하나님과 참 사람임을 부정하거나, 성육신·동정녀 탄생·대속적 죽음·부활·승천·재림·심판주임을 부정하는 경우</div></div></div>
-    <div class="lrow"><div class="lr-n">04</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div><div><div class="lr-topic">성령론 · Pneumatology</div><div class="lr-body">성령의 신성 또는 인격성을 부정하는 경우</div></div></div>
-    <div class="lrow"><div class="lr-n">05</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="lr-topic">구원론 · Soteriology</div><div class="lr-body">이신칭의를 부정하거나, 예수 그리스도 외 구원자를 인정하는 종교다원주의를 옹호하는 경우</div></div></div>
-    <div class="lrow"><div class="lr-n">06</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="lr-topic">종말론 · Eschatology</div><div class="lr-body">신자의 부활·심판·천국·지옥 등을 부정하거나, 지나친 시한부 종말을 주장하는 경우</div></div></div>
-    <div class="lrow"><div class="lr-n">07</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="lr-topic">교회론 · Ecclesiology</div><div class="lr-body">공교회를 비방하거나, 자기 집단에만 구원이 있다고 주장하는 경우</div></div></div>
-    <div class="lrow"><div class="lr-n">08</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="lr-topic">인간론 · Anthropology</div><div class="lr-body">인간을 신격화하거나, 교주를 메시야 또는 성령으로 칭하는 경우</div></div></div>
-    <div class="lrow" style="margin-bottom:80px;"><div class="lr-n">09</div><div class="lr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="lr-ico-svg"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div><div class="lr-topic">창조론 · Creationism</div><div class="lr-body">하나님의 창조주임을 부정하거나, 진화론을 주장하거나, 퀴어 사상을 옹호하는 경우</div></div></div>
-  </div>
+  <!-- 02 · 도움 받을 수 있는 곳 -->
+  <div id="p-help" class="ph-light" style="display:none">
+    <canvas id="ph-canvas"></canvas>
 
-  <!-- LIST — Plus X experience grid style -->
-  <div id="p-list" style="display:none">
-    <div class="p-header"><h2 class="p-title">주요 이단 집단</h2><p class="p-sub">총회 공식 이단 규정 집단<br>6 Designated Heresy Groups</p></div>
-
-    <div class="exp-grid">
-
-      <!-- 01 신천지 -->
-      <div class="exp-item">
-        <a class="item-link" href="#">
-          <div class="item-frame">
-            <div class="item-visual">
-              <!-- base: dark gradient bg with SVG pattern -->
-              <div class="image-box" style="background:linear-gradient(135deg,#1a0a0a 0%,#2d0808 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
-                  <circle cx="100" cy="161" r="120" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <circle cx="100" cy="161" r="80" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <circle cx="100" cy="161" r="40" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <line x1="100" y1="41" x2="100" y2="281" stroke="#fff" stroke-width=".5"/>
-                  <line x1="-20" y1="161" x2="220" y2="161" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <!-- hover: different tint -->
-              <div class="hover-box" style="background:linear-gradient(135deg,#0a1a0a 0%,#082d08 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
-                  <rect x="20" y="60" width="160" height="203" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <rect x="50" y="90" width="100" height="143" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <line x1="20" y1="60" x2="180" y2="263" stroke="#fff" stroke-width=".5"/>
-                  <line x1="180" y1="60" x2="20" y2="263" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div>
-          </div>
-          <div class="exp-badge"><span class="exp-badge-num">01</span></div>
-          <div class="exp-info">
-            <div class="exp-info-title">신천지 예수교<br>증거장막성전</div>
-            <div class="exp-info-sub">교주 이만희</div>
-            <div class="exp-info-tags">
-              <span class="exp-info-tag">성경 왜곡</span>
-              <span class="exp-info-tag">구원 독점</span>
-            </div>
-          </div>
-        </a>
+    <div class="ph-topbar">
+      <div class="ph-brand">
+        <i class="ph-fill ph-radar"></i>
+        CULT.RADAR // V01.00
       </div>
-
-      <!-- 02 하나님의교회 -->
-      <div class="exp-item">
-        <a class="item-link" href="#">
-          <div class="item-frame">
-            <div class="item-visual">
-              <div class="image-box" style="background:linear-gradient(135deg,#0a0a1a 0%,#08082d 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
-                  <polygon points="100,30 190,280 10,280" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <polygon points="100,70 165,260 35,260" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <polygon points="100,110 140,240 60,240" fill="none" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:linear-gradient(135deg,#1a1a0a 0%,#2d2d08 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
-                  <circle cx="100" cy="161" r="100" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <circle cx="60" cy="161" r="60" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <circle cx="140" cy="161" r="60" fill="none" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div>
-          </div>
-          <div class="exp-badge"><span class="exp-badge-num">02</span></div>
-          <div class="exp-info">
-            <div class="exp-info-title">하나님의교회<br>세계복음선교협회</div>
-            <div class="exp-info-sub">안상홍 / 장길자 신격화</div>
-            <div class="exp-info-tags">
-              <span class="exp-info-tag">아버지 하나님</span>
-              <span class="exp-info-tag">어머니 하나님</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 03 만민중앙교회 -->
-      <div class="exp-item">
-        <a class="item-link" href="#">
-          <div class="item-frame">
-            <div class="item-visual">
-              <div class="image-box" style="background:linear-gradient(135deg,#150a1a 0%,#200828 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
-                  <path d="M100,20 L180,80 L180,200 C180,260 145,290 100,300 C55,290 20,260 20,200 L20,80 Z" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <path d="M100,55 L160,105 L160,200 C160,245 132,268 100,276 C68,268 40,245 40,200 L40,105 Z" fill="none" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:linear-gradient(135deg,#0a150a 0%,#082008 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
-                  <line x1="30" y1="30" x2="170" y2="293" stroke="#fff" stroke-width=".5"/>
-                  <line x1="170" y1="30" x2="30" y2="293" stroke="#fff" stroke-width=".5"/>
-                  <line x1="100" y1="30" x2="100" y2="293" stroke="#fff" stroke-width=".5"/>
-                  <line x1="30" y1="161" x2="170" y2="161" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div>
-          </div>
-          <div class="exp-badge"><span class="exp-badge-num">03</span></div>
-          <div class="exp-info">
-            <div class="exp-info-title">만민중앙교회</div>
-            <div class="exp-info-sub">교주 이재록</div>
-            <div class="exp-info-tags">
-              <span class="exp-info-tag">직통계시</span>
-              <span class="exp-info-tag">신격화</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 04 JMS -->
-      <div class="exp-item">
-        <a class="item-link" href="#">
-          <div class="item-frame">
-            <div class="item-visual">
-              <div class="image-box" style="background:linear-gradient(135deg,#1a0f0a 0%,#2d1808 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
-                  <rect x="30" y="60" width="140" height="203" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <rect x="60" y="90" width="80" height="143" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <rect x="85" y="115" width="30" height="93" fill="none" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:linear-gradient(135deg,#0a1a1a 0%,#082d2d 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
-                  <circle cx="100" cy="130" r="90" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <circle cx="100" cy="130" r="50" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <line x1="100" y1="40" x2="100" y2="220" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div>
-          </div>
-          <div class="exp-badge"><span class="exp-badge-num">04</span></div>
-          <div class="exp-info">
-            <div class="exp-info-title">국제크리스천연합<br>(JMS)</div>
-            <div class="exp-info-sub">교주 정명석</div>
-            <div class="exp-info-tags">
-              <span class="exp-info-tag">삼위일체 부정</span>
-              <span class="exp-info-tag">성범죄</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 05 구원파 -->
-      <div class="exp-item">
-        <a class="item-link" href="#">
-          <div class="item-frame">
-            <div class="item-visual">
-              <div class="image-box" style="background:linear-gradient(135deg,#0f1a0a 0%,#182d08 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
-                  <line x1="20" y1="80" x2="180" y2="80" stroke="#fff" stroke-width=".5"/>
-                  <line x1="20" y1="140" x2="180" y2="140" stroke="#fff" stroke-width=".5"/>
-                  <line x1="20" y1="200" x2="180" y2="200" stroke="#fff" stroke-width=".5"/>
-                  <line x1="20" y1="260" x2="180" y2="260" stroke="#fff" stroke-width=".5"/>
-                  <line x1="60" y1="40" x2="60" y2="300" stroke="#fff" stroke-width=".5"/>
-                  <line x1="100" y1="40" x2="100" y2="300" stroke="#fff" stroke-width=".5"/>
-                  <line x1="140" y1="40" x2="140" y2="300" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:linear-gradient(135deg,#1a0a0f 0%,#2d0818 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
-                  <polygon points="100,40 185,270 15,270" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <line x1="100" y1="40" x2="100" y2="270" stroke="#fff" stroke-width=".5"/>
-                  <line x1="15" y1="270" x2="185" y2="270" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div>
-          </div>
-          <div class="exp-badge"><span class="exp-badge-num">05</span></div>
-          <div class="exp-info">
-            <div class="exp-info-title">구원파</div>
-            <div class="exp-info-sub">권신찬 / 이요한 / 박옥수</div>
-            <div class="exp-info-tags">
-              <span class="exp-info-tag">왜곡된 구원론</span>
-              <span class="exp-info-tag">회개 부정</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 06 통일교 -->
-      <div class="exp-item">
-        <a class="item-link" href="#">
-          <div class="item-frame">
-            <div class="item-visual">
-              <div class="image-box" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.18;">
-                  <circle cx="100" cy="161" r="120" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <line x1="100" y1="41" x2="100" y2="281" stroke="#fff" stroke-width=".5"/>
-                  <line x1="-20" y1="161" x2="220" y2="161" stroke="#fff" stroke-width=".5"/>
-                  <line x1="15" y1="76" x2="185" y2="246" stroke="#fff" stroke-width=".5"/>
-                  <line x1="185" y1="76" x2="15" y2="246" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="hover-box" style="background:linear-gradient(135deg,#1a1208 0%,#2d2008 100%);">
-                <svg width="100%" height="100%" viewBox="0 0 200 323" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:.25;">
-                  <rect x="20" y="40" width="160" height="243" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <rect x="50" y="80" width="100" height="163" fill="none" stroke="#fff" stroke-width=".5"/>
-                  <rect x="80" y="120" width="40" height="83" fill="none" stroke="#fff" stroke-width=".5"/>
-                </svg>
-              </div>
-              <div class="item-dimd"></div>
-            </div>
-          </div>
-          <div class="exp-badge"><span class="exp-badge-num">06</span></div>
-          <div class="exp-info">
-            <div class="exp-info-title">통일교<br>(세계평화통일가정연합)</div>
-            <div class="exp-info-sub">교주 문선명</div>
-            <div class="exp-info-tags">
-              <span class="exp-info-tag">예수 실패자</span>
-              <span class="exp-info-tag">탕감복귀설</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
+      <button class="ph-theme-btn" onclick="phToggleTheme()">
+        <i class="ph-fill ph-sun" id="phThemeIcon"></i>
+        <span id="phThemeText">LIGHT</span>
+      </button>
     </div>
-  </div>
 
-  <!-- PREV -->
+    <div class="ph-main">
+      <div class="ph-card">
+        <div class="ph-card-hd">
+          <i class="ph-light ph-hands-praying ph-icon"></i>
+          <div>
+            <div class="ph-h1">02 · 도움 받을 수 있는 곳</div>
+            <div class="ph-subtitle">전문 상담 기관</div>
+          </div>
+          <p class="ph-desc">혼자 고민하지 마세요. 전문 기관에서 도움을 받을 수 있습니다</p>
+        </div>
+
+        <div class="ph-grid">
+          <a href="http://hdjongkyo.co.kr" target="_blank" class="ph-rcard">
+            <div class="ph-rcard-n">01</div>
+            <div class="ph-rcard-name">현대종교</div>
+            <p class="ph-rcard-desc">이단·사이비 전문 연구 및 상담 기관</p>
+            <span class="ph-rcard-url">hdjongkyo.co.kr</span>
+            <i class="ph-bold ph-arrow-up-right ph-rcard-arrow"></i>
+          </a>
+          <a href="http://kportalnews.co.kr" target="_blank" class="ph-rcard">
+            <div class="ph-rcard-n">02</div>
+            <div class="ph-rcard-name">기독교포털뉴스</div>
+            <p class="ph-rcard-desc">이단·사이비 관련 최신 뉴스 및 분별 자료 제공</p>
+            <span class="ph-rcard-url">kportalnews.co.kr</span>
+            <i class="ph-bold ph-arrow-up-right ph-rcard-arrow"></i>
+          </a>
+          <a href="http://jesus114.net" target="_blank" class="ph-rcard">
+            <div class="ph-rcard-n">03</div>
+            <div class="ph-rcard-name">한국기독교이단상담소협회</div>
+            <p class="ph-rcard-desc">전국 교단 연합 이단 전문 상담 기관</p>
+            <span class="ph-rcard-url">jesus114.net</span>
+            <i class="ph-bold ph-arrow-up-right ph-rcard-arrow"></i>
+          </a>
+          <a href="http://antiscj.or.kr" target="_blank" class="ph-rcard">
+            <div class="ph-rcard-n">04</div>
+            <div class="ph-rcard-name">신천지 전문 구리상담소</div>
+            <p class="ph-rcard-desc">신천지 이탈 및 회복 전문 상담소</p>
+            <span class="ph-rcard-url">antiscj.or.kr</span>
+            <i class="ph-bold ph-arrow-up-right ph-rcard-arrow"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ph-footer">
+      <span>SYS.RESOURCE // ACTIVE</span>
+      <span>SUPPORT_ONLINE_</span>
+    </div>
+  </div><!-- /p-help -->
+
+  <!-- 03 · 정의 및 용어 -->
+  <div id="p-def" class="pd-light" style="display:none">
+    <canvas id="pd-canvas"></canvas>
+
+    <div class="pd-topbar">
+      <div class="pd-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V01.00</div>
+      <button class="pd-theme-btn" onclick="pdToggleTheme()">
+        <i class="ph-fill ph-sun" id="pdThemeIcon"></i>
+        <span id="pdThemeText">LIGHT</span>
+      </button>
+    </div>
+
+    <div class="pd-main">
+      <div class="pd-card">
+        <div class="pd-card-hd">
+          <i class="ph-light ph-book-open pd-icon"></i>
+          <div>
+            <div class="pd-h1">03 · 정의 및 용어</div>
+            <div class="pd-subtitle">이단 및 관련 용어 정의</div>
+          </div>
+        </div>
+
+        <div class="pd-grid" id="pdGrid">
+          <div class="pd-tcard">
+            <div class="pd-tcard-inner">
+              <div class="pd-tcard-hd">
+                <div class="pd-tnum">01</div>
+                <div class="pd-ttitle"><span class="pd-tko">이단</span><span class="pd-thanja">異端</span></div>
+              </div>
+              <p class="pd-tdesc">성경 및 공교회의 주요 교리에 위배되는 사상이나 그런 사상을 추종하는 집단</p>
+            </div>
+          </div>
+          <div class="pd-tcard">
+            <div class="pd-tcard-inner">
+              <div class="pd-tcard-hd">
+                <div class="pd-tnum">02</div>
+                <div class="pd-ttitle"><span class="pd-tko">사이비</span><span class="pd-thanja">似而非</span></div>
+              </div>
+              <p class="pd-tdesc">사회적·반윤리적 행위를 조장하는 사상 및 그런 사상을 추종하는 유사 기독교</p>
+            </div>
+          </div>
+          <div class="pd-tcard">
+            <div class="pd-tcard-inner">
+              <div class="pd-tcard-hd">
+                <div class="pd-tnum">03</div>
+                <div class="pd-ttitle"><span class="pd-tko">이단성</span><span class="pd-thanja">異端性</span></div>
+              </div>
+              <p class="pd-tdesc">이단이나 사이비로 규정하기에는 정도가 약하나, 그러한 요소가 있어서 일정한 제재가 필요한 경우</p>
+            </div>
+          </div>
+          <div class="pd-tcard">
+            <div class="pd-tcard-inner">
+              <div class="pd-tcard-hd">
+                <div class="pd-tnum">04</div>
+                <div class="pd-ttitle"><span class="pd-tko">참여금지</span></div>
+              </div>
+              <p class="pd-tdesc">집회나 교육 프로그램이 성경적·목회적으로 문제점과 부작용이 현저한 경우에 참여를 금지</p>
+            </div>
+          </div>
+          <div class="pd-tcard">
+            <div class="pd-tcard-inner">
+              <div class="pd-tcard-hd">
+                <div class="pd-tnum">05</div>
+                <div class="pd-ttitle"><span class="pd-tko">참여자제 및 예의주시</span></div>
+              </div>
+              <p class="pd-tdesc">문제점과 부작용이 예상되어 일정한 제재가 필요한 경우, 참여를 자제토록 하고 총회가 지속적으로 감시</p>
+            </div>
+          </div>
+          <div class="pd-tcard">
+            <div class="pd-tcard-inner">
+              <div class="pd-tcard-hd">
+                <div class="pd-tnum">06</div>
+                <div class="pd-ttitle"><span class="pd-tko">이단사이비 옹호언론</span></div>
+              </div>
+              <p class="pd-tdesc">이단이나 사이비로 규정된 집단의 수장을 옹호·홍보하거나 관련 광고를 게재하는 언론</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-footer">
+      <span>SYS.TERMS // ACTIVE</span>
+      <span>DB_ONLINE_</span>
+    </div>
+  </div><!-- /p-def -->
+
+  <!-- 04 · 판단 기준 -->
+  <div id="p-crit" class="pc-light" style="display:none">
+    <canvas id="pc-canvas"></canvas>
+
+    <div class="pc-topbar">
+      <div class="pc-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V01.00</div>
+      <button class="pc-theme-btn" onclick="pcToggleTheme()">
+        <i class="ph-fill ph-sun" id="pcThemeIcon"></i>
+        <span id="pcThemeText">LIGHT</span>
+      </button>
+    </div>
+
+    <div class="pc-main">
+      <div class="pc-card">
+        <div class="pc-card-hd">
+          <i class="ph-light ph-book-open-text pc-icon"></i>
+          <div class="pc-h1">04 · 판단 기준</div>
+          <div class="pc-sub">오직 성경</div>
+          <p class="pc-desc">이단 또는 사이비로 규정할 때 그 기준은 오직 성경이다. 사도신경, 신조, 웨스트민스터 소요리문답 및 신앙고백, 기타 개혁교회의 교리와 신학 전통을 기준으로 한다</p>
+        </div>
+
+        <div class="pc-list">
+          <div class="pc-prog-bg"></div>
+          <div class="pc-prog-fill"></div>
+
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">계시론</span><span class="pc-en">Revelation</span></div><p class="pc-body">성경에서 벗어난 계시를 강조하거나, 성경과 동등한 권위를 가진 다른 경전이 있다고 주장하거나, 성경의 권위를 부정하거나 왜곡 해석하는 경우</p></div><div class="pc-idx">01</div></div></div>
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">삼위일체론</span><span class="pc-en">Trinity</span></div><p class="pc-body">삼위일체를 부정하거나 현저히 잘못 가르치는 경우 (종속론, 양태론, 삼신론 등)</p></div><div class="pc-idx">02</div></div></div>
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">그리스도론</span><span class="pc-en">Christology</span></div><p class="pc-body">예수 그리스도의 참 하나님과 참 사람임을 부정하거나, 성육신·대속적 죽음·부활·승천·재림·심판주임을 부정하는 경우</p></div><div class="pc-idx">03</div></div></div>
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">성령론</span><span class="pc-en">Pneumatology</span></div><p class="pc-body">성령의 신성 또는 인격성을 부정하거나 피조물로 취급하는 경우</p></div><div class="pc-idx">04</div></div></div>
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">구원론</span><span class="pc-en">Soteriology</span></div><p class="pc-body">이신칭의를 부정하거나, 예수 그리스도 외 구원자를 인정하는 종교다원주의를 옹호하는 경우</p></div><div class="pc-idx">05</div></div></div>
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">종말론</span><span class="pc-en">Eschatology</span></div><p class="pc-body">신자의 부활·심판·천국·지옥 등을 부정하거나, 지나친 시한부 종말을 주장하는 경우</p></div><div class="pc-idx">06</div></div></div>
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">교회론</span><span class="pc-en">Ecclesiology</span></div><p class="pc-body">공교회를 비방하거나, 자기 집단에만 구원이 있다고 주장하여 교회의 보편성을 해치는 경우</p></div><div class="pc-idx">07</div></div></div>
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">인간론</span><span class="pc-en">Anthropology</span></div><p class="pc-body">인간을 신격화하거나, 교주를 메시야 또는 성령으로 칭하여 신앙의 대상으로 삼는 경우</p></div><div class="pc-idx">08</div></div></div>
+          <div class="pc-row"><div class="pc-item"><div class="pc-info"><div class="pc-title-row"><span class="pc-ko">창조론</span><span class="pc-en">Creationism</span></div><p class="pc-body">하나님의 창조주임을 부정하거나, 무신론적 진화론을 주장하거나, 퀴어 사상을 신학적으로 옹호하는 경우</p></div><div class="pc-idx">09</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pc-footer">
+      <span>SYS.JUDGMENT // ACTIVE</span>
+      <span>BIBLICAL_STANDARD_</span>
+    </div>
+  </div><!-- /p-crit -->
+
+  <!-- 06 · ACTION GUIDELINES (NEW DESIGN) -->
   <div id="p-prev" style="display:none">
-    <div class="p-header"><h2 class="p-title">대처 방안</h2><p class="p-sub">이단·사이비 예방 실천 수칙</p></div>
-    <div class="sec-lbl">① 10가지 실천 사항 — 신앙인으로서 갖추어야 할 기본 자세</div>
-    <div class="pgrid">
-      <div class="pcard"><div class="pc-n">01</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="pc-txt">기독교 신앙의 기본자세를 확립한다</div></div>
-      <div class="pcard"><div class="pc-n">02</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><div class="pc-txt">기독교 신앙의 기본 내용을 분명히 알아 둔다</div></div>
-      <div class="pcard"><div class="pc-n">03</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="pc-txt">구원의 확신을 분명히 가진다</div></div>
-      <div class="pcard"><div class="pc-n">04</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="pc-txt">성경의 중요한 내용을 정확히 배우려고 노력한다</div></div>
-      <div class="pcard"><div class="pc-n">05</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><div class="pc-txt">교회 중심, 목회자 중심의 신앙생활에 힘쓴다</div></div>
-      <div class="pcard"><div class="pc-n">06</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="pc-txt">무조건 믿는 것보다 다소 비판적인 시각도 가져본다</div></div>
-      <div class="pcard"><div class="pc-n">07</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="pc-txt">이단·사이비에 대한 기초 상식을 알아 둔다</div></div>
-      <div class="pcard"><div class="pc-n">08</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="pc-txt">건강한 교회와 화목한 가정을 이뤄 미혹의 틈을 주지 않는다</div></div>
-      <div class="pcard"><div class="pc-n">09</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div><div class="pc-txt">정기적인 이단 사이비 특강을 통해 경각심을 일깨운다</div></div>
-      <div class="pcard"><div class="pc-n">10</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="pc-txt">교회 내에 이단 사이비 대책 전문 상담 사역을 활성화하여 상시 대응한다</div></div>
+    <div id="pv-webgl"></div>
+    <div class="pv-header">
+      <div class="pv-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V01.00</div>
+      <button class="pv-theme-btn" onclick="pvToggleTheme()" id="pv-theme-btn">
+        <i class="ph-fill ph-sun" id="pv-theme-icon"></i>
+        <span id="pv-theme-text">LIGHT</span>
+      </button>
     </div>
-    <div class="sec-lbl">② 10가지 실천 수칙 — 실생활에서 지켜야 할 행동 지침</div>
-    <div class="pgrid" style="margin-bottom:80px;">
-      <div class="pcard"><div class="pc-n">01</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="pc-txt">설문 조사 시 이름, 전화번호, 주소 등을 기재하지 않는다</div></div>
-      <div class="pcard"><div class="pc-n">02</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="pc-txt">반드시 소속 교단 및 기관을 확인한다</div></div>
-      <div class="pcard"><div class="pc-n">03</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></div><div class="pc-txt">지나치게 친밀하게 접근하는 사람을 반드시 주의하고 확인한다</div></div>
-      <div class="pcard"><div class="pc-n">04</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="pc-txt">교인에게 궁금증을 유발하는 성경 질문을 미리 주지시킨다</div></div>
-      <div class="pcard"><div class="pc-n">05</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="pc-txt">도형 심리, 인문학 강좌, 대학 동아리 등 다양한 접근 통로에 대해 환기시킨다</div></div>
-      <div class="pcard"><div class="pc-n">06</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="pc-txt">이단 관계자와 접촉한 사실이 확인되면 즉시 목회자에게 알린다</div></div>
-      <div class="pcard"><div class="pc-n">07</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="pc-txt">검증된 이단 전문가를 통해서 이단 상담을 받는다</div></div>
-      <div class="pcard"><div class="pc-n">08</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="pc-txt">1년 1회 이상 이단 세미나를 개최한다</div></div>
-      <div class="pcard"><div class="pc-n">09</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><div class="pc-txt">교회에서 이단 전문상담사를 교육하여 교인을 보호한다</div></div>
-      <div class="pcard"><div class="pc-n">10</div><div class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="pc-txt">교인이 이단의 실체에 대해 경각심을 지니도록 계도한다</div></div>
+    <div class="pv-main">
+      <div class="pv-card">
+        <div class="pv-card-hd">
+          <i class="ph-light ph-shield-check pv-icon"></i>
+          <div>
+            <div class="pv-h1">06 · ACTION GUIDELINES</div>
+            <div class="pv-subtitle">대처방안 및 실천수칙</div>
+          </div>
+        </div>
+        <div class="pv-tabs">
+          <button class="pv-tab active" onclick="pvTab('pv-per',this)"><i class="ph-fill ph-user"></i> 개인 실천 사항</button>
+          <button class="pv-tab" onclick="pvTab('pv-chu',this)"><i class="ph-fill ph-church"></i> 교회 실천 수칙</button>
+        </div>
+        <div class="pv-section active" id="pv-per">
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_01</span><span class="pv-acc-title">기독교 신앙의 기본자세 확립</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">바른 교리와 신앙 고백을 통해 이단의 미혹에 흔들리지 않는 굳건한 믿음의 기초를 다집니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_02</span><span class="pv-acc-title">매일 성경읽기와 기도 생활</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">매일 정해진 시간에 말씀을 묵상하고 기도하며 건강한 영적 분별력을 지속적으로 유지합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_03</span><span class="pv-acc-title">건전한 교회 공동체 참여</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">검증된 정통 교회의 공예배와 소그룹 모임에 성실히 참여하여 신앙의 균형을 맞춥니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_04</span><span class="pv-acc-title">이단의 접근 방법 숙지</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">설문조사, 심리테스트, 우연한 만남, 문화강좌 위장 등 대표적인 이단 포교 수법을 미리 알아둡니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_05</span><span class="pv-acc-title">미혹적 초청에 응하지 않기</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">검증되지 않은 외부 성경공부, 문화센터, 힐링 세미나, 동아리 등의 초청을 단호하게 거절합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_06</span><span class="pv-acc-title">출처 불분명한 성경공부 거절</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">교회 밖에서 담임 목회자의 허락 없이 비밀리에 이루어지는 모든 형태의 성경공부를 절대 주의합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_07</span><span class="pv-acc-title">가족·친구와 신앙 대화 유지</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">평소 가족이나 신앙의 선배, 친구들과 고민을 나누며 이단에 의해 사회적 관계가 고립되지 않도록 합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_08</span><span class="pv-acc-title">이단 관련 정보 공유 및 경보</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">주변에서 수상한 포교 활동이나 단체를 발견하면 즉시 소속 교회 교역자와 주변 사람들에게 알립니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_09</span><span class="pv-acc-title">전문 상담소 연락처 저장</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">위기 상황에 즉각 대처할 수 있도록 한국기독교이단상담소협회 등 전문 기관의 연락처를 스마트폰에 미리 저장해 둡니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">PER_10</span><span class="pv-acc-title">피해 발생 시 즉시 신고</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">본인이나 지인이 미혹되었거나 피해를 입은 사실을 알게 된 경우, 숨기지 말고 즉시 교회와 전문가에게 도움을 요청합니다</div></div></div>
+        </div>
+        <div class="pv-section" id="pv-chu">
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_01</span><span class="pv-acc-title">새신자 등록 및 신원 파악</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">체계적인 새가족 등록 과정을 통해 신원을 명확히 확인하고 이단 세력의 교회 침투(추수꾼)를 사전에 방지합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_02</span><span class="pv-acc-title">정기적 이단 예방 교육 실시</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">전 교인을 대상으로 연 1~2회 이상 이단 대처 전문 강사를 초청하여 최신 동향과 예방 세미나를 개최합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_03</span><span class="pv-acc-title">교인 심방 및 상담 강화</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">성도들의 영적 상태, 가정의 어려움, 심리적 결핍 등을 면밀히 살피고 돌보아 이단이 파고들 틈을 차단합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_04</span><span class="pv-acc-title">교역자 이단 분별 역량 강화</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">목회자와 평신도 리더들을 위한 이단 교리 비판 및 대처 전문 교육 과정을 마련하여 지도력을 강화합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_05</span><span class="pv-acc-title">이단 피해자 회복 프로그램 운영</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">이단에서 탈퇴하고 정통 교회로 돌아온 성도들이 건강하게 신앙을 회복하고 정착할 수 있도록 전담 치유 프로그램을 운영합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_06</span><span class="pv-acc-title">교단 이단 규정 자료 비치</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">교회 로비나 도서관 등 누구나 쉽게 열람할 수 있는 곳에 주요 교단의 이단 결의 자료와 대처 매뉴얼을 상시 비치합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_07</span><span class="pv-acc-title">교회 내 소그룹 신앙 점검</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">구역, 셀, 목장 등 소그룹 모임 안에서 잘못된 성경 지식이나 영상 자료가 유포되지 않는지 정기적으로 점검합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_08</span><span class="pv-acc-title">지역 교회 연대 정보 공유</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">지역 기독교 연합회와 긴밀히 협력하여 주변 지역의 이단 활동 동향을 신속하게 파악하고 공동으로 대처합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_09</span><span class="pv-acc-title">청소년·청년부 집중 예방 교육</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">이단의 주요 타겟이 되는 중고등부, 대학청년부를 대상으로 맞춤형 이단 예방 교육과 캠퍼스 동아리 주의사항을 교육합니다</div></div></div>
+          <div class="pv-acc"><div class="pv-acc-hd" onclick="pvAcc(this)"><span class="pv-acc-num">CHU_10</span><span class="pv-acc-title">교인 이단 경각심 지속 계도</span><i class="ph-bold ph-caret-down pv-acc-icon"></i></div><div class="pv-acc-body"><div class="pv-acc-inner">주보 칼럼, 게시판, 광고 시간 등을 적극 활용하여 성도들이 이단의 위험성을 잊지 않도록 지속적으로 주의를 환기시킵니다</div></div></div>
+        </div>
+      </div>
     </div>
-  </div>
+    <div class="pv-footer"><span>SYS.SCAN // ACTIVE</span><span>RADAR_ONLINE_</span></div>
+  </div><!-- /p-prev -->
+
+  <!-- 05 · 주요 이단 자세히 파악하기 (NEW DESIGN) -->
+  <div id="p-list" class="pl-light" style="display:none">
+    <div id="pl-webgl"></div>
+    <div class="pl-topbar">
+      <button class="pl-theme-btn" onclick="plToggleTheme()" id="pl-theme-btn">
+        <i class="ph-fill ph-sun text-lg" id="pl-theme-icon"></i>
+        <span id="pl-theme-text">LIGHT</span>
+      </button>
+    </div>
+    <main class="relative z-10 w-full flex flex-col items-center px-6 pb-24 max-w-[1440px] mx-auto" style="padding-top:40px;">
+
+        <header class="liquid-glass rounded-[3rem] w-full max-w-4xl p-12 md:p-16 mb-16 flex flex-col items-center text-center animate-slide-up overflow-hidden">
+            <div class="inline-flex items-center gap-2 font-mono text-xs font-bold tracking-[0.2em] px-5 py-2 rounded-full uppercase mb-8 shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">
+                <i class="ph-fill ph-radar"></i>
+                05 Section // Cult.Radar
+            </div>
+            <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" style="line-height:1.15;color:var(--text-primary);">한눈에 보는 주요 이단 가이드</h1>
+            <h2 class="font-sans text-xl md:text-2xl font-medium mb-8" style="color:var(--text-secondary);">지금 이 순간도 유튜브에서 활동 중인 이단들</h2>
+            <p class="font-sans text-base md:text-lg leading-relaxed max-w-2xl mx-auto" style="color:var(--text-secondary);">
+                한국 교단이 공식적으로 이단·사이비로 결의한 단체들입니다<br class="hidden md:block">
+                기독교처럼 보이려 노력합니다
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.1s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">신천지 예수교<br>증거장막성전</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">01</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="font-medium" style="color:var(--text-primary);">이만희</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">예장 통합 1995년 이단</dd>
+                        <dt class="font-medium flex items-start pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="flex flex-col gap-1.5" style="color:var(--text-primary);">
+                            <span class="inline-flex items-center gap-1.5"><i class="ph-fill ph-youtube-logo text-red-500 text-lg"></i>신천지예수교증거장막성전</span>
+                            <span class="inline-flex items-center gap-1.5" style="color:var(--text-secondary);"><i class="ph ph-monitor-play text-lg" style="color:var(--text-tech);"></i>천지TV</span>
+                        </dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#성경암호론</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#이만희재림주</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#구원독점</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">"성경은 암호다, 나만 풀 수 있다"며 이만희를 재림주로 떠받드는 국내 최대 규모 사이비 단체. 코로나19 집단감염으로 세상에 알려졌다.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">이만희가 하나님께 직접 계시를 받은 유일한 해석자라고 주장한다. 신천지를 떠나면 구원이 없다고 가르쳐 탈퇴를 극도로 어렵게 만든다. 위장 포교로 유명하며, 가입 사실을 가족에게 숨기도록 유도한다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.2s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">하나님의교회<br>세계복음선교협회</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">02</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="font-medium" style="color:var(--text-primary);">안상홍(사망) / 장길자</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">한기총 2002년 이단</dd>
+                        <dt class="font-medium flex items-center pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="flex items-center gap-1.5 uppercase" style="color:var(--text-primary);"><i class="ph-fill ph-youtube-logo text-red-500 text-lg"></i>NEWSONG STREAMING</dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#아버지하나님</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#어머니하나님</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#안식일강요</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">죽은 사람을 "하나님"으로 부르는 단체. 1985년 사망한 안상홍을 남자 하나님으로, 현재 살아있는 장길자를 여자 하나님(어머니 하나님)으로 숭배한다.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">토요일 안식일과 유월절을 지켜야 구원을 받을 수 있다고 주장하며, 일반 교회의 주일(일요일) 예배를 이단이라고 비판한다. 길거리 포교와 해외 사회봉사 위장 포교로 접근한다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.3s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">국제크리스천연합<br>(JMS)</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">03</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="font-medium" style="color:var(--text-primary);">정명석</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">예장 고신 1991년 이단</dd>
+                        <dt class="font-medium flex items-center pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="flex items-center gap-1.5 uppercase" style="color:var(--text-primary);"><i class="ph-fill ph-youtube-logo text-red-500 text-lg"></i>LOVE SONG WORD</dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#정명석재림주</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#대학생표적</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#성범죄</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">"나는 이 시대의 재림주"라고 주장하는 정명석이 만든 단체. 청년·대학생을 주요 타깃으로 삼으며, 교주의 성범죄로 국내외에서 실형을 선고받은 전력이 있다.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">모델·댄스·운동 동아리 등 일반 활동으로 위장해 접근한다. 삼위일체를 부정하고, 기독교 2000년 역사가 잘못됐다며 정명석이 새 시대의 구원자라고 가르친다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.4s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">구원파</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">04</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="font-medium" style="color:var(--text-primary);">권신찬 / 이요한 / 박옥수</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">고신 1991년 이단</dd>
+                        <dt class="font-medium flex items-start pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="flex flex-col gap-1.5" style="color:var(--text-primary);">
+                            <span class="inline-flex items-center gap-1.5"><i class="ph-fill ph-youtube-logo text-red-500 text-lg"></i>GoodNewsTV</span>
+                            <span class="inline-flex items-center gap-1.5" style="color:var(--text-secondary);"><i class="ph ph-monitor-play text-lg" style="color:var(--text-tech);"></i>생명의말씀선교회방송</span>
+                        </dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#깨달음구원</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#회개부정</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#IYF</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">"진짜 구원받은 사람은 회개할 필요가 없다"고 가르치는 단체. 스스로를 죄인이라 고백하면 구원받지 못한 증거라고 위협한다.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">믿음과 회개가 아닌 '깨달음'의 순간을 구원의 기준으로 삼는다. IYF(국제청년연합) 등 청년 문화 행사로 위장해 포교하고, 기독교 학교 인수를 통해 조직적으로 확장 중이다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.5s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">만민중앙교회</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">05</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="font-medium" style="color:var(--text-primary);">이재록 (사망 후 계승)</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">예장 합동 2001년 이단</dd>
+                        <dt class="font-medium flex items-center pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="italic" style="color:var(--text-tech);">정보 없음</dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#이재록신격화</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#직통계시</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#5단계천국</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">교주 이재록 스스로를 "심판의 권세자, 죄사함의 권세자"로 선언한 단체. 치유와 기적을 강조해 신비 체험을 갈망하는 신자들을 끌어들였다.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">이재록의 신격화된 치유 능력을 믿고 병원 치료를 포기한 사례가 있다. 교주의 지시를 절대 진리로 여기는 강한 복종 구조를 갖고 있으며, 탈퇴자에 대한 강한 낙인 효과가 있다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.6s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">세계평화통일<br>가정연합 (통일교)</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">06</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="font-medium" style="color:var(--text-primary);">문선명 (사망)</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">예장 합동 1971년 이단</dd>
+                        <dt class="font-medium flex items-center pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="flex items-center gap-1.5 uppercase" style="color:var(--text-primary);"><i class="ph-fill ph-youtube-logo text-red-500 text-lg"></i>천주평화연합TV</dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#문선명메시아</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#합동결혼식</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#정치위장</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">문선명을 재림 메시아로 주장한다. 대규모 합동결혼식과 정치·사회 활동으로 위장해 광범위한 영향력을 행사한다.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">통일교 원리강론은 예수의 십자가를 실패로 규정하고, 문선명이 그 사명을 완성한다고 가르친다. 거액의 헌금과 재산 헌납, 합동결혼을 통한 통제 구조가 문제시된다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.7s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">다락방전도운동</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">07</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="font-medium" style="color:var(--text-primary);">류광수</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">예장 합동 2017년 이단</dd>
+                        <dt class="font-medium flex items-center pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="flex items-center gap-1.5 uppercase" style="color:var(--text-primary);"><i class="ph-fill ph-youtube-logo text-red-500 text-lg"></i>세계복음화전도협회</dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#종말공포</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#237개국전도</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#렘넌트강요</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">류광수의 237운동을 따르지 않으면 시대의 렘넌트가 아니라고 가르친다. 일반 교회를 영적으로 죽은 곳으로 비하하며 신자를 고립시킨다.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">종말 공포를 이용해 재산을 헌납하게 하고, 교주만이 신자를 대환란에서 구할 수 있다고 주장한다. 가족과의 연락을 끊게 만드는 강한 통제 구조를 갖고 있다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.8s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">안식교 계열<br>(제칠일안식일)</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">08</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="italic" style="color:var(--text-tech);">해당 없음</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">1915년 이단</dd>
+                        <dt class="font-medium flex items-start pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="flex flex-col gap-1.5" style="color:var(--text-primary);">
+                            <span class="inline-flex items-center gap-1.5"><i class="ph-fill ph-youtube-logo text-red-500 text-lg"></i>재림교회이야기</span>
+                            <span class="inline-flex items-center gap-1.5" style="color:var(--text-secondary);"><i class="ph ph-monitor-play text-lg" style="color:var(--text-tech);"></i>마지막사명</span>
+                        </dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#토요안식일</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#율법주의</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#일요일짐승의표</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">일요일 예배를 "짐승의 표"라고 비판하며, 토요일 안식일을 지키지 않으면 구원받지 못한다고 가르치는 율법주의 단체.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">겉으로는 기독교와 매우 유사해 구별이 어렵다. 절기·음식 규정 등 구약의 율법 준수를 구원 조건으로 삼으며, 정통 교회를 타락한 집단으로 정죄한다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="group liquid-glass card-hover rounded-[2.5rem] flex flex-col animate-slide-up overflow-hidden" style="animation-delay:.9s;">
+                <div class="p-8 md:p-10 flex flex-col h-full relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <h3 class="font-sans text-2xl md:text-3xl font-bold leading-snug tracking-tight" style="color:var(--text-primary);">킹제임스성경<br>유일론</h3>
+                        <span class="font-display text-5xl font-light tracking-tighter opacity-50 group-hover:opacity-100 transition-all duration-500" style="color:var(--text-tech);">09</span>
+                    </div>
+                    <dl class="grid gap-y-4 text-sm mb-8 pb-8" style="grid-template-columns:80px 1fr;border-bottom:1px solid var(--border-glass);">
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교주</dt><dd class="italic" style="color:var(--text-tech);">해당 없음</dd>
+                        <dt class="font-medium flex items-center" style="color:var(--text-secondary);">교단 결의</dt><dd style="color:var(--text-primary);">예장 합동 1998년 이단</dd>
+                        <dt class="font-medium flex items-center pt-0.5" style="color:var(--text-secondary);">유튜브</dt>
+                        <dd class="flex items-center gap-1.5 uppercase" style="color:var(--text-primary);"><i class="ph-fill ph-youtube-logo text-red-500 text-lg"></i>REAL Bible 1611</dd>
+                    </dl>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#KJV유일</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#개역성경사탄</span>
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">#음모론</span>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-mono text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--text-tech);">한 줄 요약</h4>
+                        <p class="font-sans leading-relaxed text-[15px]" style="color:var(--text-secondary);">1611년 영어 킹제임스성경(KJV)만이 유일한 하나님의 말씀이며, 한국어 개역성경은 사탄이 변조한 가짜라고 주장하는 단체.</p>
+                    </div>
+                    <div class="flex-grow"></div>
+                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-apple">
+                        <div class="overflow-hidden">
+                            <div class="pt-6 mt-6 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-apple delay-100 translate-y-4 group-hover:translate-y-0" style="border-top:1px solid var(--border-glass);">
+                                <h4 class="font-sans text-sm font-bold mb-3 flex items-center gap-2" style="color:var(--text-primary);">
+                                    <span class="flex items-center justify-center w-6 h-6 rounded-full" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"><i class="ph-bold ph-warning"></i></span>
+                                    무엇이 문제인가
+                                </h4>
+                                <p class="font-sans text-[15px] leading-relaxed" style="color:var(--text-secondary);">성경 번역을 음모론과 연결해 정통 교회와 목사를 불신하게 만든다. 자신들만이 순수한 성경을 갖고 있다는 배타적 우월감으로 신자들을 고립시킨다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </main>
+  </div><!-- /p-list -->
 </div>
 
 <script>
-// ── RADAR CHECKLIST ──
-function toggleRadar(item) {
-  item.classList.toggle('active');
-  const n = document.querySelectorAll('#p-radar .radar-item.active').length;
-  document.getElementById('radar-score-n').textContent = n;
-  const adv = document.getElementById('radar-score-adv');
+// ── PR CHECKLIST (new design) ──
+function prChk(el) {
+  el.classList.toggle('checked');
+  prUpdateRisk();
+}
+function prUpdateRisk() {
+  const n = document.querySelectorAll('#p-radar .pr-item.checked').length;
+  const panel = document.getElementById('prResult');
+  const fill  = document.getElementById('prFill');
+  const label = document.getElementById('prLabel');
+  const msg   = document.getElementById('prMsg');
+  const btn   = document.getElementById('prBtn');
+  const count = document.getElementById('prCount');
+  if (!panel) return;
+  count.textContent = n;
+  fill.style.width = (n/11*100)+'%';
+  panel.classList.remove('pr-danger');
   if (n === 0) {
-    adv.textContent = '항목을 체크하면 위험도를 확인할 수 있습니다.';
-    adv.style.color = '#6e6e73';
+    panel.style.setProperty('--rc','255,255,255');
+    label.innerHTML = '<i class="ph-fill ph-shield-check"></i> ANALYSIS PENDING';
+    msg.textContent = '항목을 체크하면 위험도를 확인할 수 있습니다';
+    btn.className = 'pr-btn disabled';
+    btn.innerHTML = '결과 대기중 <i class="ph-bold ph-hourglass-low"></i>';
   } else if (n <= 2) {
-    adv.textContent = '⚠  주의 단계 — 해당 채널을 신중하게 재검토하고 담임목사님과 상담하세요.';
-    adv.style.color = '#a1a1a6';
+    panel.style.setProperty('--rc','250,204,21');
+    label.innerHTML = '<i class="ph-fill ph-warning-circle"></i> CAUTION: LEVEL 1';
+    msg.innerHTML = '<strong>주의 단계</strong> — 해당 채널을 신중하게 재검토하고 담당교역자와 상담하세요';
+    btn.className = 'pr-btn';
+    btn.innerHTML = '상담 가이드 보기 <i class="ph-bold ph-arrow-right"></i>';
   } else if (n <= 4) {
-    adv.textContent = '⚠  위험 단계 — 이단 또는 사이비 가능성이 높습니다. 즉시 시청을 중단하고 전문가와 상담하세요.';
-    adv.style.color = '#d4d4d8';
+    panel.style.setProperty('--rc','251,146,60');
+    label.innerHTML = '<i class="ph-fill ph-warning"></i> WARNING: LEVEL 2';
+    msg.innerHTML = '<strong>위험 단계</strong> — 이단 또는 사이비 가능성이 높습니다. 즉시 시청을 중단하고 전문가와 상담하세요';
+    btn.className = 'pr-btn';
+    btn.innerHTML = '전문가 상담 신청 <i class="ph-bold ph-arrow-right"></i>';
   } else {
-    adv.textContent = '●  매우 위험 — 단연코 이단·사이비입니다. 즉시 시청을 중단하고 이단상담소에 연락하세요.';
-    adv.style.color = '#f5f5f7';
+    panel.style.setProperty('--rc','248,113,113');
+    label.innerHTML = '<i class="ph-fill ph-siren"></i> CRITICAL: DANGER';
+    msg.innerHTML = '<strong>매우 위험</strong> — 단연코 이단·사이비입니다. 즉시 시청을 중단하고 이단상담소에 연락하세요';
+    btn.className = 'pr-btn pr-danger';
+    btn.innerHTML = '즉시 신고 및 상담 연결 <i class="ph-bold ph-phone-call"></i>';
+    btn.onclick = function(){ openPage('help'); };
   }
+}
+// ── PR THEME TOGGLE ──
+function prToggleTheme() {
+  const el = document.getElementById('p-radar');
+  const isLight = el.classList.toggle('pr-light');
+  document.getElementById('prThemeIcon').className = isLight ? 'ph-fill ph-sun' : 'ph-fill ph-moon';
+  document.getElementById('prThemeText').textContent = isLight ? 'LIGHT' : 'DARK';
+  if (prMaterial) {
+    prMaterial.uniforms.u_isLightMode.value = isLight ? 1.0 : 0.0;
+    prMaterial.uniforms.u_colorCore.value.set(isLight ? '#050608' : '#FFFFFF');
+    prMaterial.uniforms.u_colorFringe.value.set(isLight ? '#8BA3CC' : '#4A88FF');
+  }
+}
+// ── PR WEBGL SHADER ──
+let prMaterial = null, prRenderer = null, prAnimId = null;
+function prInitWebGL() {
+  const canvas = document.getElementById('pr-canvas');
+  if (!canvas || !window.THREE) return;
+  if (prRenderer) { prRenderer.dispose(); cancelAnimationFrame(prAnimId); }
+  const scene = new THREE.Scene();
+  const cam = new THREE.OrthographicCamera(-1,1,1,-1,0.1,10);
+  cam.position.z = 1;
+  prRenderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  prRenderer.setSize(window.innerWidth, window.innerHeight);
+  prMaterial = new THREE.ShaderMaterial({
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader:`
+      uniform float u_time;uniform vec2 u_res;
+      uniform vec3 u_colorCore;uniform vec3 u_colorFringe;uniform float u_isLightMode;
+      varying vec2 vUv;
+      vec2 hash(vec2 p){p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)));return -1.0+2.0*fract(sin(p)*43758.5453123);}
+      float noise(in vec2 p){const float K1=0.366025404,K2=0.211324865;
+        vec2 i=floor(p+(p.x+p.y)*K1),a=p-i+(i.x+i.y)*K2;
+        vec2 o=(a.x>a.y)?vec2(1,0):vec2(0,1),b=a-o+K2,c=a-1.0+2.0*K2;
+        vec3 h=max(0.5-vec3(dot(a,a),dot(b,b),dot(c,c)),0.0);
+        vec3 n=h*h*h*h*vec3(dot(a,hash(i)),dot(b,hash(i+o)),dot(c,hash(i+1.0)));
+        return dot(n,vec3(70.0));}
+      void main(){
+        vec2 st=gl_FragCoord.xy/u_res-0.5;st.x*=u_res.x/u_res.y;
+        float d=length(st)+noise(st*1.2+u_time*0.15)*0.3;
+        float glow=exp(-abs(d-0.4)*10.0),core=exp(-abs(d-0.4)*40.0);
+        vec3 col=u_colorFringe*glow+u_colorCore*core;
+        float alpha=(glow+core)*0.4;
+        if(u_isLightMode>0.5)alpha*=0.3;
+        gl_FragColor=vec4(col,alpha);}`,
+    uniforms:{
+      u_time:{value:0.0},
+      u_res:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},
+      u_colorCore:{value:new THREE.Color('#FFFFFF')},
+      u_colorFringe:{value:new THREE.Color('#4A88FF')},
+      u_isLightMode:{value:0.0}
+    },
+    transparent:true
+  });
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), prMaterial));
+  function animate(){prAnimId=requestAnimationFrame(animate);prMaterial.uniforms.u_time.value+=0.01;prRenderer.render(scene,cam);}
+  animate();
+}
+function prStopWebGL(){if(prAnimId){cancelAnimationFrame(prAnimId);prAnimId=null;}}
+// ── PH THEME + WEBGL (p-help) ──
+function phToggleTheme() {
+  const el = document.getElementById('p-help');
+  const isLight = el.classList.toggle('ph-light');
+  document.getElementById('phThemeIcon').className = isLight ? 'ph-fill ph-sun' : 'ph-fill ph-moon';
+  document.getElementById('phThemeText').textContent = isLight ? 'LIGHT' : 'DARK';
+  if (phMaterial) {
+    phMaterial.uniforms.u_isLightMode.value = isLight ? 1.0 : 0.0;
+    phMaterial.uniforms.u_colorCore.value.set(isLight ? '#FFB830' : '#FFFFFF');
+    phMaterial.uniforms.u_colorFringe.value.set(isLight ? '#FFE4B5' : '#FFB830');
+  }
+}
+let phMaterial = null, phRenderer = null, phAnimId = null;
+function phInitWebGL() {
+  const canvas = document.getElementById('ph-canvas');
+  if (!canvas || !window.THREE) return;
+  if (phRenderer) { phRenderer.dispose(); cancelAnimationFrame(phAnimId); }
+  const scene = new THREE.Scene();
+  const cam = new THREE.OrthographicCamera(-1,1,1,-1,0.1,10);
+  cam.position.z = 1;
+  phRenderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  phRenderer.setSize(window.innerWidth, window.innerHeight);
+  phMaterial = new THREE.ShaderMaterial({
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader:`
+      uniform float u_time;uniform vec2 u_res;
+      uniform vec3 u_colorCore;uniform vec3 u_colorFringe;uniform float u_isLightMode;
+      varying vec2 vUv;
+      vec2 hash(vec2 p){p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)));return -1.0+2.0*fract(sin(p)*43758.5453123);}
+      float noise(in vec2 p){const float K1=0.366025404,K2=0.211324865;
+        vec2 i=floor(p+(p.x+p.y)*K1),a=p-i+(i.x+i.y)*K2;
+        vec2 o=(a.x>a.y)?vec2(1,0):vec2(0,1),b=a-o+K2,c=a-1.0+2.0*K2;
+        vec3 h=max(0.5-vec3(dot(a,a),dot(b,b),dot(c,c)),0.0);
+        vec3 n=h*h*h*h*vec3(dot(a,hash(i)),dot(b,hash(i+o)),dot(c,hash(i+1.0)));
+        return dot(n,vec3(70.0));}
+      void main(){
+        vec2 st=gl_FragCoord.xy/u_res-0.5;st.x*=u_res.x/u_res.y;
+        float d=length(st)+noise(st*1.2+u_time*0.15)*0.3;
+        float glow=exp(-abs(d-0.4)*10.0),core=exp(-abs(d-0.4)*40.0);
+        vec3 col=u_colorFringe*glow+u_colorCore*core;
+        float alpha=(glow+core)*0.5;
+        if(u_isLightMode>0.5)alpha*=0.35;
+        gl_FragColor=vec4(col,alpha);}`,
+    uniforms:{
+      u_time:{value:0.0},
+      u_res:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},
+      u_colorCore:{value:new THREE.Color('#FFFFFF')},
+      u_colorFringe:{value:new THREE.Color('#FFB830')},
+      u_isLightMode:{value:0.0}
+    },
+    transparent:true
+  });
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), phMaterial));
+  function animate(){phAnimId=requestAnimationFrame(animate);phMaterial.uniforms.u_time.value+=0.01;phRenderer.render(scene,cam);}
+  animate();
+}
+function phStopWebGL(){if(phAnimId){cancelAnimationFrame(phAnimId);phAnimId=null;}}
+// ── PD THEME + WEBGL + TILT (p-def) ──
+function pdToggleTheme() {
+  const el = document.getElementById('p-def');
+  const isLight = el.classList.toggle('pd-light');
+  document.getElementById('pdThemeIcon').className = isLight ? 'ph-fill ph-sun' : 'ph-fill ph-moon';
+  document.getElementById('pdThemeText').textContent = isLight ? 'LIGHT' : 'DARK';
+  if (pdMaterial) {
+    pdMaterial.uniforms.u_isLightMode.value = isLight ? 1.0 : 0.0;
+    pdMaterial.uniforms.u_colorCore.value.set(isLight ? '#7c3aed' : '#d8b4fe');
+    pdMaterial.uniforms.u_colorFringe.value.set(isLight ? '#f472b6' : '#7c3aed');
+  }
+}
+let pdMaterial = null, pdRenderer = null, pdAnimId = null;
+function pdInitWebGL() {
+  const canvas = document.getElementById('pd-canvas');
+  if (!canvas || !window.THREE) return;
+  if (pdRenderer) { pdRenderer.dispose(); cancelAnimationFrame(pdAnimId); }
+  const scene = new THREE.Scene();
+  const cam = new THREE.OrthographicCamera(-1,1,1,-1,0.1,10);
+  cam.position.z = 1;
+  pdRenderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  pdRenderer.setSize(window.innerWidth, window.innerHeight);
+  pdMaterial = new THREE.ShaderMaterial({
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader:`
+      uniform float u_time;uniform vec2 u_res;
+      uniform vec3 u_colorCore;uniform vec3 u_colorFringe;uniform float u_isLightMode;
+      varying vec2 vUv;
+      vec2 hash(vec2 p){p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)));return -1.0+2.0*fract(sin(p)*43758.5453123);}
+      float noise(in vec2 p){const float K1=0.366025404,K2=0.211324865;
+        vec2 i=floor(p+(p.x+p.y)*K1),a=p-i+(i.x+i.y)*K2;
+        vec2 o=(a.x>a.y)?vec2(1,0):vec2(0,1),b=a-o+K2,c=a-1.0+2.0*K2;
+        vec3 h=max(0.5-vec3(dot(a,a),dot(b,b),dot(c,c)),0.0);
+        vec3 n=h*h*h*h*vec3(dot(a,hash(i)),dot(b,hash(i+o)),dot(c,hash(i+1.0)));
+        return dot(n,vec3(70.0));}
+      void main(){
+        vec2 st=gl_FragCoord.xy/u_res-0.5;st.x*=u_res.x/u_res.y;
+        float d=length(st)+noise(st*0.8+u_time*0.1)*0.4;
+        float glow=exp(-abs(d-0.35)*8.0),core=exp(-abs(d-0.35)*35.0);
+        vec3 col=u_colorFringe*glow+u_colorCore*core;
+        float alpha=(glow+core)*0.5;
+        if(u_isLightMode>0.5)alpha*=0.25;
+        gl_FragColor=vec4(col,alpha);}`,
+    uniforms:{
+      u_time:{value:0.0},
+      u_res:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},
+      u_colorCore:{value:new THREE.Color('#d8b4fe')},
+      u_colorFringe:{value:new THREE.Color('#7c3aed')},
+      u_isLightMode:{value:0.0}
+    },
+    transparent:true
+  });
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), pdMaterial));
+  function animate(){pdAnimId=requestAnimationFrame(animate);pdMaterial.uniforms.u_time.value+=0.008;pdRenderer.render(scene,cam);}
+  animate();
+  // 3D tilt effect on cards
+  document.querySelectorAll('#p-def .pd-tcard').forEach(card => {
+    let bounds;
+    card.addEventListener('mouseenter', () => { bounds = card.getBoundingClientRect(); card.style.transition = 'border-color .4s,box-shadow .4s,background-color .4s'; });
+    card.addEventListener('mousemove', (e) => {
+      if (!bounds) bounds = card.getBoundingClientRect();
+      const mx = e.clientX - bounds.left, my = e.clientY - bounds.top;
+      card.style.setProperty('--mx', mx+'px'); card.style.setProperty('--my', my+'px');
+      const rx = ((my - bounds.height/2) / (bounds.height/2)) * -8;
+      const ry = ((mx - bounds.width/2) / (bounds.width/2)) * 8;
+      card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform .6s cubic-bezier(.16,1,.3,1),border-color .4s,box-shadow .4s,background-color .4s';
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+      bounds = null;
+    });
+  });
+}
+function pdStopWebGL(){if(pdAnimId){cancelAnimationFrame(pdAnimId);pdAnimId=null;}}
+// ── PC THEME + WEBGL (p-crit) ──
+function pcToggleTheme() {
+  const el = document.getElementById('p-crit');
+  const isLight = el.classList.toggle('pc-light');
+  document.getElementById('pcThemeIcon').className = isLight ? 'ph-fill ph-sun' : 'ph-fill ph-moon';
+  document.getElementById('pcThemeText').textContent = isLight ? 'LIGHT' : 'DARK';
+  if (pcMaterial) {
+    pcMaterial.uniforms.u_colorCore.value.set(isLight ? '#6d28d9' : '#e0f2fe');
+    pcMaterial.uniforms.u_colorFringe.value.set(isLight ? '#bae6fd' : '#9333ea');
+  }
+}
+let pcMaterial = null, pcRenderer = null, pcAnimId = null;
+function pcInitWebGL() {
+  const canvas = document.getElementById('pc-canvas');
+  if (!canvas || !window.THREE) return;
+  if (pcRenderer) { pcRenderer.dispose(); cancelAnimationFrame(pcAnimId); }
+  const scene = new THREE.Scene();
+  const cam = new THREE.OrthographicCamera(-1,1,1,-1,0.1,10);
+  cam.position.z = 1;
+  pcRenderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  pcRenderer.setSize(window.innerWidth, window.innerHeight);
+  pcMaterial = new THREE.ShaderMaterial({
+    vertexShader:`void main(){gl_Position=vec4(position,1.0);}`,
+    fragmentShader:`
+      uniform float u_time;uniform vec2 u_res;
+      uniform vec3 u_colorCore;uniform vec3 u_colorFringe;
+      void main(){
+        vec2 uv=gl_FragCoord.xy/u_res;
+        float glow=0.1/length(uv-vec2(0.5+sin(u_time)*0.2,0.5));
+        gl_FragColor=vec4(mix(u_colorFringe,u_colorCore,glow),glow*0.3);}`,
+    uniforms:{
+      u_time:{value:0.0},
+      u_res:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},
+      u_colorCore:{value:new THREE.Color('#e0f2fe')},
+      u_colorFringe:{value:new THREE.Color('#9333ea')}
+    },
+    transparent:true
+  });
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), pcMaterial));
+  function animate(){pcAnimId=requestAnimationFrame(animate);pcMaterial.uniforms.u_time.value+=0.01;pcRenderer.render(scene,cam);}
+  animate();
+}
+function pcStopWebGL(){if(pcAnimId){cancelAnimationFrame(pcAnimId);pcAnimId=null;}}
+// ── PL THEME + WEBGL (p-list) ──
+function plToggleTheme(){
+  const el=document.getElementById('p-list');
+  el.classList.toggle('pl-light');
+  const light=el.classList.contains('pl-light');
+  const icon=document.getElementById('pl-theme-icon');
+  const txt=document.getElementById('pl-theme-text');
+  if(icon){icon.className=light?'ph-fill ph-sun text-lg':'ph-fill ph-moon text-lg';}
+  if(txt){txt.textContent=light?'LIGHT':'DARK';}
+  if(plMaterial){
+    const styles=getComputedStyle(el);
+    plMaterial.uniforms.u_colorCore.value=new THREE.Color(styles.getPropertyValue('--shader-core').trim()||'#ffffff');
+    plMaterial.uniforms.u_colorFringe.value=new THREE.Color(styles.getPropertyValue('--shader-fringe').trim()||'#4A88FF');
+    plMaterial.uniforms.u_isLightMode.value=light?1.0:0.0;
+  }
+}
+let plScene,plCamera,plRenderer,plMaterial,plAnimId,plTargetMouse;
+function plInitWebGL(){
+  const container=document.getElementById('pl-webgl');
+  if(!container||plRenderer)return;
+  plScene=new THREE.Scene();
+  plCamera=new THREE.OrthographicCamera(-1,1,1,-1,0.1,10);
+  plCamera.position.z=1;
+  plRenderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+  plRenderer.setSize(window.innerWidth,window.innerHeight);
+  plRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  container.appendChild(plRenderer.domElement);
+  const geo=new THREE.PlaneGeometry(2,2);
+  const el=document.getElementById('p-list');
+  const styles=getComputedStyle(el);
+  plMaterial=new THREE.ShaderMaterial({
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader:`
+      uniform float u_time;uniform vec2 u_resolution;uniform vec2 u_mouse;
+      uniform vec3 u_colorCore;uniform vec3 u_colorFringe;uniform float u_isLightMode;
+      varying vec2 vUv;
+      vec2 hash(vec2 p){p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)));return -1.0+2.0*fract(sin(p)*43758.5453123);}
+      float noise(in vec2 p){const float K1=0.366025404;const float K2=0.211324865;
+        vec2 i=floor(p+(p.x+p.y)*K1);vec2 a=p-i+(i.x+i.y)*K2;
+        vec2 o=(a.x>a.y)?vec2(1.0,0.0):vec2(0.0,1.0);
+        vec2 b=a-o+K2;vec2 c=a-1.0+2.0*K2;
+        vec3 h=max(0.5-vec3(dot(a,a),dot(b,b),dot(c,c)),0.0);
+        vec3 n=h*h*h*h*vec3(dot(a,hash(i+0.0)),dot(b,hash(i+o)),dot(c,hash(i+1.0)));
+        return dot(n,vec3(70.0));}
+      float sdArc(vec2 p,vec2 center,float radius,float width,float warp){
+        p.y+=sin(p.x*3.0+u_time*0.5)*warp;
+        p.x+=noise(p*2.0+u_time*0.2)*(warp*0.5);
+        float d=length(p-center)-radius;return abs(d)-width;}
+      void main(){
+        vec2 uv=gl_FragCoord.xy/u_resolution.xy;vec2 st=uv;
+        st.x*=u_resolution.x/u_resolution.y;
+        vec2 mouseOffset=(u_mouse-0.5)*0.1;st+=mouseOffset;
+        vec2 center=vec2(0.3,0.5);
+        float d1=sdArc(st,center,0.8,0.01,0.1);
+        float d2=sdArc(st,center,0.82,0.04,0.15);
+        float coreGlow=exp(-d1*40.0);float fringeGlow=exp(-d2*15.0);
+        float wash=smoothstep(1.0,-0.2,st.x)*0.3;
+        vec3 finalColor=vec3(0.0);
+        finalColor+=u_colorCore*coreGlow;finalColor+=u_colorFringe*fringeGlow;
+        finalColor+=u_colorFringe*wash*(sin(u_time)*0.1+0.9);
+        float alpha=clamp(coreGlow+fringeGlow+wash,0.0,1.0);
+        finalColor=vec3(1.0)-exp(-finalColor*2.0);
+        if(u_isLightMode>0.5){alpha=clamp((coreGlow*1.5+fringeGlow+wash*0.5),0.0,0.4);}
+        gl_FragColor=vec4(finalColor,alpha);}`,
+    uniforms:{
+      u_time:{value:0.0},
+      u_resolution:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},
+      u_mouse:{value:new THREE.Vector2(0.5,0.5)},
+      u_colorCore:{value:new THREE.Color(styles.getPropertyValue('--shader-core').trim()||'#ffffff')},
+      u_colorFringe:{value:new THREE.Color(styles.getPropertyValue('--shader-fringe').trim()||'#4A88FF')},
+      u_isLightMode:{value:el.classList.contains('pl-light')?1.0:0.0}
+    },
+    transparent:true,blending:THREE.NormalBlending
+  });
+  plScene.add(new THREE.Mesh(geo,plMaterial));
+  plTargetMouse=new THREE.Vector2(0.5,0.5);
+  document.addEventListener('mousemove',plMouseHandler);
+  const clock=new THREE.Clock();
+  function plAnimate(){
+    plAnimId=requestAnimationFrame(plAnimate);
+    plMaterial.uniforms.u_time.value=clock.getElapsedTime();
+    plMaterial.uniforms.u_mouse.value.lerp(plTargetMouse,0.05);
+    plRenderer.render(plScene,plCamera);
+  }
+  plAnimate();
+  window.addEventListener('resize',plResize);
+}
+function plMouseHandler(e){if(plTargetMouse){plTargetMouse.x=e.clientX/window.innerWidth;plTargetMouse.y=1.0-(e.clientY/window.innerHeight);}}
+function plResize(){if(plRenderer){plRenderer.setSize(window.innerWidth,window.innerHeight);plMaterial.uniforms.u_resolution.value.set(window.innerWidth,window.innerHeight);}}
+function plStopWebGL(){
+  if(plAnimId){cancelAnimationFrame(plAnimId);plAnimId=null;}
+  if(plRenderer){plRenderer.dispose();if(plRenderer.domElement.parentNode)plRenderer.domElement.parentNode.removeChild(plRenderer.domElement);plRenderer=null;plMaterial=null;}
+  document.removeEventListener('mousemove',plMouseHandler);
+  window.removeEventListener('resize',plResize);
+}
+// ── PV THEME + WEBGL + ACCORDION (p-prev) ──
+function pvToggleTheme(){
+  const el=document.getElementById('p-prev');
+  el.classList.toggle('pv-dark');
+  const dark=el.classList.contains('pv-dark');
+  document.getElementById('pv-theme-icon').className=dark?'ph-fill ph-moon':'ph-fill ph-sun';
+  document.getElementById('pv-theme-text').textContent=dark?'DARK':'LIGHT';
+  if(pvMaterial){
+    const s=getComputedStyle(el);
+    pvMaterial.uniforms.u_colorCore.value=new THREE.Color(s.getPropertyValue('--pv-shcore').trim());
+    pvMaterial.uniforms.u_colorFringe.value=new THREE.Color(s.getPropertyValue('--pv-shfringe').trim());
+    pvMaterial.uniforms.u_isLightMode.value=dark?0.0:1.0;
+  }
+}
+function pvTab(id,btn){
+  document.querySelectorAll('#p-prev .pv-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#p-prev .pv-section').forEach(s=>s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function pvAcc(hd){
+  const item=hd.parentElement;
+  const body=item.querySelector('.pv-acc-body');
+  const isOpen=item.classList.contains('open');
+  item.parentElement.querySelectorAll('.pv-acc').forEach(a=>{
+    a.classList.remove('open');
+    a.querySelector('.pv-acc-body').style.maxHeight=null;
+  });
+  if(!isOpen){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';}
+}
+let pvScene,pvCamera,pvRenderer,pvMaterial,pvAnimId;
+function pvInitWebGL(){
+  const container=document.getElementById('pv-webgl');
+  if(!container||pvRenderer)return;
+  const el=document.getElementById('p-prev');
+  pvScene=new THREE.Scene();
+  pvCamera=new THREE.OrthographicCamera(-1,1,1,-1,0.1,10);
+  pvCamera.position.z=1;
+  pvRenderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+  pvRenderer.setSize(window.innerWidth,window.innerHeight);
+  pvRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  container.appendChild(pvRenderer.domElement);
+  const geo=new THREE.PlaneGeometry(2,2);
+  pvMaterial=new THREE.ShaderMaterial({
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader:`
+      precision mediump float;
+      varying vec2 vUv;
+      uniform float u_time;
+      uniform vec2 u_resolution;
+      uniform vec3 u_colorCore;
+      uniform vec3 u_colorFringe;
+      uniform float u_isLightMode;
+      void main(){
+        vec2 uv=(vUv-.5)*vec2(u_resolution.x/u_resolution.y,1.0);
+        float d=length(uv);
+        float core=exp(-d*d*18.0)*0.9;
+        float fringe=exp(-d*d*5.0)*0.5*(sin(u_time*0.6+d*4.0)*0.3+0.7);
+        float wash=exp(-d*d*1.5)*0.15;
+        vec3 finalColor=u_colorCore*core+u_colorFringe*fringe;
+        finalColor+=u_colorFringe*wash*(sin(u_time)*0.1+0.9);
+        float alpha=clamp(core+fringe+wash,0.0,1.0);
+        finalColor=vec3(1.0)-exp(-finalColor*2.0);
+        if(u_isLightMode>0.5){alpha=clamp((core*1.5+fringe+wash*0.5),0.0,0.35);}
+        gl_FragColor=vec4(finalColor,alpha);
+      }`,
+    uniforms:{
+      u_time:{value:0.0},
+      u_resolution:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},
+      u_colorCore:{value:new THREE.Color('#FFC97A')},
+      u_colorFringe:{value:new THREE.Color('#B07030')},
+      u_isLightMode:{value:el.classList.contains('pv-dark')?0.0:1.0}
+    },
+    transparent:true,blending:THREE.NormalBlending
+  });
+  pvScene.add(new THREE.Mesh(geo,pvMaterial));
+  const clock=new THREE.Clock();
+  function pvAnimate(){pvAnimId=requestAnimationFrame(pvAnimate);pvMaterial.uniforms.u_time.value=clock.getElapsedTime();pvRenderer.render(pvScene,pvCamera);}
+  pvAnimate();
+  window.addEventListener('resize',pvResize);
+}
+function pvResize(){if(pvRenderer){pvRenderer.setSize(window.innerWidth,window.innerHeight);pvMaterial.uniforms.u_resolution.value.set(window.innerWidth,window.innerHeight);}}
+function pvStopWebGL(){
+  if(pvAnimId){cancelAnimationFrame(pvAnimId);pvAnimId=null;}
+  if(pvRenderer){pvRenderer.dispose();if(pvRenderer.domElement.parentNode)pvRenderer.domElement.parentNode.removeChild(pvRenderer.domElement);pvRenderer=null;pvMaterial=null;}
+  window.removeEventListener('resize',pvResize);
+}
+
+// ── VR TABS ──
+function vrTab(name, btn) {
+  document.querySelectorAll('.vr-accord').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('.vr-tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('vr-accord-' + name).classList.add('active');
+  btn.classList.add('active');
 }
 
 // ── CURSOR ──
@@ -1704,13 +2950,6 @@ function go(n){
   activeVids.forEach(v => { v.muted = true; });
   startVideoLoop(slides[cs]);
 
-  // reset exp grid if leaving s6
-  if(cs!==TOTAL-1){
-    expOffset=0;expCurrent=0;
-    const el=document.getElementById('exp-list');
-    if(el){el.style.transition='none';el.style.transform='translateX(0)';}
-  }
-
   // update UI
   document.getElementById('ctrl-now').textContent=cs+1;
   document.getElementById('prog-bar').style.width=((cs+1)/TOTAL*100)+'%';
@@ -1744,25 +2983,6 @@ window.addEventListener('wheel',function(e){
   const now=Date.now();
   if(now-wlast<700)return;
 
-  // s6(마지막)에서 수평 스크롤 처리
-  if(cs===TOTAL-1){
-    const list=document.getElementById('exp-list');
-    const grid=document.getElementById('exp-grid');
-    if(list&&grid){
-      const maxOff=-(list.scrollWidth-grid.clientWidth+10);
-      const newOff=Math.max(maxOff,Math.min(0,expOffset-e.deltaY*1.5));
-      const atStart=expOffset>=0&&e.deltaY<0;
-      const atEnd=expOffset<=maxOff&&e.deltaY>0;
-      if(!atStart&&!atEnd){
-        e.preventDefault();
-        expOffset=newOff;expCurrent=newOff;
-        list.style.transition='transform .25s ease-out';
-        list.style.transform=`translateX(${expOffset}px)`;
-        return; // 슬라이드 전환 막기
-      }
-    }
-  }
-
   wlast=now;
   e.deltaY>0?next():prev();
 },{passive:false});
@@ -1779,6 +2999,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   // 첫 슬라이드 루프 시작
   startVideoLoop(slides[0]);
   updateScrollbar();
+  document.getElementById('ctrl-total').textContent=TOTAL;
   document.getElementById('prog-bar').style.width=(1/TOTAL*100)+'%';
 });
 
@@ -1787,68 +3008,6 @@ document.addEventListener('touchstart',()=>{
   const v=slides[cs].querySelector('video');
   if(v&&v.paused)safePlay(v);
 },{once:true,passive:true});
-
-// ── EXPERIENCE SECTION (s6) ──
-let expOffset=0,expCurrent=0,expDragging=false,expStartX=0;
-
-function filterExp(type,el){
-  document.querySelectorAll('.exp-cat').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  document.querySelectorAll('.exp-item').forEach(item=>{
-    item.classList.toggle('hidden',type!=='all'&&item.dataset.type!==type);
-  });
-  expOffset=0;expCurrent=0;
-  const list=document.getElementById('exp-list');
-  if(list){list.style.transition='transform .4s ease';list.style.transform='translateX(0)';}
-}
-
-const expGrid=document.getElementById('exp-grid');
-if(expGrid){
-  expGrid.addEventListener('mousedown',e=>{
-    if(cs!==TOTAL-1)return;
-    expDragging=true;
-    expStartX=e.clientX-expOffset;
-    expGrid.style.cursor='grabbing';
-    e.preventDefault();
-  });
-  document.addEventListener('mousemove',e=>{
-    if(!expDragging)return;
-    const list=document.getElementById('exp-list');
-    const maxOff=-(list.scrollWidth-expGrid.clientWidth+10);
-    expCurrent=Math.max(maxOff,Math.min(0,e.clientX-expStartX));
-    list.style.transition='none';
-    list.style.transform=`translateX(${expCurrent}px)`;
-  });
-  document.addEventListener('mouseup',()=>{
-    if(!expDragging)return;
-    expDragging=false;
-    expOffset=expCurrent;
-    expGrid.style.cursor='';
-    const list=document.getElementById('exp-list');
-    if(list)list.style.transition='transform .4s ease';
-  });
-  expGrid.addEventListener('touchstart',e=>{
-    if(cs!==TOTAL-1)return;
-    expDragging=true;
-    expStartX=e.touches[0].clientX-expOffset;
-  },{passive:true});
-  expGrid.addEventListener('touchmove',e=>{
-    if(!expDragging)return;
-    const list=document.getElementById('exp-list');
-    if(!list)return;
-    const maxOff=-(list.scrollWidth-expGrid.clientWidth+10);
-    expCurrent=Math.max(maxOff,Math.min(0,e.touches[0].clientX-expStartX));
-    list.style.transition='none';
-    list.style.transform=`translateX(${expCurrent}px)`;
-  },{passive:true});
-  expGrid.addEventListener('touchend',()=>{
-    if(!expDragging)return;
-    expDragging=false;
-    expOffset=expCurrent;
-    const list=document.getElementById('exp-list');
-    if(list)list.style.transition='transform .4s ease';
-  });
-}
 
 // ── MENU ──
 let menuOpen=false;
@@ -1863,12 +3022,20 @@ let pageOpen=false;
 function openPage(id){
   const el=document.getElementById('pages');
   document.querySelectorAll('#pages>div[id^="p-"]').forEach(d=>d.style.display='none');
+  prStopWebGL(); phStopWebGL(); pdStopWebGL(); pcStopWebGL(); plStopWebGL(); pvStopWebGL();
   const pg=document.getElementById('p-'+id);
   if(pg)pg.style.display='block';
+  if(id==='radar'){setTimeout(prInitWebGL,50);}
+  if(id==='help'){setTimeout(phInitWebGL,50);}
+  if(id==='def'){setTimeout(pdInitWebGL,50);}
+  if(id==='crit'){setTimeout(pcInitWebGL,50);}
+  if(id==='list'){setTimeout(plInitWebGL,50);}
+  if(id==='prev'){setTimeout(pvInitWebGL,50);}
   el.classList.add('open');el.scrollTop=0;
   pageOpen=true;clearInterval(autoTimer);
 }
 function closePage(){
+  prStopWebGL(); phStopWebGL(); pdStopWebGL(); pcStopWebGL(); plStopWebGL(); pvStopWebGL();
   document.getElementById('pages').classList.remove('open');
   pageOpen=false;resetAuto();
 }
