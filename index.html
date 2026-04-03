@@ -796,6 +796,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .ph-rcard-desc{font-size:13px;color:rgba(255,228,181,.6);line-height:1.5;}
 .ph-rcard-arrow{position:absolute;top:20px;right:20px;font-size:20px;color:rgba(255,184,48,.4);opacity:.6;transition:all .4s cubic-bezier(.16,1,.3,1);}
 .ph-rcard:hover .ph-rcard-arrow{color:#FFB830;transform:translate(4px,-4px) scale(1.2);opacity:1;}
+/* interactive card extras */
+.ph-rcard{cursor:pointer;}
+.ph-rcard-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.ph-rcard-badge{font-size:9px;letter-spacing:.14em;padding:3px 10px;border-radius:999px;background:rgba(255,184,48,.08);color:rgba(255,184,48,.55);text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+.ph-rcard-caret{margin-left:auto;font-size:13px;color:rgba(255,184,48,.35);transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.ph-rcard.open .ph-rcard-caret{transform:rotate(180deg);}
+.ph-rcard-expand{overflow:hidden;max-height:0;opacity:0;transition:max-height .55s cubic-bezier(.16,1,.3,1),opacity .4s ease;}
+.ph-rcard.open .ph-rcard-expand{max-height:320px;opacity:1;}
+.ph-rcard-tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 12px;}
+.ph-rcard-tag{font-size:10px;letter-spacing:.09em;padding:4px 11px;border-radius:999px;background:rgba(255,184,48,.06);border:1px solid rgba(255,184,48,.15);color:rgba(255,228,181,.55);font-family:'Noto Sans KR',sans-serif;}
+.ph-rcard-info{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.ph-rcard-info-row{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,228,181,.5);font-family:'JetBrains Mono',monospace;letter-spacing:.03em;}
+.ph-rcard-info-row i{font-size:13px;color:rgba(255,184,48,.45);flex-shrink:0;}
+.ph-rcard-visit{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:999px;background:rgba(255,184,48,.1);border:1px solid rgba(255,184,48,.2);color:rgba(255,228,181,.8);font-size:10px;letter-spacing:.14em;text-decoration:none;transition:all .3s;font-family:'JetBrains Mono',monospace;text-transform:uppercase;}
+.ph-rcard-visit:hover{background:rgba(255,184,48,.22);border-color:rgba(255,184,48,.45);color:#FFE4B5;}
+.ph-rcard-divider{height:1px;background:rgba(255,184,48,.08);margin:12px 0;}
 .ph-footer{
   position:fixed;bottom:28px;left:0;right:0;
   display:flex;justify-content:space-between;padding:0 44px;
@@ -825,6 +841,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #p-help.ph-light .ph-rcard:hover .ph-rcard-arrow{color:rgba(0,0,0,.6);}
 #p-help.ph-light .ph-footer{color:rgba(0,0,0,.25);}
 #p-help.ph-light #ph-canvas{opacity:0;}
+#p-help.ph-light .ph-rcard-badge{background:rgba(0,0,0,.04);color:rgba(0,0,0,.4);}
+#p-help.ph-light .ph-rcard-caret{color:rgba(0,0,0,.3);}
+#p-help.ph-light .ph-rcard-tag{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.09);color:rgba(0,0,0,.5);}
+#p-help.ph-light .ph-rcard-info-row{color:rgba(0,0,0,.5);}
+#p-help.ph-light .ph-rcard-info-row i{color:rgba(0,0,0,.35);}
+#p-help.ph-light .ph-rcard-visit{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:rgba(0,0,0,.65);}
+#p-help.ph-light .ph-rcard-visit:hover{background:rgba(0,0,0,.09);border-color:rgba(0,0,0,.2);color:#050608;}
+#p-help.ph-light .ph-rcard-divider{background:rgba(0,0,0,.07);}
 /* ── DEF PAGE NEW DESIGN ── */
 #p-def{position:relative;min-height:100%;background:#0a0514;}
 #pd-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
@@ -1672,7 +1696,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
       <li><a href="#" onclick="openPage('prev');toggleMenu();return false;"><div class="menu-item-left"><span>실천 수칙</span><span class="menu-eng">ACTION GUIDELINES</span></div><span class="menu-num">05</span></a></li>
       <li><a href="#" onclick="openPage('def');toggleMenu();return false;"><div class="menu-item-left"><span>정의 및 용어</span><span class="menu-eng">DEFINITIONS</span></div><span class="menu-num">06</span></a></li>
     </ul>
-    <div class="menu-foot">대한예수교장로회총회<br>이단사이비대책위원회<br>이단사이비문제상담소<br><br>ⓒ 대한예수교장로회총회.<br>All rights reserved.</div>
   </div>
 </div>
 
@@ -1772,34 +1795,111 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         </div>
 
         <div class="ph-grid">
-          <a href="http://hdjongkyo.co.kr" target="_blank" class="ph-rcard">
-            <div class="ph-rcard-n">01</div>
+
+          <!-- 01 현대종교 -->
+          <div class="ph-rcard" onclick="phToggleCard(this)">
+            <div class="ph-rcard-top">
+              <div class="ph-rcard-n">01</div>
+              <span class="ph-rcard-badge">연구 · 출판</span>
+              <i class="ph-bold ph-caret-down ph-rcard-caret"></i>
+            </div>
             <div class="ph-rcard-name">현대종교</div>
-            <p class="ph-rcard-desc">이단·사이비 전문 연구 및 상담 기관</p>
-            <span class="ph-rcard-url">hdjongkyo.co.kr</span>
-            <i class="ph-bold ph-arrow-up-right ph-rcard-arrow"></i>
-          </a>
-          <a href="http://kportalnews.co.kr" target="_blank" class="ph-rcard">
-            <div class="ph-rcard-n">02</div>
+            <p class="ph-rcard-desc">한국 최초·최대 이단 연구 기관 (1964년 창립)</p>
+            <div class="ph-rcard-expand">
+              <div class="ph-rcard-divider"></div>
+              <div class="ph-rcard-tags">
+                <span class="ph-rcard-tag">월간지 발행</span>
+                <span class="ph-rcard-tag">이단 연구</span>
+                <span class="ph-rcard-tag">캠퍼스 현황</span>
+                <span class="ph-rcard-tag">이단 제보</span>
+                <span class="ph-rcard-tag">다국어 자료</span>
+              </div>
+              <div class="ph-rcard-info">
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-phone"></i>031-830-4455~7</div>
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-envelope"></i>mrmad@hdjongkyo.co.kr</div>
+              </div>
+              <a href="http://hdjongkyo.co.kr" target="_blank" class="ph-rcard-visit" onclick="event.stopPropagation()">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
+            </div>
+          </div>
+
+          <!-- 02 기독교포털뉴스 -->
+          <div class="ph-rcard" onclick="phToggleCard(this)">
+            <div class="ph-rcard-top">
+              <div class="ph-rcard-n">02</div>
+              <span class="ph-rcard-badge">뉴스 · 정보</span>
+              <i class="ph-bold ph-caret-down ph-rcard-caret"></i>
+            </div>
             <div class="ph-rcard-name">기독교포털뉴스</div>
-            <p class="ph-rcard-desc">이단·사이비 관련 최신 뉴스 및 분별 자료 제공</p>
-            <span class="ph-rcard-url">kportalnews.co.kr</span>
-            <i class="ph-bold ph-arrow-up-right ph-rcard-arrow"></i>
-          </a>
-          <a href="http://jesus114.net" target="_blank" class="ph-rcard">
-            <div class="ph-rcard-n">03</div>
+            <p class="ph-rcard-desc">이단 예방 전문 인터넷 뉴스 매체</p>
+            <div class="ph-rcard-expand">
+              <div class="ph-rcard-divider"></div>
+              <div class="ph-rcard-tags">
+                <span class="ph-rcard-tag">이단 뉴스</span>
+                <span class="ph-rcard-tag">위장교회 명단</span>
+                <span class="ph-rcard-tag">분별 자료</span>
+                <span class="ph-rcard-tag">교육 자료</span>
+                <span class="ph-rcard-tag">이단 결의 목록</span>
+              </div>
+              <div class="ph-rcard-info">
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-phone"></i>010-4879-8651</div>
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-envelope"></i>unique44@naver.com</div>
+              </div>
+              <a href="http://kportalnews.co.kr" target="_blank" class="ph-rcard-visit" onclick="event.stopPropagation()">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
+            </div>
+          </div>
+
+          <!-- 03 한국기독교이단상담소협회 -->
+          <div class="ph-rcard" onclick="phToggleCard(this)">
+            <div class="ph-rcard-top">
+              <div class="ph-rcard-n">03</div>
+              <span class="ph-rcard-badge">상담 · 협회</span>
+              <i class="ph-bold ph-caret-down ph-rcard-caret"></i>
+            </div>
             <div class="ph-rcard-name">한국기독교이단상담소협회</div>
-            <p class="ph-rcard-desc">전국 교단 연합 이단 전문 상담 기관</p>
-            <span class="ph-rcard-url">jesus114.net</span>
-            <i class="ph-bold ph-arrow-up-right ph-rcard-arrow"></i>
-          </a>
-          <a href="http://antiscj.or.kr" target="_blank" class="ph-rcard">
-            <div class="ph-rcard-n">04</div>
+            <p class="ph-rcard-desc">전국 교단 연합 이단 상담 네트워크</p>
+            <div class="ph-rcard-expand">
+              <div class="ph-rcard-divider"></div>
+              <div class="ph-rcard-tags">
+                <span class="ph-rcard-tag">상담 신청</span>
+                <span class="ph-rcard-tag">전국 네트워크</span>
+                <span class="ph-rcard-tag">상담사 양성</span>
+                <span class="ph-rcard-tag">이단 지도</span>
+                <span class="ph-rcard-tag">피해 신고</span>
+              </div>
+              <div class="ph-rcard-info">
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-map-pin"></i>안산상담소: 031-480-5964</div>
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-globe"></i>jesus114.net</div>
+              </div>
+              <a href="http://jesus114.net" target="_blank" class="ph-rcard-visit" onclick="event.stopPropagation()">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
+            </div>
+          </div>
+
+          <!-- 04 신천지 전문 구리상담소 -->
+          <div class="ph-rcard" onclick="phToggleCard(this)">
+            <div class="ph-rcard-top">
+              <div class="ph-rcard-n">04</div>
+              <span class="ph-rcard-badge">신천지 전문</span>
+              <i class="ph-bold ph-caret-down ph-rcard-caret"></i>
+            </div>
             <div class="ph-rcard-name">신천지 전문 구리상담소</div>
-            <p class="ph-rcard-desc">신천지 이탈 및 회복 전문 상담소</p>
-            <span class="ph-rcard-url">antiscj.or.kr</span>
-            <i class="ph-bold ph-arrow-up-right ph-rcard-arrow"></i>
-          </a>
+            <p class="ph-rcard-desc">신천지 20년 내부 간부 출신 소장의 전문 상담</p>
+            <div class="ph-rcard-expand">
+              <div class="ph-rcard-divider"></div>
+              <div class="ph-rcard-tags">
+                <span class="ph-rcard-tag">1:1 전문 상담</span>
+                <span class="ph-rcard-tag">탈퇴 지원</span>
+                <span class="ph-rcard-tag">치유 프로그램</span>
+                <span class="ph-rcard-tag">예방 자료</span>
+                <span class="ph-rcard-tag">수기 아카이브</span>
+              </div>
+              <div class="ph-rcard-info">
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-phone"></i>0505-369-3391</div>
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-user"></i>소장: 신현욱 목사 (전 신천지 교육부장)</div>
+              </div>
+              <a href="http://antiscj.or.kr" target="_blank" class="ph-rcard-visit" onclick="event.stopPropagation()">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -2453,6 +2553,12 @@ function prInitWebGL() {
   animate();
 }
 function prStopWebGL(){if(prAnimId){cancelAnimationFrame(prAnimId);prAnimId=null;}}
+// ── PH CARD TOGGLE ──
+function phToggleCard(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('#p-help .ph-rcard.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) el.classList.add('open');
+}
 // ── PH THEME + WEBGL (p-help) ──
 function phToggleTheme() {
   const el = document.getElementById('p-help');
