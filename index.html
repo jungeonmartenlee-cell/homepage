@@ -1407,6 +1407,62 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   0%{stroke-dashoffset:400;}
   100%{stroke-dashoffset:0;}
 }
+
+/* ══════════════════════════════════════
+   MOBILE RESPONSIVE  ≤ 640px
+══════════════════════════════════════ */
+@media(max-width:640px){
+
+  /* ── Main slider title ── */
+  #main-slider-header .word{font-size:clamp(52px,14vw,72px);}
+
+  /* ── Main slider caption ── */
+  .slide-caption{bottom:24px;left:20px;}
+
+  /* ── Main slider right control ── */
+  #control{right:16px;bottom:80px;}
+
+  /* ── p-radar topbar ── */
+  .pr-topbar{padding:14px 20px;}
+  .pr-footer{padding:0 20px;}
+
+  /* ── p-help ── */
+  .ph-grid{grid-template-columns:1fr;}
+  .ph-card{padding:36px 20px 80px;}
+  .ph-footer{padding:0 20px;}
+
+  /* ── p-def ── */
+  .pd-grid{grid-template-columns:1fr;}
+  .pd-card{padding:36px 20px 80px;}
+  .pd-footer{padding:0 20px;}
+
+  /* ── p-crit ── */
+  .pc-footer{padding:0 20px;}
+
+  /* ── p-prev ── */
+  .pv-main{padding:20px 12px 100px;}
+  .pv-card{padding:32px 20px;border-radius:28px;}
+  .pv-h1{font-size:26px;}
+  .pv-tab{font-size:13px;padding:12px 12px;}
+  .pv-acc-hd{gap:12px;padding:16px 16px;}
+  .pv-acc-body{padding:0 16px;}
+  .pv-acc.open .pv-acc-body{padding-top:16px;padding-bottom:16px;}
+  .pv-acc-title{font-size:14px;}
+  .pv-footer{padding:0 20px;}
+
+  /* ── p-list topbar ── */
+  .pl-topbar{padding:12px 20px;}
+  .pl-theme-btn{height:36px;padding:0 14px;font-size:10px;}
+
+  /* ── Hide global BACK button on mobile (header X logo already closes page) ── */
+  .p-back{display:none;}
+
+  /* ── p-radar topbar: brand left, button right, clean single row ── */
+  .pr-topbar{padding:14px 20px;}
+
+  /* ── p-list topbar: same treatment ── */
+  .pl-topbar{padding:14px 20px;}
+}
 </style>
 </head>
 <body>
@@ -1943,10 +1999,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
     <main class="relative z-10 w-full flex flex-col items-center px-6 pb-24 max-w-[1440px] mx-auto" style="padding-top:40px;">
 
         <header class="liquid-glass rounded-[3rem] w-full max-w-4xl p-12 md:p-16 mb-16 flex flex-col items-center text-center animate-slide-up overflow-hidden">
-            <div class="inline-flex items-center gap-2 font-mono text-xs font-bold tracking-[0.2em] px-5 py-2 rounded-full uppercase mb-8 shadow-sm" style="background:var(--bg-surface-2);border:1px solid var(--border-glass);color:var(--text-primary);">
-                <i class="ph-fill ph-radar"></i>
-                02 Section // Cult.Radar
-            </div>
             <p class="font-sans text-base font-medium tracking-widest uppercase mb-2" style="color:var(--text-secondary);letter-spacing:.15em;">한눈에 보는</p><h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" style="line-height:1.1;color:var(--text-primary);">주요 이단 가이드</h1>
             <p class="font-sans text-base md:text-lg leading-relaxed max-w-2xl mx-auto" style="color:var(--text-secondary);">
                 한국 교단이 공식적으로 이단·사이비로 결의한 단체들입니다<br class="hidden md:block">
