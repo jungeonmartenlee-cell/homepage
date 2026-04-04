@@ -757,7 +757,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   display:flex;flex-direction:column;gap:44px;
   box-shadow:0 24px 80px rgba(0,0,0,.4);
 }
-.ph-card-hd{text-align:center;display:flex;flex-direction:column;gap:20px;align-items:center;}
+.ph-card-hd{text-align:center;display:flex;flex-direction:column;gap:20px;align-items:center;padding-bottom:12px;}
 .ph-icon{font-size:48px;color:#FFB830;opacity:.9;filter:drop-shadow(0 0 16px rgba(255,184,48,.4));}
 .ph-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,3.5vw,32px);font-weight:700;letter-spacing:-.02em;text-transform:uppercase;color:#FFE4B5;}
 .ph-subtitle{font-size:16px;font-weight:600;color:#FFB830;}
@@ -771,16 +771,38 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   border:1px solid rgba(255,184,48,.1);
   border-radius:20px;
   text-decoration:none;color:inherit;
-  overflow:hidden;cursor:pointer;
-  transition:all .4s cubic-bezier(.16,1,.3,1);
+  overflow:visible;cursor:default;
+  transition:border-color .3s,background .3s;
+  z-index:1;
 }
+.ph-rcard:hover{z-index:30;background:rgba(255,184,48,.1);border-color:rgba(255,184,48,.25);}
 .ph-rcard::before{
-  content:'';position:absolute;inset:0;
+  content:'';position:absolute;inset:0;border-radius:20px;
   background:linear-gradient(135deg,rgba(255,184,48,.12) 0%,transparent 50%);
   opacity:0;transition:opacity .4s;pointer-events:none;
 }
-.ph-rcard:hover{background:rgba(255,184,48,.12);border-color:rgba(255,184,48,.3);transform:translateY(-4px) scale(1.02);box-shadow:0 20px 60px rgba(0,0,0,.2),0 0 40px rgba(255,184,48,.1);}
 .ph-rcard:hover::before{opacity:1;}
+/* hover panel */
+.ph-rcard-panel{
+  position:absolute;
+  width:calc(200% + 16px);
+  padding:28px;
+  border-radius:24px;
+  z-index:40;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease,transform .5s cubic-bezier(.16,1,.3,1);
+  background:rgba(10,7,0,.97);
+  border:1px solid rgba(255,184,48,.3);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  box-shadow:0 32px 80px rgba(0,0,0,.5);
+}
+.ph-rcard:hover .ph-rcard-panel{opacity:1;pointer-events:auto;transform:scale(1) !important;}
+/* panel directions */
+.ph-c-tl .ph-rcard-panel{bottom:0;left:0;transform:scale(.86);transform-origin:right bottom;}
+.ph-c-tr .ph-rcard-panel{bottom:0;right:0;transform:scale(.86);transform-origin:left bottom;}
+.ph-c-bl .ph-rcard-panel{top:0;left:0;transform:scale(.86);transform-origin:right top;}
+.ph-c-br .ph-rcard-panel{top:0;right:0;transform:scale(.86);transform-origin:left top;}
+.ph-rcard-pdesc{font-size:13px;color:rgba(255,228,181,.7);line-height:1.75;margin:6px 0 14px;}
 .ph-rcard-n{
   font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
   color:rgba(255,184,48,.4);letter-spacing:.15em;
@@ -849,6 +871,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #p-help.ph-light .ph-rcard-visit{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:rgba(0,0,0,.65);}
 #p-help.ph-light .ph-rcard-visit:hover{background:rgba(0,0,0,.09);border-color:rgba(0,0,0,.2);color:#050608;}
 #p-help.ph-light .ph-rcard-divider{background:rgba(0,0,0,.07);}
+#p-help.ph-light .ph-rcard-panel{background:rgba(255,255,255,.98);border-color:rgba(0,0,0,.1);box-shadow:0 24px 64px rgba(0,0,0,.13);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-name{color:#050608;}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-n{background:rgba(0,0,0,.04);color:rgba(0,0,0,.35);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-badge{background:rgba(0,0,0,.04);color:rgba(0,0,0,.4);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-pdesc{color:rgba(0,0,0,.6);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-tag{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.09);color:rgba(0,0,0,.5);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-info-row{color:rgba(0,0,0,.5);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-info-row i{color:rgba(0,0,0,.35);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-divider{background:rgba(0,0,0,.07);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-visit{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.12);color:rgba(0,0,0,.65);}
+#p-help.ph-light .ph-rcard-panel .ph-rcard-visit:hover{background:rgba(0,0,0,.1);color:#050608;}
 /* ── DEF PAGE NEW DESIGN ── */
 #p-def{position:relative;min-height:100%;background:#0a0514;}
 #pd-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
@@ -1796,107 +1829,127 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 
         <div class="ph-grid">
 
-          <!-- 01 현대종교 -->
-          <div class="ph-rcard" onclick="phToggleCard(this)">
+          <!-- 01 현대종교: 좌+위로 확장 -->
+          <div class="ph-rcard ph-c-tl">
             <div class="ph-rcard-top">
               <div class="ph-rcard-n">01</div>
               <span class="ph-rcard-badge">연구 · 출판</span>
-              <i class="ph-bold ph-caret-down ph-rcard-caret"></i>
             </div>
             <div class="ph-rcard-name">현대종교</div>
             <p class="ph-rcard-desc">한국 최초·최대 이단 연구 기관 (1964년 창립)</p>
-            <div class="ph-rcard-expand">
+            <div class="ph-rcard-panel">
+              <div class="ph-rcard-top">
+                <div class="ph-rcard-n">01</div>
+                <span class="ph-rcard-badge">연구 · 출판</span>
+              </div>
+              <div class="ph-rcard-name">현대종교</div>
+              <p class="ph-rcard-pdesc">1964년 탁명환 소장이 창립한 한국 최초·최대의 이단 연구 기관. 60년 이상 신흥종교운동을 연구·조사해온 이단 경보기관으로, 신천지·통일교·구원파 등 주요 이단 단체의 심층 분석 자료와 연간 캠퍼스 이단 침투 현황을 발표한다. 카카오톡·이메일 등 다채널 이단 제보 창구 운영, 한·영·중 다국어 이단 바로알기 자료 출판.</p>
               <div class="ph-rcard-divider"></div>
               <div class="ph-rcard-tags">
                 <span class="ph-rcard-tag">월간지 발행</span>
-                <span class="ph-rcard-tag">이단 연구</span>
-                <span class="ph-rcard-tag">캠퍼스 현황</span>
-                <span class="ph-rcard-tag">이단 제보</span>
+                <span class="ph-rcard-tag">이단 심층 연구</span>
+                <span class="ph-rcard-tag">캠퍼스 현황 발표</span>
                 <span class="ph-rcard-tag">다국어 자료</span>
+                <span class="ph-rcard-tag">이단 제보 상담</span>
               </div>
               <div class="ph-rcard-info">
                 <div class="ph-rcard-info-row"><i class="ph-bold ph-phone"></i>031-830-4455~7</div>
                 <div class="ph-rcard-info-row"><i class="ph-bold ph-envelope"></i>mrmad@hdjongkyo.co.kr</div>
               </div>
-              <a href="http://hdjongkyo.co.kr" target="_blank" class="ph-rcard-visit" onclick="event.stopPropagation()">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
+              <a href="http://hdjongkyo.co.kr" target="_blank" class="ph-rcard-visit">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
             </div>
           </div>
 
-          <!-- 02 기독교포털뉴스 -->
-          <div class="ph-rcard" onclick="phToggleCard(this)">
+          <!-- 02 기독교포털뉴스: 우+위로 확장 -->
+          <div class="ph-rcard ph-c-tr">
             <div class="ph-rcard-top">
               <div class="ph-rcard-n">02</div>
               <span class="ph-rcard-badge">뉴스 · 정보</span>
-              <i class="ph-bold ph-caret-down ph-rcard-caret"></i>
             </div>
             <div class="ph-rcard-name">기독교포털뉴스</div>
             <p class="ph-rcard-desc">이단 예방 전문 인터넷 뉴스 매체</p>
-            <div class="ph-rcard-expand">
+            <div class="ph-rcard-panel">
+              <div class="ph-rcard-top">
+                <div class="ph-rcard-n">02</div>
+                <span class="ph-rcard-badge">뉴스 · 정보</span>
+              </div>
+              <div class="ph-rcard-name">기독교포털뉴스</div>
+              <p class="ph-rcard-pdesc">이단에 빠지기 전 예방에 특화된 인터넷 뉴스 매체. 신천지·통일교·구원파 등 50개 이상 이단 카테고리별 심층 뉴스, 서울·경기 신천지 위장교회 명단 공개, 한국교회 이단·사이비 결의 연대별 목록 정리. 교회 이단 침투 대처 세미나 정보 및 교육 자료 제공.</p>
               <div class="ph-rcard-divider"></div>
               <div class="ph-rcard-tags">
-                <span class="ph-rcard-tag">이단 뉴스</span>
+                <span class="ph-rcard-tag">이단 분별 뉴스</span>
                 <span class="ph-rcard-tag">위장교회 명단</span>
-                <span class="ph-rcard-tag">분별 자료</span>
-                <span class="ph-rcard-tag">교육 자료</span>
-                <span class="ph-rcard-tag">이단 결의 목록</span>
+                <span class="ph-rcard-tag">교단 결의 목록</span>
+                <span class="ph-rcard-tag">세미나 정보</span>
+                <span class="ph-rcard-tag">예방 교육 자료</span>
               </div>
               <div class="ph-rcard-info">
                 <div class="ph-rcard-info-row"><i class="ph-bold ph-phone"></i>010-4879-8651</div>
                 <div class="ph-rcard-info-row"><i class="ph-bold ph-envelope"></i>unique44@naver.com</div>
               </div>
-              <a href="http://kportalnews.co.kr" target="_blank" class="ph-rcard-visit" onclick="event.stopPropagation()">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
+              <a href="http://kportalnews.co.kr" target="_blank" class="ph-rcard-visit">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
             </div>
           </div>
 
-          <!-- 03 한국기독교이단상담소협회 -->
-          <div class="ph-rcard" onclick="phToggleCard(this)">
+          <!-- 03 한국기독교이단상담소협회: 좌+아래로 확장 -->
+          <div class="ph-rcard ph-c-bl">
             <div class="ph-rcard-top">
               <div class="ph-rcard-n">03</div>
               <span class="ph-rcard-badge">상담 · 협회</span>
-              <i class="ph-bold ph-caret-down ph-rcard-caret"></i>
             </div>
             <div class="ph-rcard-name">한국기독교이단상담소협회</div>
             <p class="ph-rcard-desc">전국 교단 연합 이단 상담 네트워크</p>
-            <div class="ph-rcard-expand">
+            <div class="ph-rcard-panel">
+              <div class="ph-rcard-top">
+                <div class="ph-rcard-n">03</div>
+                <span class="ph-rcard-badge">상담 · 협회</span>
+              </div>
+              <div class="ph-rcard-name">한국기독교이단상담소협회</div>
+              <p class="ph-rcard-pdesc">진용식 목사가 이끄는 전국 이단 상담 네트워크. 지역별 상담소를 직접 연결하는 온라인 상담 신청 시스템 운영. 신천지 전문 상담사 양성 아카데미, 전국 이단 현황 지도 서비스, 이단 피해 신고 창구를 제공한다.</p>
               <div class="ph-rcard-divider"></div>
               <div class="ph-rcard-tags">
-                <span class="ph-rcard-tag">상담 신청</span>
+                <span class="ph-rcard-tag">온라인 상담 신청</span>
                 <span class="ph-rcard-tag">전국 네트워크</span>
                 <span class="ph-rcard-tag">상담사 양성</span>
-                <span class="ph-rcard-tag">이단 지도</span>
+                <span class="ph-rcard-tag">이단 현황 지도</span>
                 <span class="ph-rcard-tag">피해 신고</span>
               </div>
               <div class="ph-rcard-info">
-                <div class="ph-rcard-info-row"><i class="ph-bold ph-map-pin"></i>안산상담소: 031-480-5964</div>
+                <div class="ph-rcard-info-row"><i class="ph-bold ph-phone"></i>031-480-5964 (안산상담소)</div>
                 <div class="ph-rcard-info-row"><i class="ph-bold ph-globe"></i>jesus114.net</div>
               </div>
-              <a href="http://jesus114.net" target="_blank" class="ph-rcard-visit" onclick="event.stopPropagation()">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
+              <a href="http://jesus114.net" target="_blank" class="ph-rcard-visit">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
             </div>
           </div>
 
-          <!-- 04 신천지 전문 구리상담소 -->
-          <div class="ph-rcard" onclick="phToggleCard(this)">
+          <!-- 04 신천지 전문 구리상담소: 우+아래로 확장 -->
+          <div class="ph-rcard ph-c-br">
             <div class="ph-rcard-top">
               <div class="ph-rcard-n">04</div>
               <span class="ph-rcard-badge">신천지 전문</span>
-              <i class="ph-bold ph-caret-down ph-rcard-caret"></i>
             </div>
             <div class="ph-rcard-name">신천지 전문 구리상담소</div>
             <p class="ph-rcard-desc">신천지 20년 내부 간부 출신 소장의 전문 상담</p>
-            <div class="ph-rcard-expand">
+            <div class="ph-rcard-panel">
+              <div class="ph-rcard-top">
+                <div class="ph-rcard-n">04</div>
+                <span class="ph-rcard-badge">신천지 전문</span>
+              </div>
+              <div class="ph-rcard-name">신천지 전문 구리상담소</div>
+              <p class="ph-rcard-pdesc">신천지에서 20년간 교육부장으로 활동하다 탈퇴한 신현욱 목사가 운영. 신천지 내부 교리와 포교 전략을 직접 경험한 가장 전문화된 상담소. 연간 4기 탈퇴자 치유 교육 과정 운영, 1:1 전문 상담, 예방 자료 배포, 탈퇴 경험 수기 아카이브.</p>
               <div class="ph-rcard-divider"></div>
               <div class="ph-rcard-tags">
                 <span class="ph-rcard-tag">1:1 전문 상담</span>
-                <span class="ph-rcard-tag">탈퇴 지원</span>
-                <span class="ph-rcard-tag">치유 프로그램</span>
-                <span class="ph-rcard-tag">예방 자료</span>
+                <span class="ph-rcard-tag">탈퇴·회복 지원</span>
+                <span class="ph-rcard-tag">치유 교육 (연 4기)</span>
+                <span class="ph-rcard-tag">예방 자료 배포</span>
                 <span class="ph-rcard-tag">수기 아카이브</span>
               </div>
               <div class="ph-rcard-info">
                 <div class="ph-rcard-info-row"><i class="ph-bold ph-phone"></i>0505-369-3391</div>
                 <div class="ph-rcard-info-row"><i class="ph-bold ph-user"></i>소장: 신현욱 목사 (전 신천지 교육부장)</div>
               </div>
-              <a href="http://antiscj.or.kr" target="_blank" class="ph-rcard-visit" onclick="event.stopPropagation()">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
+              <a href="http://antiscj.or.kr" target="_blank" class="ph-rcard-visit">사이트 방문 <i class="ph-bold ph-arrow-up-right"></i></a>
             </div>
           </div>
 
