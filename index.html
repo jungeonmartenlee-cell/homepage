@@ -760,7 +760,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .ph-card-hd{text-align:center;display:flex;flex-direction:column;gap:20px;align-items:center;padding-bottom:12px;}
 .ph-icon{font-size:48px;color:#FFB830;opacity:.9;filter:drop-shadow(0 0 16px rgba(255,184,48,.4));}
 .ph-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,3.5vw,32px);font-weight:700;letter-spacing:-.02em;text-transform:uppercase;color:#FFE4B5;}
-.ph-subtitle{font-size:16px;font-weight:600;color:#FFB830;}
+.ph-subtitle{font-size:16px;font-weight:600;color:#FFB830;margin-top:10px;}
 .ph-desc{color:rgba(255,228,181,.6);font-size:14px;max-width:90%;line-height:1.5;}
 .ph-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
 .ph-rcard{
@@ -862,7 +862,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #p-help.ph-light .ph-rcard-arrow{color:rgba(0,0,0,.35);}
 #p-help.ph-light .ph-rcard:hover .ph-rcard-arrow{color:rgba(0,0,0,.6);}
 #p-help.ph-light .ph-footer{color:rgba(0,0,0,.25);}
-#p-help.ph-light #ph-canvas{opacity:0;}
+#p-help.ph-light #ph-canvas{opacity:1;}
 #p-help.ph-light .ph-rcard-badge{background:rgba(0,0,0,.04);color:rgba(0,0,0,.4);}
 #p-help.ph-light .ph-rcard-caret{color:rgba(0,0,0,.3);}
 #p-help.ph-light .ph-rcard-tag{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.09);color:rgba(0,0,0,.5);}
@@ -997,7 +997,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 #p-def.pd-light .pd-thanja{color:rgba(0,0,0,.45);}
 #p-def.pd-light .pd-tdesc{color:rgba(0,0,0,.6);}
 #p-def.pd-light .pd-footer{color:rgba(0,0,0,.3);}
-#p-def.pd-light #pd-canvas{opacity:0;}
+#p-def.pd-light #pd-canvas{opacity:1;}
 /* ── CRIT PAGE NEW DESIGN ── */
 #p-crit{position:relative;min-height:100%;background:#0a0a1a;}
 #pc-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
@@ -2665,6 +2665,11 @@ function phInitWebGL() {
     transparent:true
   });
   scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), phMaterial));
+  if(document.getElementById('p-help').classList.contains('ph-light')){
+    phMaterial.uniforms.u_isLightMode.value=1.0;
+    phMaterial.uniforms.u_colorCore.value.set('#FFB830');
+    phMaterial.uniforms.u_colorFringe.value.set('#FFE4B5');
+  }
   function animate(){phAnimId=requestAnimationFrame(animate);phMaterial.uniforms.u_time.value+=0.01;phRenderer.render(scene,cam);}
   animate();
 }
@@ -2722,6 +2727,11 @@ function pdInitWebGL() {
     transparent:true
   });
   scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), pdMaterial));
+  if(document.getElementById('p-def').classList.contains('pd-light')){
+    pdMaterial.uniforms.u_isLightMode.value=1.0;
+    pdMaterial.uniforms.u_colorCore.value.set('#7c3aed');
+    pdMaterial.uniforms.u_colorFringe.value.set('#f472b6');
+  }
   function animate(){pdAnimId=requestAnimationFrame(animate);pdMaterial.uniforms.u_time.value+=0.008;pdRenderer.render(scene,cam);}
   animate();
   // 3D tilt effect on cards
