@@ -669,7 +669,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .pr-rcount{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fff;}
 .pr-meter{height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;position:relative;z-index:1;}
 .pr-fill{height:100%;width:0%;border-radius:3px;background:rgb(var(--rc));transition:width .6s cubic-bezier(.16,1,.3,1),background .5s;box-shadow:0 0 10px rgb(var(--rc));}
-.pr-msg{font-size:15px;line-height:1.6;color:#fff;font-weight:500;position:relative;z-index:1;min-height:44px;display:flex;align-items:center;}
+.pr-msg{font-size:15px;line-height:1.7;color:#fff;font-weight:500;position:relative;z-index:1;word-break:keep-all;}
 .pr-btn{
   height:56px;border:none;border-radius:999px;
   background:rgb(var(--rc));
@@ -1179,11 +1179,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   transition:background .6s cubic-bezier(.16,1,.3,1),color .6s cubic-bezier(.16,1,.3,1);
 }
 #p-prev.pv-dark{
-  --pv-bg:#060B18;--pv-s1:rgba(90,140,220,.05);--pv-s2:rgba(90,140,220,.09);--pv-s3:rgba(90,140,220,.16);
-  --pv-txt:#EEF3FF;--pv-txt2:rgba(210,228,255,.82);--pv-tech:rgba(170,205,255,.65);
-  --pv-br:rgba(90,140,220,.16);--pv-br2:rgba(90,140,220,.3);
-  --pv-shcore:#6AACF0;--pv-shfringe:#2D5FCC;
-  --pv-tabbg:rgba(90,140,220,.07);--pv-tabact:rgba(90,140,220,.2);
+  --pv-bg:#080500;--pv-s1:rgba(255,150,40,.06);--pv-s2:rgba(255,140,30,.05);--pv-s3:rgba(255,140,30,.11);
+  --pv-txt:#FFF6E0;--pv-txt2:rgba(255,228,180,.82);--pv-tech:rgba(255,185,80,.72);
+  --pv-br:rgba(255,145,35,.2);--pv-br2:rgba(255,145,35,.36);
+  --pv-shcore:#FFFFFF;--pv-shfringe:#FF7A00;
+  --pv-tabbg:rgba(255,140,30,.07);--pv-tabact:rgba(255,140,30,.15);
 }
 #pv-webgl{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
 .pv-header{position:sticky;top:0;z-index:30;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,var(--pv-bg) 0%,transparent 100%);pointer-events:none;}
@@ -1203,20 +1203,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 .pv-section{display:none;flex-direction:column;gap:12px;animation:pvFadeIn .4s ease forwards;}
 .pv-section.active{display:flex;}
 @keyframes pvFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.pv-acc{background:var(--pv-s2);border:1px solid var(--pv-br);border-radius:20px;overflow:hidden;transition:all .4s cubic-bezier(.16,1,.3,1);position:relative;}
+.pv-acc{background:var(--pv-s2);border:1px solid var(--pv-br);border-radius:20px;overflow:hidden;transition:all .4s cubic-bezier(.16,1,.3,1);position:relative;cursor:default;}
 .pv-acc:hover{background:var(--pv-s3);border-color:var(--pv-br2);transform:translateX(4px);}
-.pv-acc.open{background:var(--pv-s3);border-color:var(--pv-br2);box-shadow:0 8px 24px rgba(26,37,64,.07);transform:translateX(4px);}
+.pv-acc:hover,.pv-acc.open{background:var(--pv-s3);border-color:var(--pv-br2);box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateX(4px);}
 .pv-acc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--pv-txt);opacity:0;transition:opacity .3s ease;}
-.pv-acc.open::before{opacity:1;}
+.pv-acc:hover::before,.pv-acc.open::before{opacity:1;}
 .pv-acc-hd{display:flex;align-items:center;gap:20px;padding:20px 24px;cursor:pointer;user-select:none;}
 .pv-acc-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--pv-tech);letter-spacing:.1em;font-weight:700;width:48px;flex-shrink:0;}
 .pv-acc-title{font-size:16px;color:var(--pv-txt);font-weight:500;flex:1;line-height:1.4;transition:all .3s ease;}
 .pv-acc-icon{color:var(--pv-txt2);font-size:20px;transition:transform .4s cubic-bezier(.16,1,.3,1);}
-.pv-acc.open .pv-acc-icon{transform:rotate(180deg);color:var(--pv-txt);}
-.pv-acc.open .pv-acc-title{font-weight:600;}
-.pv-acc-body{max-height:0;overflow:hidden;opacity:0;padding:0 32px;transition:max-height .5s cubic-bezier(.16,1,.3,1),opacity .4s ease;}
-.pv-acc.open .pv-acc-body{opacity:1;padding-top:24px;padding-bottom:24px;}
-.pv-acc-inner{color:var(--pv-txt2);font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:400;line-height:1.8;letter-spacing:-.01em;text-align:center;padding:4px 8px;}
+.pv-acc:hover .pv-acc-icon,.pv-acc.open .pv-acc-icon{transform:rotate(180deg);color:var(--pv-txt);}
+.pv-acc:hover .pv-acc-title,.pv-acc.open .pv-acc-title{font-weight:600;}
+.pv-acc-body{max-height:0;overflow:hidden;opacity:0;padding:0 28px;transition:max-height .5s cubic-bezier(.16,1,.3,1),opacity .4s ease,padding .4s ease;}
+.pv-acc:hover .pv-acc-body,.pv-acc.open .pv-acc-body{opacity:1;max-height:260px;padding:0 28px 22px;}
+.pv-acc-inner{color:var(--pv-txt2);font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:400;line-height:1.85;letter-spacing:-.01em;text-align:left;word-break:keep-all;}
 .pv-footer{position:fixed;bottom:32px;left:0;right:0;padding:0 48px;display:flex;justify-content:space-between;z-index:30;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--pv-tech);letter-spacing:.1em;pointer-events:none;}
 /* ── VARIANT REDESIGN — Sub-pages ── */
 .vr-bar{font-size:9px;letter-spacing:.3em;color:rgba(255,255,255,.22);text-transform:uppercase;padding:11px 56px;border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:5;background:#000;}
@@ -1524,7 +1524,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   .pv-tab{font-size:13px;padding:12px 12px;}
   .pv-acc-hd{gap:12px;padding:16px 16px;}
   .pv-acc-body{padding:0 16px;}
-  .pv-acc.open .pv-acc-body{padding-top:16px;padding-bottom:16px;}
+  .pv-acc:hover .pv-acc-body,.pv-acc.open .pv-acc-body{padding:0 16px 16px;}
   .pv-acc-title{font-size:14px;}
 
   /* ── p-list theme button ── */
@@ -2094,13 +2094,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </div><!-- /p-crit -->
 
   <!-- 05 · ACTION GUIDELINES (NEW DESIGN) -->
-  <div id="p-prev" style="display:none">
+  <div id="p-prev" class="pv-dark" style="display:none">
     <div id="pv-webgl"></div>
     <div class="pv-header">
       <div class="pv-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V05.00</div>
       <button class="pv-theme-btn" onclick="pvToggleTheme()" id="pv-theme-btn">
-        <i class="ph-fill ph-sun" id="pv-theme-icon"></i>
-        <span id="pv-theme-text">LIGHT</span>
+        <i class="ph-fill ph-moon" id="pv-theme-icon"></i>
+        <span id="pv-theme-text">DARK</span>
       </button>
     </div>
     <div class="pv-main">
@@ -2936,34 +2936,36 @@ function pvInitWebGL(){
   pvRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   container.appendChild(pvRenderer.domElement);
   const geo=new THREE.PlaneGeometry(2,2);
+  const pvS=getComputedStyle(el);
   pvMaterial=new THREE.ShaderMaterial({
     vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
     fragmentShader:`
       precision mediump float;
+      uniform float u_time;uniform vec2 u_res;
+      uniform vec3 u_colorCore;uniform vec3 u_colorFringe;uniform float u_isLightMode;
       varying vec2 vUv;
-      uniform float u_time;
-      uniform vec2 u_resolution;
-      uniform vec3 u_colorCore;
-      uniform vec3 u_colorFringe;
-      uniform float u_isLightMode;
+      vec2 hash2(vec2 p){p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)));return -1.0+2.0*fract(sin(p)*43758.5453123);}
+      float noise(in vec2 p){const float K1=0.366025404,K2=0.211324865;
+        vec2 i=floor(p+(p.x+p.y)*K1),a=p-i+(i.x+i.y)*K2;
+        vec2 o=(a.x>a.y)?vec2(1,0):vec2(0,1),b=a-o+K2,c=a-1.0+2.0*K2;
+        vec3 h=max(0.5-vec3(dot(a,a),dot(b,b),dot(c,c)),0.0);
+        vec3 n=h*h*h*h*vec3(dot(a,hash2(i)),dot(b,hash2(i+o)),dot(c,hash2(i+1.0)));
+        return dot(n,vec3(70.0));}
       void main(){
-        vec2 uv=(vUv-.5)*vec2(u_resolution.x/u_resolution.y,1.0);
-        float d=length(uv);
-        float core=exp(-d*d*18.0)*0.9;
-        float fringe=exp(-d*d*5.0)*0.5*(sin(u_time*0.6+d*4.0)*0.3+0.7);
-        float wash=exp(-d*d*1.5)*0.15;
-        vec3 finalColor=u_colorCore*core+u_colorFringe*fringe;
-        finalColor+=u_colorFringe*wash*(sin(u_time)*0.1+0.9);
-        float alpha=clamp(core+fringe+wash,0.0,1.0);
-        finalColor=vec3(1.0)-exp(-finalColor*2.0);
-        if(u_isLightMode>0.5){alpha=clamp((core*1.5+fringe+wash*0.5),0.0,0.35);}
-        gl_FragColor=vec4(finalColor,alpha);
-      }`,
+        vec2 st=gl_FragCoord.xy/u_res-0.5;st.x*=u_res.x/u_res.y;
+        vec2 drift=vec2(sin(u_time*0.25)*0.18,cos(u_time*0.18)*0.12);
+        float d=length(st-drift)+noise(st*1.3+u_time*0.13)*0.28;
+        float glow=exp(-abs(d-0.38)*9.5),core=exp(-abs(d-0.38)*42.0);
+        float inner=exp(-length(st-drift)*length(st-drift)*6.0)*0.3;
+        vec3 col=u_colorFringe*glow+u_colorCore*(core+inner);
+        float alpha=(glow*0.55+core*0.9+inner*0.4);
+        if(u_isLightMode>0.5)alpha*=0.28;
+        gl_FragColor=vec4(col,clamp(alpha,0.0,1.0));}`,
     uniforms:{
       u_time:{value:0.0},
-      u_resolution:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},
-      u_colorCore:{value:new THREE.Color('#FFC97A')},
-      u_colorFringe:{value:new THREE.Color('#B07030')},
+      u_res:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},
+      u_colorCore:{value:new THREE.Color((pvS.getPropertyValue('--pv-shcore')||'#FFFFFF').trim())},
+      u_colorFringe:{value:new THREE.Color((pvS.getPropertyValue('--pv-shfringe')||'#FF7A00').trim())},
       u_isLightMode:{value:el.classList.contains('pv-dark')?0.0:1.0}
     },
     transparent:true,blending:THREE.NormalBlending
@@ -2974,7 +2976,7 @@ function pvInitWebGL(){
   pvAnimate();
   window.addEventListener('resize',pvResize);
 }
-function pvResize(){if(pvRenderer){pvRenderer.setSize(window.innerWidth,window.innerHeight);pvMaterial.uniforms.u_resolution.value.set(window.innerWidth,window.innerHeight);}}
+function pvResize(){if(pvRenderer){pvRenderer.setSize(window.innerWidth,window.innerHeight);pvMaterial.uniforms.u_res.value.set(window.innerWidth,window.innerHeight);}}
 function pvStopWebGL(){
   if(pvAnimId){cancelAnimationFrame(pvAnimId);pvAnimId=null;}
   if(pvRenderer){pvRenderer.dispose();if(pvRenderer.domElement.parentNode)pvRenderer.domElement.parentNode.removeChild(pvRenderer.domElement);pvRenderer=null;pvMaterial=null;}
