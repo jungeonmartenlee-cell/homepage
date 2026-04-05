@@ -756,6 +756,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   padding:48px 40px;
   display:flex;flex-direction:column;gap:44px;
   box-shadow:0 24px 80px rgba(0,0,0,.4);
+  overflow:visible;
 }
 .ph-card-hd{text-align:center;display:flex;flex-direction:column;gap:20px;align-items:center;padding-bottom:12px;}
 .ph-icon{font-size:48px;color:#FFB830;opacity:.9;filter:drop-shadow(0 0 16px rgba(255,184,48,.4));}
@@ -785,7 +786,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
 /* hover panel */
 .ph-rcard-panel{
   position:absolute;
-  width:calc(200% + 16px);
+  width:100%;
   padding:28px;
   border-radius:24px;
   z-index:40;
@@ -797,11 +798,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   box-shadow:0 32px 80px rgba(0,0,0,.5);
 }
 .ph-rcard:hover .ph-rcard-panel{opacity:1;pointer-events:auto;transform:scale(1) !important;}
-/* panel directions */
-.ph-c-tl .ph-rcard-panel{bottom:0;left:0;transform:scale(.86);transform-origin:right bottom;}
-.ph-c-tr .ph-rcard-panel{bottom:0;right:0;transform:scale(.86);transform-origin:left bottom;}
-.ph-c-bl .ph-rcard-panel{top:0;left:0;transform:scale(.86);transform-origin:right top;}
-.ph-c-br .ph-rcard-panel{top:0;right:0;transform:scale(.86);transform-origin:left top;}
+/* 각 카드 자기 모서리(그리드 중앙 방향)에서 시작 → 바깥으로 확장 */
+.ph-c-tl .ph-rcard-panel{bottom:0;right:0;transform:scale(.84);transform-origin:right bottom;}
+.ph-c-tr .ph-rcard-panel{bottom:0;left:0;transform:scale(.84);transform-origin:left bottom;}
+.ph-c-bl .ph-rcard-panel{top:0;right:0;transform:scale(.84);transform-origin:right top;}
+.ph-c-br .ph-rcard-panel{top:0;left:0;transform:scale(.84);transform-origin:left top;}
 .ph-rcard-pdesc{font-size:13px;color:rgba(255,228,181,.7);line-height:1.75;margin:6px 0 14px;}
 .ph-rcard-n{
   font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
@@ -1740,7 +1741,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </button>
 
   <!-- 02 · THE CULT RADAR -->
-  <div id="p-radar" class="pr-light" style="display:none">
+  <div id="p-radar" style="display:none">
     <canvas id="pr-canvas"></canvas>
 
     <!-- 상단 바 -->
@@ -1750,8 +1751,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         CULT.RADAR // V01.00
       </div>
       <button class="pr-theme-btn" id="prThemeBtn" onclick="prToggleTheme()">
-        <i class="ph-fill ph-sun" id="prThemeIcon"></i>
-        <span id="prThemeText">LIGHT</span>
+        <i class="ph-fill ph-moon" id="prThemeIcon"></i>
+        <span id="prThemeText">DARK</span>
       </button>
     </div>
 
@@ -1803,7 +1804,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </div><!-- /p-radar -->
 
   <!-- 03 · 도움 받을 수 있는 곳 -->
-  <div id="p-help" class="ph-light" style="display:none">
+  <div id="p-help" style="display:none">
     <canvas id="ph-canvas"></canvas>
 
     <div class="ph-topbar">
@@ -1812,8 +1813,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
         CULT.RADAR // V03.00
       </div>
       <button class="ph-theme-btn" onclick="phToggleTheme()">
-        <i class="ph-fill ph-sun" id="phThemeIcon"></i>
-        <span id="phThemeText">LIGHT</span>
+        <i class="ph-fill ph-moon" id="phThemeIcon"></i>
+        <span id="phThemeText">DARK</span>
       </button>
     </div>
 
@@ -1964,14 +1965,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </div><!-- /p-help -->
 
   <!-- 06 · 정의 및 용어 -->
-  <div id="p-def" class="pd-light" style="display:none">
+  <div id="p-def" style="display:none">
     <canvas id="pd-canvas"></canvas>
 
     <div class="pd-topbar">
       <div class="pd-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V06.00</div>
       <button class="pd-theme-btn" onclick="pdToggleTheme()">
-        <i class="ph-fill ph-sun" id="pdThemeIcon"></i>
-        <span id="pdThemeText">LIGHT</span>
+        <i class="ph-fill ph-moon" id="pdThemeIcon"></i>
+        <span id="pdThemeText">DARK</span>
       </button>
     </div>
 
@@ -2050,14 +2051,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </div><!-- /p-def -->
 
   <!-- 04 · 판단 기준 -->
-  <div id="p-crit" class="pc-light" style="display:none">
+  <div id="p-crit" style="display:none">
     <canvas id="pc-canvas"></canvas>
 
     <div class="pc-topbar">
       <div class="pc-brand"><i class="ph-fill ph-radar"></i> CULT.RADAR // V04.00</div>
       <button class="pc-theme-btn" onclick="pcToggleTheme()">
-        <i class="ph-fill ph-sun" id="pcThemeIcon"></i>
-        <span id="pcThemeText">LIGHT</span>
+        <i class="ph-fill ph-moon" id="pcThemeIcon"></i>
+        <span id="pcThemeText">DARK</span>
       </button>
     </div>
 
@@ -2144,13 +2145,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   </div><!-- /p-prev -->
 
   <!-- 05 · 주요 이단 자세히 파악하기 (NEW DESIGN) -->
-  <div id="p-list" class="pl-light" style="display:none">
+  <div id="p-list" style="display:none">
     <div id="pl-webgl"></div>
     <div class="pl-topbar">
       <div class="font-mono text-xs font-bold tracking-[.2em] flex items-center gap-2 pointer-events-auto" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;font-weight:700;color:var(--text-secondary);"><i class="ph-fill ph-radar"></i> CULT.RADAR // V02.00</div>
       <button class="pl-theme-btn" onclick="plToggleTheme()" id="pl-theme-btn">
-        <i class="ph-fill ph-sun text-lg" id="pl-theme-icon"></i>
-        <span id="pl-theme-text">LIGHT</span>
+        <i class="ph-fill ph-moon text-lg" id="pl-theme-icon"></i>
+        <span id="pl-theme-text">DARK</span>
       </button>
     </div>
     <main class="relative z-10 w-full flex flex-col items-center px-6 pb-24 max-w-[1440px] mx-auto" style="padding-top:40px;">
