@@ -1591,8 +1591,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/abstract-glowing-vortex-pulsing-with-vibrant-energ-2025-12-18-01-52-14-utc.mp4" type="video/mp4">
       </video>
-      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-14-utc.mp4" type="video/mp4">
+      <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
       </video>
     </div>
     <div class="slide-dim"></div>
@@ -1605,7 +1605,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <!-- s1: Know Your Enemy (p-list) -->
   <div class="slide" id="s1">
     <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
         <source src="videos/people-hypnotized-by-their-mobiles-walk-in-the-dar-2026-01-28-03-15-21-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
@@ -1622,11 +1622,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <!-- s2: Get Help Now (p-help) -->
   <div class="slide" id="s2">
     <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
         <source src="videos/enigmatic-figure-shrouded-in-hooded-shadows-2026-01-22-04-08-56-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
-        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-14-utc.mp4" type="video/mp4">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
       </video>
     </div>
     <div class="slide-dim"></div>
@@ -1639,7 +1639,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <!-- s3: Standards of Judgment (p-crit) -->
   <div class="slide" id="s3">
     <div class="slide-bg">
-      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="none">
+      <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
         <source src="videos/images-inked-onto-newspaper-copies-on-a-conveyor-b-2025-12-17-15-03-09-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
@@ -1683,7 +1683,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#121212;color:#e8e8e
   <div class="slide" id="s5">
     <div class="slide-bg">
       <video class="video-layer active" autoplay muted loop playsinline webkit-playsinline preload="auto">
-        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-14-utc.mp4" type="video/mp4">
+        <source src="videos/a-mysterious-figure-in-white-appears-in-a-dark-set-2025-12-17-22-59-24-utc.mp4" type="video/mp4">
       </video>
       <video class="video-layer" autoplay muted loop playsinline webkit-playsinline preload="none">
         <source src="videos/dynamic-process-of-newspaper-printing-in-large-typ-2025-12-17-15-03-06-utc.mp4" type="video/mp4">
@@ -3097,14 +3097,27 @@ function startVideoLoop(slideEl) {
     videoTimers[sid] = setTimeout(() => {
       const nextIdx = (cur + 1) % videos.length;
       const nextVid = videos[nextIdx];
-      // 전환 전에 다음 영상 미리 재생 — 검정 프레임 제거
+      // 다음 영상 먼저 재생 준비
       nextVid.muted = true;
-      nextVid.play().catch(() => {});
-      // 크로스페이드
-      videos[cur].classList.remove('active');
-      cur = nextIdx;
-      videos[cur].classList.add('active');
-      scheduleNext();
+      if (nextVid.readyState === 0) { nextVid.preload = 'auto'; nextVid.load(); }
+      const doSwitch = () => {
+        nextVid.currentTime = 0;
+        nextVid.play().catch(() => {});
+        videos[cur].classList.remove('active');
+        cur = nextIdx;
+        videos[cur].classList.add('active');
+        scheduleNext();
+      };
+      if (nextVid.readyState >= 3) {
+        doSwitch();
+      } else {
+        nextVid.addEventListener('canplaythrough', doSwitch, { once: true });
+        // 2초 내 로드 안되면 강제 전환 (무한 대기 방지)
+        setTimeout(() => {
+          nextVid.removeEventListener('canplaythrough', doSwitch);
+          doSwitch();
+        }, 2000);
+      }
     }, dur);
   }
   scheduleNext();
@@ -3169,9 +3182,8 @@ function go(n){
   const nextCs=(n+TOTAL)%TOTAL;
   const goingForward=((nextCs-prevCs+TOTAL)%TOTAL)<=TOTAL/2;
 
-  // pause prev video
-  const pv=slides[prevCs].querySelector('video');
-  if(pv){pv.pause();}
+  // pause all prev videos
+  slides[prevCs].querySelectorAll('video').forEach(v=>v.pause());
 
   if(goingForward){
     // 현재 슬라이드: 위로 사라짐 (0 → -100%)
