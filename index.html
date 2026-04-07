@@ -3215,8 +3215,17 @@ function go(n){
 
   // 새 슬라이드 루프 시작 (기존 루프 있으면 재play만, 없으면 새로 시작)
   const activeVids = slides[cs].querySelectorAll('.video-layer');
+  const firstVid = slides[cs].querySelector('.video-layer');
   activeVids.forEach(v => { v.muted = true; });
-  startVideoLoop(slides[cs]);
+  if (firstVid && firstVid.readyState < 3) {
+    // 아직 버퍼링 중 — 준비되면 즉시 시작
+    if (firstVid.readyState === 0) { firstVid.preload = 'auto'; firstVid.load(); }
+    firstVid.addEventListener('canplaythrough', () => startVideoLoop(slides[cs]), { once: true });
+    // 3초 이내에 안 되면 강제 시작 (무한 대기 방지)
+    setTimeout(() => startVideoLoop(slides[cs]), 3000);
+  } else {
+    startVideoLoop(slides[cs]);
+  }
 
   // 다음 슬라이드 첫 영상 미리 로드 (블랙아웃 방지)
   [1,2].forEach(offset=>{
@@ -3277,14 +3286,22 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('prog-bar').style.width=(1/TOTAL*100)+'%';
 
   // 모든 슬라이드 첫 영상 pre-load — 블랙아웃/정지 방지
-  // s1~s3: 1초 간격 순차 로드 (대역폭 배려)
-  // s4~s5: 즉시 로드 (늦게 로드되면 첫 방문 시 블랙아웃 발생)
+  // s4(idx=4): 즉시 로드 + 미리 재생 준비 (첫 방문 시 정지 방지)
+  // s1~s3: 1초 간격 순차 로드
+  // s5: 즉시 로드
   slides.forEach((sl, i) => {
     if(i === 0) return;
-    const delay = i <= 3 ? i * 1500 : 0; // s4,s5는 즉시
+    let delay;
+    if(i === 4) delay = 0;       // 5번 슬라이드: 즉시
+    else if(i === 5) delay = 0;  // 6번 슬라이드: 즉시
+    else delay = i * 1200;       // 나머지: 순차
     setTimeout(() => {
       const v = sl.querySelector('.video-layer');
       if(v && v.readyState === 0){ v.muted=true; v.preload='auto'; v.load(); }
+      // s4 첫 영상은 백그라운드에서 미리 버퍼 채우기 (재생은 하지 않음)
+      if(i === 4) {
+        v.addEventListener('canplaythrough', () => {}, { once: true });
+      }
     }, delay);
   });
 });
